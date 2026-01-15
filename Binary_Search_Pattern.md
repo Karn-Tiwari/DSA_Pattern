@@ -833,3 +833,38 @@ return left;  // or left - 1
 - Find K-th Smallest Pair Distance (LC 719)
 - Ugly Number III (LC 1201)
 - Minimum Cost to Make Array Equal (LC 2448)
+
+## ⚠️ Common Pitfalls
+
+### Pitfall 1: Wrong Search Space Bounds
+```cpp
+// WRONG: low = 0, high = n (may cause off-by-one)
+int low = 0, high = n;
+
+// RIGHT: Depends on problem
+// For indices: low = 0, high = n-1
+// For values: low = min_possible, high = max_possible
+```
+
+### Pitfall 2: Integer Overflow in Mid Calculation
+```cpp
+// WRONG: May overflow
+int mid = (low + high) / 2;
+
+// RIGHT: Safe calculation
+int mid = low + (high - low) / 2;
+```
+
+### Pitfall 3: Not Handling When Target Not Found
+```cpp
+// Some problems need to return -1 if not found
+// Others return insertion point
+```
+
+### Pitfall 4: Infinite Loop
+```cpp
+// Must update low or high in every iteration
+// low = mid + 1 or high = mid - 1
+```
+
+---

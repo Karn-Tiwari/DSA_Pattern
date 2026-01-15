@@ -388,11 +388,24 @@ Final: "BANC" (length 4)
 2. [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
 3. [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/)
 4. [Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
+5. [Number of Subarrays with Bounded Maximum](https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/)
+6. [Find K-th Smallest Pair Distance](https://leetcode.com/problems/find-k-th-smallest-pair-distance/)
+7. [Moving Stones Until Consecutive II](https://leetcode.com/problems/moving-stones-until-consecutive-ii/)
+8. [Count Pairs of Nodes](https://leetcode.com/problems/count-pairs-of-nodes/)
+9. [Count Binary Substrings](https://leetcode.com/problems/count-binary-substrings/)
+10. [K-diff Pairs in an Array](https://leetcode.com/problems/k-diff-pairs-in-an-array/)
+11. [Implement strStr()](https://leetcode.com/problems/implement-strstr/)
+12. [Longest Word in Dictionary through Deleting](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/)
+13. [Long Pressed Name](https://leetcode.com/problems/long-pressed-name/)
+14. [Longest Uncommon Subsequence II](https://leetcode.com/problems/longest-uncommon-subsequence-ii/)
+15. [Compare Version Numbers](https://leetcode.com/problems/compare-version-numbers/)
+16. [Camelcase Matching](https://leetcode.com/problems/camelcase-matching/)
+17. [Expressive Words](https://leetcode.com/problems/expressive-words/)
 
 ### Hard
-1. [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) (if not done)
-2. [Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
-3. [Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+1. [Substring with Concatenation of All Words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
+2. [Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+
 
 ## ⚠️ Common Pitfalls
 
