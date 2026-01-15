@@ -5,9 +5,6 @@
 ![DSA Patterns](https://img.shields.io/badge/DSA-Patterns-blue?style=for-the-badge&logo=leetcode&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-orange?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![LeetCode](https://img.shields.io/badge/LeetCode-Practice-orange?style=for-the-badge&logo=leetcode&logoColor=white)
-
-[![GitHub stars](https://img.shields.io/github/stars/Karn-Tiwari/DSA_Pattern?style=social)](https://github.com/Karn-Tiwari/DSA_Pattern)
-[![GitHub forks](https://img.shields.io/github/forks/Karn-Tiwari/DSA_Pattern?style=social)](https://github.com/Karn-Tiwari/DSA_Pattern)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 ---
@@ -100,8 +97,6 @@ Backtracking           ░░░░░░░░░░░░░░░░░░░
 
 ### Languages
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white)
 
 ### Platforms
 ![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=white)
@@ -225,12 +220,6 @@ npm run build
 - **LeetCode** - For providing an amazing platform
 - **Open Source Community** - For inspiration and collaboration
 - **Interviewers & Candidates** - For sharing their experiences
-
-### 📚 **Inspired By:**
-- *Cracking the Coding Interview* by Gayle Laakmann McDowell
-- *Elements of Programming Interviews* by Adnan Aziz et al.
-- Real interview experiences from FAANG engineers
-
 </div>
 
 ---
