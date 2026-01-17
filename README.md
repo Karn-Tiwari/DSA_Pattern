@@ -27,7 +27,6 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 
 - ✅ **Solve problems faster** by recognizing common structures
 - ✅ **Write cleaner code** with proven templates
-- ✅ **Ace technical interviews** at FAANG and beyond
 - ✅ **Build strong fundamentals** for advanced algorithms
 
 ---
