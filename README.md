@@ -42,6 +42,8 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 | **Two Pointers** | [📄 View](Two_Pointers_Pattern.md) | 38+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Sliding Window** | [📄 View](Sliding_Window_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Fast & Slow Pointers** | [📄 View](Fast_and_Slow_Pointers_Pattern.md) | 14+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **String Patterns** | [📄 View](String_Pattern.md) | 25+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Stack & Monotonic** | [📄 View](Stack_Pattern.md) | 17+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Greedy** | 🔄 Coming Soon | - | - | 🔄 Planned |
 | **Dynamic Programming** | 🔄 Coming Soon | - | - | 🔄 Planned |
 | **Trees & Graphs** | 🔄 Coming Soon | - | - | 🔄 Planned |
@@ -81,13 +83,15 @@ Binary Search          ███████████████████
 Two Pointers           ████████████████████  100%  ✅
 Sliding Window         ████████████████████  100%  ✅
 Fast & Slow Pointers   ████████████████████  100%  ✅
+String Patterns        ████████████████████  100%  ✅
+Stack & Monotonic      ████████████████████  100%  ✅
 Greedy                 ░░░░░░░░░░░░░░░░░░░░   0%   🔄
 Dynamic Programming    ░░░░░░░░░░░░░░░░░░░░   0%   🔄
 Trees & Graphs         ░░░░░░░░░░░░░░░░░░░░   0%   🔄
 Backtracking           ░░░░░░░░░░░░░░░░░░░░   0%   🔄
 ```
 
-**Total Progress: 50% Complete** 🎯
+**Total Progress: 60% Complete** 🎯
 
 ---
 
@@ -138,6 +142,8 @@ DSA_Pattern/
 ├── 📖 Two_Pointers_Pattern.md      # Two pointers pattern guide
 ├── 📖 Sliding_Window_Pattern.md    # Sliding window algorithms
 ├── 📖 Fast_and_Slow_Pointers_Pattern.md  # Fast & slow pointers
+├── 📖 String_Pattern.md            # String manipulation patterns
+├── 📖 Stack_Pattern.md             # Stack & monotonic stack patterns
 └── 📄 .gitignore                   # Git ignore rules
 ```
 
