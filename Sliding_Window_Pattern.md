@@ -47,6 +47,7 @@ Window:   ^-----^
 #### 2. **Why Two Pointers?**
 
 - **Right pointer**: Expands the window to include more elements
+
 - **Left pointer**: Shrinks the window to exclude elements when conditions are violated
 - **Movement**: Right moves rightward, left moves rightward (never left)
 
@@ -178,25 +179,42 @@ Final: maxSum = 39
 
 **Solution:**
 ```cpp
-vector<long long> printFirstNegativeInteger(long long int A[], long long int N, long long int K) {
-    vector<long long> ans;
-    queue<long long> q;
-    
-    for(int i=0; i<N; i++) {
-        // Add negative elements
-        if(A[i] < 0) q.push(i);
-        
-        // Remove out of window elements
-        while(!q.empty() && q.front() <= i-K) q.pop();
-        
-        // If window complete, add answer
-        if(i >= K-1) {
-            if(!q.empty()) ans.push_back(A[q.front()]);
-            else ans.push_back(0);
+vector<int> firstNegInt(vector<int>& arr, int k) {
+        // write code here
+        vector<int>ans;
+        queue<int>q;
+        int i =0, j = 0;
+        while(j<arr.size())
+        {
+            if(arr[j]<0)
+            {
+                q.push(arr[j]);
+            }
+            if(j-i+1 == k)
+            {
+                if(q.empty()==true)
+                {
+                    ans.push_back(0);
+                    i++;
+                }
+                else
+                {
+                    if(q.front()==arr[i])
+                    {
+                        ans.push_back(q.front());
+                        q.pop();
+                        i++;
+                    }else{
+                        ans.push_back(q.front());
+                        i++;
+                    }
+                }
+                
+            }
+            j++;
         }
+        return ans;
     }
-    return ans;
-}
 ```
 
 **Dry Run:**
@@ -223,28 +241,39 @@ Final: [-1, -1, -7, -15, -15, 0]
 **Problem:** Find maximum element in each subarray of size k.
 
 **Approach:**
-- Use deque to maintain decreasing order of elements
-- Front always has maximum for current window
-- Remove elements outside window and smaller than current
+- Use sliding window to maintain deque of indices in decreasing order
+- Front of deque always contains maximum for current window
+- Remove elements outside window and smaller than current element
 
 **Solution:**
 ```cpp
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     vector<int> ans;
-    deque<int> dq; // stores indices
+    if (k > nums.size()) return ans;
     
-    for(int i=0; i<nums.size(); i++) {
+    deque<int> dq; // stores indices
+    int i = 0, j = 0;
+    
+    while (j < nums.size()) {
         // Remove elements outside window
-        while(!dq.empty() && dq.front() <= i-k) dq.pop_front();
+        while (!dq.empty() && dq.front() <= j - k) dq.pop_front();
         
         // Remove smaller elements from back
-        while(!dq.empty() && nums[dq.back()] <= nums[i]) dq.pop_back();
+        while (!dq.empty() && nums[dq.back()] <= nums[j]) dq.pop_back();
         
-        // Add current element
-        dq.push_back(i);
+        // Add current element index
+        dq.push_back(j);
         
-        // Add to answer when window complete
-        if(i >= k-1) ans.push_back(nums[dq.front()]);
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            // Add maximum (front of deque) to answer
+            ans.push_back(nums[dq.front()]);
+            // Remove left element if it's the front of deque
+            if (!dq.empty() && dq.front() == i) dq.pop_front();
+            i++;
+            j++;
+        }
     }
     return ans;
 }
@@ -254,10 +283,10 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 ```
 nums = [1,3,-1,-3,5,3,6,7], k=3
 
-i=0: dq=[0], i=0<2, skip
-i=1: remove <=1-3=-2 none, nums[0]=1 <= nums[1]=3, pop 0, dq=[1], i=1<2, skip
-i=2: remove <=2-3=-1 none, nums[1]=3 > nums[2]=-1, no pop, dq=[1,2], i=2>=2, ans=[3]
-i=3: remove <=3-3=0, pop 1, dq=[2], nums[2]=-1 <= nums[3]=-3, no pop, dq=[2,3], ans=[3,3]
+j=0: remove <=0-3=-3 none, nums[dq.back() empty] <= nums[0]=1, add 0, dq=[0], size=1<3, j=1
+j=1: remove <=1-3=-2 none, nums[0]=1 <= nums[1]=3, pop 0, add 1, dq=[1], size=2<3, j=2
+j=2: remove <=2-3=-1 none, nums[1]=3 > nums[2]=-1, no pop, add 2, dq=[1,2], size=3==3, ans=[3], front=1 != i=0, i=1, j=3
+j=3: remove <=3-3=0, pop 1 (since 1<=0? wait, 1<=0 is false), nums[2]=-1 <= nums[3]=-3, no pop, add 3, dq=[2,3], size=3==3, ans=[3,3], front=2 != i=1, i=2, j=4
 ... continues
 
 Final: [3,3,5,5,6,7]
@@ -274,25 +303,31 @@ Final: [3,3,5,5,6,7]
 
 **Approach:**
 - Use sliding window of size pat.length()
-- Maintain frequency map of pat and current window
-- When frequencies match, it's an anagram
+- Maintain frequency arrays for pat and current window
+- When frequencies match exactly, it's an anagram
 
 **Solution:**
 ```cpp
 int search(string pat, string txt) {
     int n = txt.length(), m = pat.length();
-    if(m > n) return 0;
+    if (m > n) return 0;
     
-    vector<int> patFreq(26,0), windowFreq(26,0);
-    for(char c : pat) patFreq[c-'a']++;
+    vector<int> patFreq(26, 0), windowFreq(26, 0);
+    for (char c : pat) patFreq[c - 'a']++;
     
     int count = 0;
-    for(int i=0; i<n; i++) {
-        windowFreq[txt[i]-'a']++;
+    int i = 0, j = 0;
+    
+    while (j < n) {
+        windowFreq[txt[j] - 'a']++;
         
-        if(i >= m-1) {
-            if(windowFreq == patFreq) count++;
-            windowFreq[txt[i-m+1]-'a']--;
+        if (j - i + 1 < m) {
+            j++;
+        } else if (j - i + 1 == m) {
+            if (windowFreq == patFreq) count++;
+            windowFreq[txt[i] - 'a']--;
+            i++;
+            j++;
         }
     }
     return count;
@@ -301,14 +336,14 @@ int search(string pat, string txt) {
 
 **Dry Run:**
 ```
-txt = "forxxorfxdofr", pat = "for"
+txt = "forxxorfxdofr", pat = "for", m=3
 
 patFreq = {'f':1, 'o':1, 'r':1}
 
-i=0: windowFreq={'f':1}, i=0<2, skip
-i=1: windowFreq={'f':1,'o':1}, i=1<2, skip
-i=2: windowFreq={'f':1,'o':1,'r':1}, i=2>=2, freqs equal, count=1, remove txt[0]='f'
-i=3: windowFreq={'o':1,'r':1,'x':1}, i=3>=2, not equal, remove txt[1]='o'
+j=0: windowFreq={'f':1}, size=1<3, j=1
+j=1: windowFreq={'f':1,'o':1}, size=2<3, j=2
+j=2: windowFreq={'f':1,'o':1,'r':1}, size=3==3, freqs equal, count=1, windowFreq['f']--, i=1, j=3
+j=3: windowFreq={'o':1,'r':1,'x':1}, size=3==3, not equal, windowFreq['o']--, i=2, j=4
 ... continues
 
 Final: count = 3
@@ -318,6 +353,326 @@ Final: count = 3
 - No anagrams: 0
 - Multiple same chars: Correct count
 - pat longer than txt: 0
+
+#### Problem 5: Check if Any Subarray of Size K has Sum Equal to Target
+
+**Problem:** Check if there exists any subarray of size k with sum equal to target.
+
+**Approach:**
+- Use sliding window to maintain sum of current window of size k
+- Check if current sum equals target at any point
+- Return true if found, false otherwise
+
+**Solution:**
+```cpp
+bool checkSubarraySum(vector<int>& arr, int k, int target) {
+    if (k > arr.size()) return false;
+    
+    int windowSum = 0;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        windowSum += arr[j];
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            if (windowSum == target) return true;
+            windowSum -= arr[i];
+            i++;
+            j++;
+        }
+    }
+    return false;
+}
+```
+
+**Dry Run:**
+```
+arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4, target = 39
+
+j=0: windowSum=1, size=1<4, j=1
+j=1: windowSum=1+4=5, size=2<4, j=2
+j=2: windowSum=5+2=7, size=3<4, j=3
+j=3: windowSum=7+10=17, size=4==4, 17!=39, windowSum=17-1=16, i=1, j=4
+j=4: windowSum=16+23=39, size=4==4, 39==39, return true
+
+Final: true
+```
+
+**Edge Cases:**
+- Target not found: false
+- K > array size: false
+- Multiple possible windows: true (any one)
+
+#### Problem 6: Average of All Subarrays of Size K
+
+**Problem:** Find the average of each subarray of size k and return as array.
+
+**Approach:**
+- Maintain running sum of current window
+- When window size reaches k, calculate average and add to result
+- Slide window by removing left element and adding right element
+
+**Solution:**
+```cpp
+vector<double> findAverages(vector<int>& arr, int k) {
+    vector<double> result;
+    if (k > arr.size()) return result;
+    
+    double windowSum = 0;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        windowSum += arr[j];
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            result.push_back(windowSum / k);
+            windowSum -= arr[i];
+            i++;
+            j++;
+        }
+    }
+    return result;
+}
+```
+
+**Dry Run:**
+```
+arr = [1, 3, 2, 6, -1, 4, 1, 8, 2], k = 3
+
+j=0: windowSum=1, size=1<3, j=1
+j=1: windowSum=1+3=4, size=2<3, j=2
+j=2: windowSum=4+2=6, size=3==3, avg=6/3=2.0, result=[2.0], windowSum=6-1=5, i=1, j=3
+j=3: windowSum=5+6=11, size=3==3, avg=11/3=3.67, result=[2.0,3.67], windowSum=11-3=8, i=2, j=4
+j=4: windowSum=8+(-1)=7, size=3==3, avg=7/3=2.33, result=[2.0,3.67,2.33], windowSum=7-2=5, i=3, j=5
+... continues
+
+Final: [2.0, 3.67, 2.33, 3.0, 1.33, 4.33, 3.67]
+```
+
+**Edge Cases:**
+- K = 1: Each element as average
+- K = array size: Single average
+- Negative numbers: Correct average calculation
+
+#### Problem 7: Number of Subarrays of Size K with Sum Less Than Target
+
+**Problem:** Count the number of subarrays of size k with sum less than target.
+
+**Approach:**
+- Use sliding window to maintain sum of current window
+- When window size is k, check if sum < target
+- Count valid windows and slide the window
+
+**Solution:**
+```cpp
+int countSubarrays(vector<int>& arr, int k, int target) {
+    if (k > arr.size()) return 0;
+    
+    int count = 0;
+    int windowSum = 0;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        windowSum += arr[j];
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            if (windowSum < target) count++;
+            windowSum -= arr[i];
+            i++;
+            j++;
+        }
+    }
+    return count;
+}
+```
+
+**Dry Run:**
+```
+arr = [2, 1, 5, 1, 3, 2], k = 3, target = 8
+
+j=0: windowSum=2, size=1<3, j=1
+j=1: windowSum=2+1=3, size=2<3, j=2
+j=2: windowSum=3+5=8, size=3==3, 8<8? no, windowSum=8-2=6, i=1, j=3
+j=3: windowSum=6+1=7, size=3==3, 7<8? yes, count=1, windowSum=7-1=6, i=2, j=4
+j=4: windowSum=6+3=9, size=3==3, 9<8? no, windowSum=9-5=4, i=3, j=5
+j=5: windowSum=4+2=6, size=3==3, 6<8? yes, count=2, windowSum=6-1=5, i=4, j=6
+
+Final: count = 2
+```
+
+**Edge Cases:**
+- No subarrays meet condition: 0
+- All subarrays meet condition: Total windows count
+- Target very small: 0
+
+#### Problem 8: Find Minimum Sum Subarray of Size K
+
+**Problem:** Find the minimum sum of any contiguous subarray of size k.
+
+**Approach:**
+- Use sliding window to maintain sum of current window
+- Track minimum sum found when window size is k
+- Slide window and update minimum
+
+**Solution:**
+```cpp
+int minSumSubarray(vector<int>& arr, int k) {
+    if (k > arr.size()) return -1; // or handle error
+    
+    int minSum = INT_MAX;
+    int windowSum = 0;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        windowSum += arr[j];
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            minSum = min(minSum, windowSum);
+            windowSum -= arr[i];
+            i++;
+            j++;
+        }
+    }
+    return minSum == INT_MAX ? -1 : minSum;
+}
+```
+
+**Dry Run:**
+```
+arr = [10, 4, 2, 5, 6, 3, 8, 1], k = 3
+
+j=0: windowSum=10, size=1<3, j=1
+j=1: windowSum=10+4=14, size=2<3, j=2
+j=2: windowSum=14+2=16, size=3==3, minSum=min(INT_MAX,16)=16, windowSum=16-10=6, i=1, j=3
+j=3: windowSum=6+5=11, size=3==3, minSum=min(16,11)=11, windowSum=11-4=7, i=2, j=4
+j=4: windowSum=7+6=13, size=3==3, minSum=min(11,13)=11, windowSum=13-2=11, i=3, j=5
+j=5: windowSum=11+3=14, size=3==3, minSum=min(11,14)=11, windowSum=14-5=9, i=4, j=6
+j=6: windowSum=9+8=17, size=3==3, minSum=min(11,17)=11, windowSum=17-6=11, i=5, j=7
+j=7: windowSum=11+1=12, size=3==3, minSum=min(11,12)=11, windowSum=12-3=9, i=6, j=8
+
+Final: minSum = 11
+```
+
+**Edge Cases:**
+- All positive numbers: Smallest window sum
+- Negative numbers: Could be very small
+- K = 1: Smallest element
+
+#### Problem 9: Count Subarrays of Size K with Distinct Elements
+
+**Problem:** Count the number of subarrays of size k that contain all distinct elements.
+
+**Approach:**
+- Use sliding window with a set or map to track unique elements
+- When window size is k, check if unique count equals k
+- Slide window and maintain uniqueness
+
+**Solution:**
+```cpp
+int countDistinctSubarrays(vector<int>& arr, int k) {
+    if (k > arr.size()) return 0;
+    
+    int count = 0;
+    unordered_map<int, int> freq;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        freq[arr[j]]++;
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            if (freq.size() == k) count++;
+            freq[arr[i]]--;
+            if (freq[arr[i]] == 0) freq.erase(arr[i]);
+            i++;
+            j++;
+        }
+    }
+    return count;
+}
+```
+
+**Dry Run:**
+```
+arr = [1, 2, 1, 3, 4, 2, 3], k = 3
+
+j=0: freq={1:1}, size=1<3, j=1
+j=1: freq={1:1,2:1}, size=2<3, j=2
+j=2: freq={1:2,2:1}, size=3==3, freq.size=2 !=3, freq[1]--, freq={1:1,2:1}, i=1, j=3
+j=3: freq={1:1,2:1,3:1}, size=3==3, freq.size=3==3, count=1, freq[2]--, freq={1:1,3:1}, i=2, j=4
+j=4: freq={1:1,3:1,4:1}, size=3==3, freq.size=3==3, count=2, freq[1]--, freq={3:1,4:1}, i=3, j=5
+j=5: freq={3:1,4:1,2:1}, size=3==3, freq.size=3==3, count=3, freq[3]--, freq={4:1,2:1}, i=4, j=6
+j=6: freq={4:1,2:1,3:1}, size=3==3, freq.size=3==3, count=4, freq[4]--, freq={2:1,3:1}, i=5, j=7
+
+Final: count = 4
+```
+
+**Edge Cases:**
+- All distinct elements: All windows count
+- All same elements: 0
+- K = 1: Always count (all single elements are distinct)
+
+#### Problem 10: Maximum Average Subarray of Size K
+
+**Problem:** Find the maximum average of any subarray of size k.
+
+**Approach:**
+- Use sliding window to maintain sum of current window
+- Track maximum average found when window size is k
+- Average = sum / k, so maximum sum gives maximum average
+
+**Solution:**
+```cpp
+double findMaxAverage(vector<int>& arr, int k) {
+    if (k > arr.size()) return 0.0;
+    
+    double maxAvg = -INFINITY;
+    double windowSum = 0;
+    int i = 0, j = 0;
+    
+    while (j < arr.size()) {
+        windowSum += arr[j];
+        
+        if (j - i + 1 < k) {
+            j++;
+        } else if (j - i + 1 == k) {
+            maxAvg = max(maxAvg, windowSum / k);
+            windowSum -= arr[i];
+            i++;
+            j++;
+        }
+    }
+    return maxAvg;
+}
+```
+
+**Dry Run:**
+```
+arr = [1, 12, -5, -6, 50, 3], k = 4
+
+j=0: windowSum=1, size=1<4, j=1
+j=1: windowSum=1+12=13, size=2<4, j=2
+j=2: windowSum=13+(-5)=8, size=3<4, j=3
+j=3: windowSum=8+(-6)=2, size=4==4, avg=2/4=0.5, maxAvg=0.5, windowSum=2-1=1, i=1, j=4
+j=4: windowSum=1+50=51, size=4==4, avg=51/4=12.75, maxAvg=12.75, windowSum=51-12=39, i=2, j=5
+j=5: windowSum=39+3=42, size=4==4, avg=42/4=10.5, maxAvg=12.75, windowSum=42-(-5)=47, i=3, j=6
+
+Final: maxAvg = 12.75
+```
+
+**Edge Cases:**
+- All negative numbers: Largest (least negative) average
+- K = 1: Largest element
+- Mixed positive/negative: Correct maximum average
 
 ## 3. Variable Size Window
 
