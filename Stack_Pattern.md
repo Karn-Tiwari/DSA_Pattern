@@ -1652,36 +1652,250 @@ For "or equal" problems:
 
 Choose based on problem requirements!
 ```
+Master monotonic stack, and an entire class of "impossible" O(n²) problems become elegant O(n) solutions!*
 
 ---
 
-## Practice Roadmap (30 Days)
+## Problem Recognition Framework
 
-### Week 1: Foundations (Days 1-7)
-- Day 1-2: Next Greater Element I & II
-- Day 3-4: Daily Temperatures
-- Day 5-6: Online Stock Span
-- Day 7: Practice and review
+### Decision Tree for Stack Problems
 
-### Week 2: Intermediate (Days 8-14)
-- Day 8-9: Remove K Digits
-- Day 10-11: Largest Rectangle in Histogram
-- Day 12-13: Sum of Subarray Minimums
-- Day 14: Practice and review
+```
+START: Is it a Stack Problem?
 
-### Week 3: Advanced (Days 15-21)
-- Day 15-16: Trapping Rain Water
-- Day 17-18: Maximal Rectangle
-- Day 19-20: 132 Pattern
-- Day 21: Practice and review
+Q1: Does it involve LIFO (Last In, First Out) operations?
+├─ YES → Continue
+├─ NO → Maybe not stack
 
-### Week 4: Mastery (Days 22-30)
-- Day 22-23: Sum of Subarray Ranges
-- Day 24-25: Maximum Subarray Min-Product
-- Day 26-27: Car Fleet
-- Day 28-29: Maximum Width Ramp
-- Day 30: Final review and hard problems
+Q2: What type of stack problem?
+├─ Basic operations (push/pop) → Simple Stack
+├─ Monotonic property → Monotonic Stack
+├─ Nested structures → Stack for parentheses
+├─ Expression evaluation → Stack for operators
+
+Q3: What are we tracking?
+├─ Next greater/smaller → Monotonic Stack
+├─ Previous greater/smaller → Monotonic Stack
+├─ Valid parentheses → Stack matching
+├─ Function calls/recursion → Call Stack
+├─ Undo/redo operations → Stack for history
+
+Q4: Key indicator words?
+├─ "Next greater element" → Monotonic Stack
+├─ "Previous smaller element" → Monotonic Stack  
+├─ "Valid parentheses" → Stack matching
+├─ "Remove k digits" → Monotonic Stack
+├─ "Largest rectangle" → Monotonic Stack
+├─ "Trapping rain water" → Monotonic Stack
+├─ "Daily temperatures" → Monotonic Stack
+
+Q5: Time complexity requirements?
+├─ O(n) required → Stack solution
+├─ O(n²) acceptable → Brute force
+```
+
+## Key Takeaways & Mental Models
+
+### 1. **Monotonic Stack = Smart Element Tracking**
+```
+Mental Model: A smart assistant that remembers only useful elements
+
+Instead of checking all pairs O(n²), stack maintains candidates
+When new element arrives, remove useless elements, keep promising ones
+Each element processed once - O(n) total
+```
+
+### 2. **Stack for Validity = Matching Pairs**
+```
+Mental Model: Opening and closing doors
+
+Push opening brackets, pop when closing brackets match
+Stack empty at end = valid structure
+Perfect for: parentheses, XML tags, nested structures
+```
+
+### 3. **Stack for Computation = State Preservation**
+```
+Mental Model: Calculator memory
+
+Store intermediate results, operators, operands
+Process in correct order (postfix, infix evaluation)
+Perfect for: expression evaluation, undo operations
+```
+
+### 4. **Time Complexity Pattern**
+```
+Monotonic Stack: O(n) - each element pushed/popped once
+Stack Matching: O(n) - linear scan with stack operations
+Stack Computation: O(n) - single pass processing
+
+Space: O(n) worst case, O(1) to O(n) depending on problem
+```
+
+### 5. **Stack Direction Matters**
+```
+Increasing Stack: Find previous/next smaller elements
+Decreasing Stack: Find previous/next greater elements
+
+Choose direction based on what you're searching for!
+```
 
 ---
 
-*Master monotonic stack, and an entire class of "impossible" O(n²) problems become elegant O(n) solutions!*
+## Common Pitfalls & How to Avoid
+
+### Pitfall 1: Wrong Monotonic Direction
+```cpp
+// WRONG: Using increasing stack for next greater
+while (!st.empty() && arr[i] >= st.top())  // Wrong condition
+
+// RIGHT: For next greater, use decreasing stack
+while (!st.empty() && arr[i] > st.top())   // Correct for strictly decreasing
+```
+
+### Pitfall 2: Forgetting to Handle Empty Stack
+```cpp
+// WRONG: Accessing top without checking
+int nextGreater = st.top();  // Crash if empty!
+
+// RIGHT: Check before accessing
+int nextGreater = st.empty() ? -1 : st.top();
+```
+
+### Pitfall 3: Wrong Index vs Value Storage
+```cpp
+// WRONG: Storing values when you need indices
+stack<int> st;  // Stores values, but you need indices for result
+
+// RIGHT: Store indices for result array access
+stack<int> st;  // Push i, not arr[i]
+result[st.top()] = arr[i];
+```
+
+### Pitfall 4: Off-by-One in Width Calculations
+```cpp
+// WRONG: Width calculation in histogram
+int width = i - st.top() - 1;  // Missing consideration
+
+// RIGHT: Consider the boundaries
+int width = i - st.top() - 1;  // From popped to current
+```
+
+### Pitfall 5: Not Clearing Stack for Multiple Passes
+```cpp
+// WRONG: Stack not cleared between passes
+for(int pass = 0; pass < 2; pass++) {
+    // Stack retains elements from first pass!
+}
+
+// RIGHT: Clear or recreate stack
+stack<int> st;  // Fresh stack for each pass
+```
+
+### Pitfall 6: Wrong Base Case Handling
+```cpp
+// WRONG: Not handling elements with no answer
+// Stack empty means no previous greater
+if(st.empty()) result[i] = -1;  // Correct
+
+// But forgetting this leads to undefined behavior
+```
+
+---
+
+## Final Thoughts
+
+**The Power of Stack:**
+- Transforms O(n²) problems into O(n) solutions
+- Natural fit for LIFO operations and monotonicity
+- Essential for expression evaluation and validity checking
+
+**How to Master Stack:**
+1. **Understand LIFO principle** - Last in, first out
+2. **Master monotonic stacks** - The most powerful pattern
+3. **Practice validity problems** - Parentheses, brackets
+4. **Learn computation patterns** - Expression evaluation
+5. **Focus on state management** - What to store (indices vs values)
+
+**Remember:** Stack isn't just a data structure - it's a **problem-solving mindset**. When you see "next greater" or "valid parentheses", think stack first!
+
+**Key Insight:** Every stack problem can be solved by asking:
+- What should I store in the stack?
+- When should I push/pop elements?
+- What does the stack represent (candidates, state, history)?
+
+Master this framework, and you'll solve stack problems with elegance and efficiency! 🚀
+
+---
+
+## General Time and Space Complexity of Stack Patterns
+
+### Time Complexity Analysis
+
+| Stack Pattern | Time Complexity | Explanation |
+|---------------|----------------|-------------|
+| **Monotonic Stack** | O(n) | Each element pushed/popped at most once |
+| **Stack Matching** | O(n) | Single pass with constant stack operations |
+| **Stack Computation** | O(n) | Linear processing with stack state |
+| **Multiple Passes** | O(n) | Amortized O(n) across all passes |
+
+**Why O(n) for Monotonic Stack?**
+- Each element enters stack exactly once
+- Each element exits stack at most once
+- Total operations = 2n = O(n)
+
+### Space Complexity Analysis
+
+| Stack Usage | Space Complexity | Examples |
+|-------------|------------------|----------|
+| **Monotonic Stack** | O(n) | Worst case: all elements in stack |
+| **Stack Matching** | O(n) | Maximum nesting depth |
+| **Stack Computation** | O(n) | Expression evaluation state |
+| **Index Storage** | O(n) | Storing indices instead of values |
+
+**Optimization Tips:**
+- Use stack of indices to save space when possible
+- Clear stack between multiple passes
+- Consider iterative vs recursive stack usage
+
+---
+
+## Practice Leetcode Questions
+
+### Easy Level (Stack Basics)
+1. **Valid Parentheses** - https://leetcode.com/problems/valid-parentheses/
+2. **Implement Stack using Queues** - https://leetcode.com/problems/implement-stack-using-queues/
+3. **Baseball Game** - https://leetcode.com/problems/baseball-game/
+4. **Next Greater Element I** - https://leetcode.com/problems/next-greater-element-i/
+
+### Medium Level (Monotonic Stack)
+1. **Next Greater Element II** - https://leetcode.com/problems/next-greater-element-ii/
+2. **Daily Temperatures** - https://leetcode.com/problems/daily-temperatures/
+3. **Online Stock Span** - https://leetcode.com/problems/online-stock-span/
+4. **Largest Rectangle in Histogram** - https://leetcode.com/problems/largest-rectangle-in-histogram/
+5. **Trapping Rain Water** - https://leetcode.com/problems/trapping-rain-water/
+6. **Remove K Digits** - https://leetcode.com/problems/remove-k-digits/
+7. **Sum of Subarray Minimums** - https://leetcode.com/problems/sum-of-subarray-minimums/
+8. **132 Pattern** - https://leetcode.com/problems/132-pattern/
+
+### Hard Level (Advanced Stack)
+1. **Maximal Rectangle** - https://leetcode.com/problems/maximal-rectangle/
+2. **Largest Rectangle in Histogram** - https://leetcode.com/problems/largest-rectangle-in-histogram/
+3. **Remove Duplicate Letters** - https://leetcode.com/problems/remove-duplicate-letters/
+4. **Shortest Subarray with Sum at Least K** - https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+5. **Constrained Subsequence Sum** - https://leetcode.com/problems/constrained-subsequence-sum/
+
+### Advanced Practice (Multiple Concepts)
+1. **Car Fleet** - https://leetcode.com/problems/car-fleet/
+2. **Maximum Width Ramp** - https://leetcode.com/problems/maximum-width-ramp/
+3. **Sum of Subarray Ranges** - https://leetcode.com/problems/sum-of-subarray-ranges/
+4. **Maximum Subarray Min-Product** - https://leetcode.com/problems/maximum-subarray-min-product/
+
+**Practice Strategy:**
+- Start with basic stack operations
+- Master monotonic stack patterns
+- Practice validity and matching problems
+- Focus on index vs value storage decisions
+- Time yourself to build recognition speed
+
+Master stack patterns, and you'll handle LIFO problems with confidence! 🎯

@@ -761,30 +761,6 @@ Sliding Window: O(n) with amortized operations
 26. Partition List - https://leetcode.com/problems/partition-list/
 27. Sort List - https://leetcode.com/problems/sort-list/
 
-### Week 3: Sliding Window
-1. Maximum Sum Subarray of Size K - https://leetcode.com/problems/maximum-sum-subarray-of-size-k/
-2. Longest Substring Without Repeating Characters - https://leetcode.com/problems/longest-substring-without-repeating-characters/
-3. Longest Repeating Character Replacement - https://leetcode.com/problems/longest-repeating-character-replacement/
-4. Minimum Window Substring - https://leetcode.com/problems/minimum-window-substring/
-5. Sliding Window Maximum - https://leetcode.com/problems/sliding-window-maximum/
-6. Number of Subarrays with Bounded Maximum - https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/
-7. Find K-th Smallest Pair Distance - https://leetcode.com/problems/find-k-th-smallest-pair-distance/
-8. Moving Stones Until Consecutive II - https://leetcode.com/problems/moving-stones-until-consecutive-ii/
-9. Count Pairs of Nodes - https://leetcode.com/problems/count-pairs-of-nodes/
-10. Count Binary Substrings - https://leetcode.com/problems/count-binary-substrings/
-11. K-diff Pairs in an Array - https://leetcode.com/problems/k-diff-pairs-in-an-array/
-12. Implement strStr() - https://leetcode.com/problems/implement-strstr/
-13. Longest Word in Dictionary through Deleting - https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/
-14. Long Pressed Name - https://leetcode.com/problems/long-pressed-name/
-15. Longest Uncommon Subsequence II - https://leetcode.com/problems/longest-uncommon-subsequence-ii/
-16. Compare Version Numbers - https://leetcode.com/problems/compare-version-numbers/
-17. Camelcase Matching - https://leetcode.com/problems/camelcase-matching/
-18. Expressive Words - https://leetcode.com/problems/expressive-words/
-19. Shortest Unsorted Continuous Subarray - https://leetcode.com/problems/shortest-unsorted-continuous-subarray/
-20. Most Profit Assigning Work - https://leetcode.com/problems/most-profit-assigning-work/
-21. Largest Merge Of Two Strings - https://leetcode.com/problems/largest-merge-of-two-strings/
-22. Swap Adjacent in LR String - https://leetcode.com/problems/swap-adjacent-in-lr-string/
-
 ### Week 4: Fast-Slow & Advanced
 1. Linked List Cycle - https://leetcode.com/problems/linked-list-cycle/
 2. Middle of Linked List - https://leetcode.com/problems/middle-of-the-linked-list/

@@ -1600,59 +1600,6 @@ Q1: What operation?
 
 ---
 
-## Practice Roadmap (100 Days)
-
-### Week 1-2: Hash Map & Frequency (Days 1-14)
-1. Valid Anagram
-2. Group Anagrams
-3. Find All Anagrams
-4. First Unique Character
-5. Longest Substring with K Distinct
-
-### Week 3-4: Two Pointers (Days 15-28)
-1. Valid Palindrome
-2. Reverse Vowels
-3. Is Subsequence
-4. Backspace String Compare
-5. Reverse String
-
-### Week 5-6: Sliding Window (Days 29-42)
-1. Longest Substring Without Repeating
-2. Minimum Window Substring
-3. Longest Repeating Character Replacement
-4. Permutation in String
-5. Substring with Concatenation of Words
-
-### Week 7-8: Palindromes (Days 43-56)
-1. Longest Palindromic Substring
-2. Palindromic Substrings
-3. Longest Palindrome by Concatenating
-4. Valid Palindrome II
-5. Palindrome Partitioning
-
-### Week 9-10: Pattern Matching (Days 57-70)
-1. Implement strStr()
-2. Repeated Substring Pattern
-3. Find All Occurrences
-4. Shortest Palindrome
-5. Rotate String
-
-### Week 11-12: String DP (Days 71-84)
-1. Longest Common Subsequence
-2. Edit Distance
-3. Distinct Subsequences
-4. Interleaving String
-5. Regular Expression Matching
-
-### Week 13-14: Advanced (Days 85-100)
-1. Wildcard Matching
-2. Word Break II
-3. Word Ladder
-4. Alien Dictionary
-5. Text Justification
-
----
-
 ## Key Takeaways
 
 1. **Pattern Recognition is Key**
@@ -1679,3 +1626,275 @@ Q1: What operation?
 ---
 
 *Master these patterns and you'll solve any string problem with confidence!*
+
+---
+
+## Problem Recognition Framework
+
+### Decision Tree for String Problems
+
+```
+START: Is it a String Problem?
+
+Q1: What type of string manipulation?
+├─ Character counting/frequency → Hash Map Pattern
+├─ Two pointers traversal → Two Pointers Pattern
+├─ Window-based substring → Sliding Window Pattern
+├─ Pattern matching → KMP/Z-algorithm
+├─ Other → Check specific patterns
+
+Q2: What are we looking for?
+├─ Anagrams/permutations → Frequency counting
+├─ Palindromes → Two pointers from ends
+├─ Longest substring → Sliding window
+├─ Substring search → KMP algorithm
+├─ Character replacement → Sliding window
+
+Q3: Key constraints and indicators?
+├─ "Anagram" → Frequency map comparison
+├─ "Palindrome" → Two pointers convergence
+├─ "Without repeating" → Set or sliding window
+├─ "Minimum window" → Sliding window with validity
+├─ "K distinct characters" → Frequency map size
+├─ "Case insensitive" → Convert to lowercase
+
+Q4: Time complexity requirements?
+├─ O(n) required → Efficient algorithms
+├─ O(n²) acceptable → Brute force approaches
+├─ O(n*m) acceptable → Multiple string operations
+```
+
+### Pattern Recognition Cheat Sheet
+
+| Problem Contains | Primary Pattern | Secondary Pattern |
+|-----------------|----------------|-------------------|
+| "valid anagram" | Hash Map | Frequency Count |
+| "group anagrams" | Hash Map | Sorting |
+| "palindrome" | Two Pointers | Character skipping |
+| "longest substring without repeating" | Sliding Window | Set tracking |
+| "longest substring with k distinct" | Sliding Window | Frequency map |
+| "minimum window substring" | Sliding Window | Validity counter |
+| "character replacement" | Sliding Window | Frequency tracking |
+| "find all anagrams" | Sliding Window | Rolling hash |
+| "longest palindromic substring" | Two Pointers | Expansion |
+| "string compression" | Two Pointers | In-place modification |
+
+---
+
+## Key Takeaways & Mental Models
+
+### 1. **Hash Map = Character Intelligence**
+```
+Mental Model: Character frequency detective
+
+Tracks what characters appear and how often
+Perfect for: anagrams, permutations, character-based conditions
+Fast lookups, frequency comparisons, grouping operations
+```
+
+### 2. **Two Pointers = String Scanner**
+```
+Mental Model: Two fingers scanning from ends or same direction
+
+Opposite ends: palindromes, convergence problems
+Same direction: in-place modification, removal operations
+Perfect for: validation, cleaning, comparison tasks
+```
+
+### 3. **Sliding Window = Substring Explorer**
+```
+Mental Model: Adjustable frame examining contiguous segments
+
+Grows and shrinks to find optimal substrings
+Tracks state within current window boundaries
+Perfect for: longest/shortest substring problems
+```
+
+### 4. **Time Complexity Pattern**
+```
+Hash Map Operations: O(n) for building, O(1) for lookups
+Two Pointers: O(n) single pass, O(1) space
+Sliding Window: O(n) amortized, O(min(n,k)) space
+String Building: O(n) time and space
+```
+
+### 5. **Space Optimization Strategies**
+```
+- Use arrays[26] instead of maps for lowercase letters
+- Rolling hash for substring comparisons
+- In-place modifications to save space
+- Bit manipulation for character sets
+```
+
+---
+
+## Common Pitfalls & How to Avoid
+
+### Pitfall 1: Case Sensitivity Issues
+```cpp
+// WRONG: Case sensitive comparison
+if (s[i] == t[j])  // 'A' != 'a'
+
+// RIGHT: Convert to same case
+if (tolower(s[i]) == tolower(t[j]))
+```
+
+### Pitfall 2: Off-by-One in Window Boundaries
+```cpp
+// WRONG: Wrong substring extraction
+string result = s.substr(left, right);  // Missing length calculation
+
+// RIGHT: Calculate length properly
+string result = s.substr(left, right - left + 1);
+```
+
+### Pitfall 3: Not Handling Empty Strings
+```cpp
+// WRONG: Crash on empty string
+if (s.length() < t.length()) return "";  // Good
+// But forgot to handle s.empty() or t.empty() specifically
+```
+
+### Pitfall 4: Wrong Frequency Map Updates
+```cpp
+// WRONG: Not updating frequency correctly
+freq[s[i]]--;  // Should be freq[s[i] - 'a'] for arrays
+
+// RIGHT: Correct indexing
+vector<int> freq(26, 0);
+freq[s[i] - 'a']++;
+```
+
+### Pitfall 5: Inefficient String Concatenation
+```cpp
+// WRONG: O(n²) concatenation
+string result = "";
+for (char c : s) result += c;  // Quadratic time!
+
+// RIGHT: Use string constructor or reserve
+string result(s.begin(), s.end());
+```
+
+### Pitfall 6: Not Skipping Invalid Characters
+```cpp
+// WRONG: Processing all characters
+for (char c : s) {
+    if (!isalnum(c)) continue;  // Good
+    // But forgot to handle in palindrome checks
+}
+```
+
+---
+
+## Final Thoughts
+
+**The Power of String Patterns:**
+- String problems are 40% of coding interviews
+- Master these 3 patterns, solve 80% of string problems
+- Each pattern has O(n) optimal solutions
+
+**How to Master String Problems:**
+1. **Start with Hash Maps** - Character counting and frequency
+2. **Master Two Pointers** - Palindromes and in-place operations
+3. **Conquer Sliding Window** - Substring optimization problems
+4. **Practice Pattern Recognition** - Identify problems quickly
+5. **Focus on Edge Cases** - Empty strings, single characters, special chars
+
+**Remember:** String problems aren't about memorizing algorithms - they're about recognizing which tool to use for which job!
+
+**Key Insight:** Every string problem can be solved by asking:
+- What characters matter (frequency, order, uniqueness)?
+- Do I need to modify the string in-place?
+- Am I looking for a substring or whole string property?
+- What's the optimal traversal strategy?
+
+Master this framework, and you'll approach any string problem with confidence! 🚀
+
+---
+
+## General Time and Space Complexity of String Patterns
+
+### Time Complexity Analysis
+
+| String Pattern | Time Complexity | Explanation |
+|----------------|----------------|-------------|
+| **Hash Map/Frequency** | O(n) | Single pass counting/lookup |
+| **Two Pointers** | O(n) | Linear traversal from ends or same direction |
+| **Sliding Window** | O(n) | Amortized O(1) per character |
+| **String Building** | O(n) | Linear construction |
+| **Sorting-based** | O(n log n) | Sort + operations |
+| **KMP Algorithm** | O(n + m) | Pattern preprocessing + search |
+
+**Why O(n) is Common:**
+- Most string problems require examining each character
+- Optimal algorithms avoid nested loops
+- Single pass solutions dominate
+
+### Space Complexity Analysis
+
+| Pattern Type | Space Complexity | Examples |
+|--------------|------------------|----------|
+| **Frequency Arrays** | O(1) | vector[26] for letters |
+| **Frequency Maps** | O(min(n, charset)) | unordered_map for Unicode |
+| **Two Pointers** | O(1) | Only pointers, no extra space |
+| **Sliding Window** | O(min(n, k)) | Window state storage |
+| **Result Strings** | O(n) | Building new strings |
+| **Stack/Queue** | O(n) | Parentheses validation |
+
+**Optimization Tips:**
+- Use arrays over maps for ASCII characters
+- Prefer in-place modifications when possible
+- Reserve string capacity to avoid reallocations
+- Use rolling hash for substring comparisons
+
+---
+
+## Practice Leetcode Questions
+
+### Easy Level (Foundation)
+1. **Valid Anagram** - https://leetcode.com/problems/valid-anagram/
+2. **Valid Palindrome** - https://leetcode.com/problems/valid-palindrome/
+3. **Reverse String** - https://leetcode.com/problems/reverse-string/
+4. **Reverse Vowels of a String** - https://leetcode.com/problems/reverse-vowels-of-a-string/
+5. **Implement strStr()** - https://leetcode.com/problems/implement-strstr/
+
+### Medium Level (Core Patterns)
+1. **Group Anagrams** - https://leetcode.com/problems/group-anagrams/
+2. **Longest Substring Without Repeating Characters** - https://leetcode.com/problems/longest-substring-without-repeating-characters/
+3. **Longest Substring with At Most K Distinct Characters** - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+4. **Minimum Window Substring** - https://leetcode.com/problems/minimum-window-substring/
+5. **Find All Anagrams in a String** - https://leetcode.com/problems/find-all-anagrams-in-a-string/
+6. **Longest Palindromic Substring** - https://leetcode.com/problems/longest-palindromic-substring/
+7. **Longest Repeating Character Replacement** - https://leetcode.com/problems/longest-repeating-character-replacement/
+
+### Hard Level (Advanced)
+1. **Substring with Concatenation of All Words** - https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+2. **Minimum Window Substring** - https://leetcode.com/problems/minimum-window-substring/
+3. **Valid Number** - https://leetcode.com/problems/valid-number/
+4. **Basic Calculator** - https://leetcode.com/problems/basic-calculator/
+5. **Text Justification** - https://leetcode.com/problems/text-justification/
+
+### Pattern-Specific Practice
+**Hash Map Focus:**
+- Isomorphic Strings - https://leetcode.com/problems/isomorphic-strings/
+- Word Pattern - https://leetcode.com/problems/word-pattern/
+- Ransom Note - https://leetcode.com/problems/ransom-note/
+
+**Two Pointers Focus:**
+- Valid Palindrome II - https://leetcode.com/problems/valid-palindrome-ii/
+- Backspace String Compare - https://leetcode.com/problems/backspace-string-compare/
+- Merge Strings Alternately - https://leetcode.com/problems/merge-strings-alternately/
+
+**Sliding Window Focus:**
+- Permutation in String - https://leetcode.com/problems/permutation-in-string/
+- Subarray Product Less Than K - https://leetcode.com/problems/subarray-product-less-than-k/
+- Maximum Number of Vowels in a Substring of Given Length - https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/
+
+**Practice Strategy:**
+- Start with easy problems to build confidence
+- Focus on one pattern at a time
+- Practice edge cases: empty strings, single characters, special characters
+- Time yourself to build recognition speed
+- Review solutions to understand optimal approaches
+
+Master string patterns, and you'll handle text processing problems effortlessly! 🎯

@@ -128,60 +128,196 @@ int fixedWindowTemplate(vector<int>& arr, int k) {
 
 ### Why This Template Works
 
-**Initialization:** First loop builds the complete sum for the initial window
-**Sliding:** Each iteration adds one element and removes one, maintaining O(1) per step
-**Correctness:** Window always contains exactly k elements
+**Your Template Logic:**
+- **i**: Left pointer (start of window)
+- **j**: Right pointer (end of window)
+- **windowSum**: Running sum of current window
+- **maxSum**: Tracks maximum sum found
+
+**Flow:**
+1. Add `arr[j]` to `windowSum`
+2. If window size < k, just increment j
+3. If window size == k, update maxSum, remove `arr[i]`, increment both i and j
+
+**Correctness:** Maintains exactly k elements in sum at all times
 **Efficiency:** O(n) time, O(1) space
 
 ### Example Problem: Maximum Sum Subarray of Size K
 
-**Problem:** Given an array of integers and an integer k, find the maximum sum of any contiguous subarray of size k.
+**Problem:** Find maximum sum of any contiguous subarray of size k.
 
-**Approach:**
-1. Handle edge case: if n < k, return -1
-2. Calculate sum of first k elements
-3. Slide window: for each new position, add arr[i], subtract arr[i-k]
-4. Track maximum sum
+**Using Your Template:**
+- Replace `maxSum = max(windowSum, maxSum)` with your logic
+- Returns the maximum window sum
 
 ### Dry Run
 
 ```
 arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4
 
-Step 1: Initialize first window [0..3]
-windowSum = 1 + 4 + 2 + 10 = 17
-maxSum = 17
-
-Step 2: i=4, arr[4]=23
-windowSum = 17 + 23 - 1 = 39
-maxSum = max(17, 39) = 39
-
-Step 3: i=5, arr[5]=3
-windowSum = 39 + 3 - 4 = 38
-maxSum = max(39, 38) = 39
-
-Step 4: i=6, arr[6]=1
-windowSum = 38 + 1 - 2 = 37
-maxSum = max(39, 37) = 39
-
-Step 5: i=7, arr[7]=0
-windowSum = 37 + 0 - 10 = 27
-maxSum = max(39, 27) = 39
-
-Step 6: i=8, arr[8]=20
-windowSum = 27 + 20 - 23 = 24
-maxSum = max(39, 24) = 39
+Step 1: j=0, windowSum=1, size=1<4, j=1
+Step 2: j=1, windowSum=1+4=5, size=2<4, j=2
+Step 3: j=2, windowSum=5+2=7, size=3<4, j=3
+Step 4: j=3, windowSum=7+10=17, size=4==4, maxSum=max(INT_MIN,17)=17, windowSum=17-1=16, i=1, j=4
+Step 5: j=4, windowSum=16+23=39, size=4==4, maxSum=max(17,39)=39, windowSum=39-4=35, i=2, j=5
+... continues similarly ...
 
 Final: maxSum = 39
 ```
 
-### Edge Cases to Focus
+### Fixed Window Problem Examples
 
-1. **n < k**: Return -1 or handle appropriately
-2. **n == k**: Only one window, return its sum
-3. **All negative numbers**: Still works, returns maximum sum
-4. **k = 1**: Returns maximum element
-5. **Empty array**: Handle with n == 0 check
+#### Problem 2: First Negative Element in Every Window of Size K
+
+**Problem:** Given an array and window size k, print first negative element in every window of size k. If no negative element, print 0.
+
+**Approach:**
+- Use a queue to store indices of negative elements
+- For each window, the front of queue gives first negative
+- Remove elements outside current window
+
+**Solution:**
+```cpp
+vector<long long> printFirstNegativeInteger(long long int A[], long long int N, long long int K) {
+    vector<long long> ans;
+    queue<long long> q;
+    
+    for(int i=0; i<N; i++) {
+        // Add negative elements
+        if(A[i] < 0) q.push(i);
+        
+        // Remove out of window elements
+        while(!q.empty() && q.front() <= i-K) q.pop();
+        
+        // If window complete, add answer
+        if(i >= K-1) {
+            if(!q.empty()) ans.push_back(A[q.front()]);
+            else ans.push_back(0);
+        }
+    }
+    return ans;
+}
+```
+
+**Dry Run:**
+```
+A = [12, -1, -7, 8, -15, 30, 16, 28], K=3
+
+i=0: A[0]=12>=0, no add, i=0<2, skip
+i=1: A[1]=-1<0, q=[1], i=1<2, skip  
+i=2: A[2]=-7<0, q=[1,2], i=2>=2, q.front=1, ans=[-1]
+i=3: A[3]=8>=0, no add, remove if <=3-3=0, none, i=3>=2, ans=[-1, -1]
+i=4: A[4]=-15<0, q=[1,2,4], remove <=4-3=1, remove 1, q=[2,4], i=4>=2, ans=[-1,-1,-7]
+... continues
+
+Final: [-1, -1, -7, -15, -15, 0]
+```
+
+**Edge Cases:**
+- No negatives: All 0s
+- All negatives: First negative of each window
+- K=1: Each element or 0
+
+#### Problem 3: Maximum of All Subarrays of Size K
+
+**Problem:** Find maximum element in each subarray of size k.
+
+**Approach:**
+- Use deque to maintain decreasing order of elements
+- Front always has maximum for current window
+- Remove elements outside window and smaller than current
+
+**Solution:**
+```cpp
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+    vector<int> ans;
+    deque<int> dq; // stores indices
+    
+    for(int i=0; i<nums.size(); i++) {
+        // Remove elements outside window
+        while(!dq.empty() && dq.front() <= i-k) dq.pop_front();
+        
+        // Remove smaller elements from back
+        while(!dq.empty() && nums[dq.back()] <= nums[i]) dq.pop_back();
+        
+        // Add current element
+        dq.push_back(i);
+        
+        // Add to answer when window complete
+        if(i >= k-1) ans.push_back(nums[dq.front()]);
+    }
+    return ans;
+}
+```
+
+**Dry Run:**
+```
+nums = [1,3,-1,-3,5,3,6,7], k=3
+
+i=0: dq=[0], i=0<2, skip
+i=1: remove <=1-3=-2 none, nums[0]=1 <= nums[1]=3, pop 0, dq=[1], i=1<2, skip
+i=2: remove <=2-3=-1 none, nums[1]=3 > nums[2]=-1, no pop, dq=[1,2], i=2>=2, ans=[3]
+i=3: remove <=3-3=0, pop 1, dq=[2], nums[2]=-1 <= nums[3]=-3, no pop, dq=[2,3], ans=[3,3]
+... continues
+
+Final: [3,3,5,5,6,7]
+```
+
+**Edge Cases:**
+- Increasing array: Each window's last element
+- Decreasing array: Each window's first element
+- All same: Any element
+
+#### Problem 4: Count Occurrence of Anagrams
+
+**Problem:** Count occurrences of anagrams of string pat in string txt.
+
+**Approach:**
+- Use sliding window of size pat.length()
+- Maintain frequency map of pat and current window
+- When frequencies match, it's an anagram
+
+**Solution:**
+```cpp
+int search(string pat, string txt) {
+    int n = txt.length(), m = pat.length();
+    if(m > n) return 0;
+    
+    vector<int> patFreq(26,0), windowFreq(26,0);
+    for(char c : pat) patFreq[c-'a']++;
+    
+    int count = 0;
+    for(int i=0; i<n; i++) {
+        windowFreq[txt[i]-'a']++;
+        
+        if(i >= m-1) {
+            if(windowFreq == patFreq) count++;
+            windowFreq[txt[i-m+1]-'a']--;
+        }
+    }
+    return count;
+}
+```
+
+**Dry Run:**
+```
+txt = "forxxorfxdofr", pat = "for"
+
+patFreq = {'f':1, 'o':1, 'r':1}
+
+i=0: windowFreq={'f':1}, i=0<2, skip
+i=1: windowFreq={'f':1,'o':1}, i=1<2, skip
+i=2: windowFreq={'f':1,'o':1,'r':1}, i=2>=2, freqs equal, count=1, remove txt[0]='f'
+i=3: windowFreq={'o':1,'r':1,'x':1}, i=3>=2, not equal, remove txt[1]='o'
+... continues
+
+Final: count = 3
+```
+
+**Edge Cases:**
+- No anagrams: 0
+- Multiple same chars: Correct count
+- pat longer than txt: 0
 
 ## 3. Variable Size Window
 
@@ -229,510 +365,244 @@ int variableWindowTemplate(vector<int>& arr) {
 **Correctness:** Window always valid after shrinking
 **Efficiency:** Each element visited at most twice (once by each pointer)
 
-### Example Problem: Longest Substring with At Most K Distinct Characters
+### Variable Size Window Problem Examples
 
-**Problem:** Find the length of the longest substring with at most K distinct characters.
+#### Problem 1: Largest Subarray of Sum K
+
+**Problem:** Find the length of the largest subarray with sum k.
 
 **Approach:**
-1. Use a map to track character frequencies
-2. Expand right pointer, add characters
-3. When distinct chars > K, shrink left until <= K
-4. Track maximum length
+- Use variable window, expand right, shrink left when sum > k
+- Track maximum length when sum == k
 
-### Dry Run
-
-```
-s = "eceba", k=2
-
-Initialize: left=0, right=0, maxLen=0, map={}
-
-Step 1: right=0, char='e'
-map = {'e':1}, distinct=1 <=2 ✓
-maxLen = max(0, 0-0+1) = 1
-
-Step 2: right=1, char='c'
-map = {'e':1, 'c':1}, distinct=2 <=2 ✓
-maxLen = max(1, 1-0+1) = 2
-
-Step 3: right=2, char='e'
-map = {'e':2, 'c':1}, distinct=2 <=2 ✓
-maxLen = max(2, 2-0+1) = 3
-
-Step 4: right=3, char='b'
-map = {'e':2, 'c':1, 'b':1}, distinct=3 >2 ✗
-Shrink: left=0, remove 'e', map={'e':1, 'c':1, 'b':1}, distinct=3 >2
-Shrink: left=1, remove 'c', map={'e':1, 'b':1}, distinct=2 <=2 ✓
-maxLen = max(3, 3-1+1) = 3
-
-Step 5: right=4, char='a'
-map = {'e':1, 'b':1, 'a':1}, distinct=3 >2 ✗
-Shrink: left=1, remove 'e', map={'b':1, 'a':1}, distinct=2 <=2 ✓
-maxLen = max(3, 4-1+1) = 4? Wait, 4-1+1=4, but window is [b,a], length=2
-Wait, correction: after shrink, left=2, window="ba", length=4-2+1=3? Wait.
-
-Wait, let's recalculate:
-After step 4: left=1, right=3, window="ceb", length=3
-Then right=4, add 'a', map={'e':1,'b':1,'a':1}, distinct=3>2
-Shrink: remove s[1]='c', map={'e':1,'b':1,'a':1}, still 3>2
-Shrink: remove s[2]='e', map={'b':1,'a':1}, distinct=2<=2
-left=3, window="ba", length=4-3+1=2
-maxLen = max(3,2)=3
-
-Yes, correct.
-```
-
-### Edge Cases to Focus
-
-1. **k = 0**: Only empty string, length 0
-2. **k >= length**: Whole string
-3. **All same characters**: Length of string
-4. **All distinct characters**: Min of length and k
-5. **Empty string**: Return 0
-
-## 4. Advanced Templates (Shrinkable vs Non-Shrinkable)
-
-### Shrinkable Template (Maximum at Each Step)
-
-**Thought Process:** Keep window valid after each addition by shrinking until valid. Track maximum window size seen.
-
-**Template:**
+**Solution:**
 ```cpp
-int shrinkableTemplate(vector<int>& arr) {
-    int left = 0, ans = 0;
-    for (int right = 0; right < arr.size(); right++) {
-        // Add arr[right] to state
-        while (invalid() && left <= right) {
-            // Remove arr[left] from state
+int lenOfLongSubarr(int A[], int N, int K) {
+    int left = 0, right = 0, sum = 0, maxLen = 0;
+    
+    while(right < N) {
+        sum += A[right];
+        
+        while(sum > K && left <= right) {
+            sum -= A[left];
             left++;
         }
-        ans = max(ans, right - left + 1);
-    }
-    return ans;
-}
-```
-
-**Example:** Longest Substring with At Most K Distinct (as above)
-
-### Non-Shrinkable Template (Final Maximum)
-
-**Thought Process:** Allow window to grow maximally, only shrink when invalid. Return final window size.
-
-**Template:**
-```cpp
-int nonShrinkableTemplate(vector<int>& arr) {
-    int left = 0;
-    for (int right = 0; right < arr.size(); right++) {
-        // Add arr[right] to state
-        if (invalid()) {
-            // Remove arr[left] from state
-            left++;
-        }
-    }
-    return arr.size() - left;  // Final window size
-}
-```
-
-**Example:** Frequency of Most Frequent Element (as in file)
-    map['a'] = 1, size=3 >2 ✗ (invalid)
-    Shrink: i=0, remove 'c', map['c']=0 (erase), size=2 <=2 ✓
-    ans = max(3, 4-0+1) = 4? Wait, no: after shrink, window is [e,b,a], size=3-0+1=4, but we need to check again
-    Wait, actually in code, after inner loop, ans = max(ans, j-i+1) = max(3,4-0+1)=4, but that's wrong!
-
-Wait, correction: In the template, the inner loop runs until valid, then ans is updated.
-But in this case, after adding 'a', invalid, shrink once to i=1, window [c,e,b,a], still size=3>2, shrink again to i=2, window [e,b,a], size=3>2, shrink to i=3, window [b,a], size=2<=2 ✓
-Then ans = max(3, 4-3+1) = max(3,2)=3
-
-Yes, correct. The dry run shows the process.
-```
-
-#### 2. **Non-Shrinkable Template** (Tracks Final Maximum)
-
-**When to Use:** Use when you need to find the **absolute maximum valid window size** at the end. The window grows as much as possible and only shrinks when necessary.
-
-**How it Works:**
-- Expand right pointer (`j++`)
-- Update state with `A[j]`
-- **If invalid**, increment left pointer once (`i++`) and update state
-- Window may be invalid at the end of iteration
-- Return `j - i` at the end (final window size)
-
-**Key Points:**
-- Single for loop
-- Window grows when valid, shifts when invalid
-- Returns the final maximum window size
-- Used for problems like "frequency of the most frequent element"
-
-**Template Code:**
-```cpp
-int i = 0, j = 0;
-for (; j < N; ++j) {
-    // CODE: use A[j] to update state which might make the window invalid
-    if (invalid()) { // Increment the left edge ONLY when the window is invalid
-        // CODE: update state using A[i]
-        ++i;
-    }
-    // after `++j` in the for loop, this window `[i, j)` of length `j - i` MIGHT be valid.
-}
-return j - i; // There must be a maximum window of size `j - i`.
-```
-
-**Dry Run Example:** Frequency of the Most Frequent Element
-```
-Input: [1,2,5], k=5 (sorted: [1,2,5])
-
-Initialize: i=0, j=0, sum=0
-
-Step 1: j=0, A[j]=1, sum=1
-    Operations needed: (0-0+1)*1 - 1 = 0 <=5 ✓ (valid)
-    No shrink, window [1], size=1
-
-Step 2: j=1, A[j]=2, sum=1+2=3
-    Operations: (1-0+1)*2 - 3 = 4-3=1 <=5 ✓ (valid)
-    No shrink, window [1,2], size=2
-
-Step 3: j=2, A[j]=5, sum=3+5=8
-    Operations: (2-0+1)*5 - 8 = 15-8=7 >5 ✗ (invalid)
-    Shrink: sum -= A[0]=1, sum=7, i=1
-    Now window [2,5], operations: (2-1+1)*5 - 7 = 10-7=3 <=5 ✓
-    Final window size: 2-1+1=2
-
-Return: j-i = 2-1=1? Wait, no: return j-i, but j=3, i=1, 3-1=2, yes.
-
-Wait, in code: return j - i; // j=3, i=1, 3-1=2, but window is [1,2] indices 1 and 2, size 2.
-
-Yes.
-```
-
-**Key Difference Summary:**
-- **Shrinkable**: Keeps window valid after each addition, tracks max size seen
-- **Non-Shrinkable**: Allows window to grow maximally, tracks final size
-- Choose based on whether you need the maximum encountered or the final possible size
-
----
-
-## 5. Universal Substring Template
-
-### Thought Process
-
-**When to Use:** Most substring problems with complex conditions (minimum window, at most k distinct, etc.)
-
-**Key Insight:** Use counter to track validity, two pointers with map for character frequency.
-
-### Universal Template
-
-```cpp
-string universalSubstring(string s, string t) {
-    vector<int> map(128, 0);
-    int counter = 0, begin = 0, end = 0, len = INT_MAX, head = 0;
-    
-    // Initialize map with t
-    for (char c : t) map[c]++;
-    
-    while (end < s.size()) {
-        if (map[s[end++]]-- > 0) counter--;  // Found a char in t
         
-        while (counter <= 0) {  // Valid window
-            // Update answer for minimum window
-            if (end - begin < len) {
-                len = end - begin;
-                head = begin;
-            }
-            if (map[s[begin++]]++ >= 0) counter++;  // Make invalid
-        }
-    }
-    
-    return len == INT_MAX ? "" : s.substr(head, len);
-}
-```
-
-### Why This Template Works
-
-**Counter Logic:** Tracks how many characters still needed
-**Two While Loops:** Outer expands, inner shrinks when valid
-**Map Usage:** Negative values indicate extra occurrences
-
-### Example Problem: Minimum Window Substring
-
-**Problem:** Find minimum window in S containing all characters of T.
-
-**Dry Run:** (As in original file)
-
-### Edge Cases
-
-1. **T longer than S**: Impossible
-2. **T empty**: Return empty string
-3. **No valid window**: Return empty string
-4. **Multiple occurrences**: Counter handles correctly
-
-```cpp
-string minWindow(string s, string t) {
-    vector<int> map(128, 0);
-    for(auto c : t) map[c]++;
-    int counter = t.size(), begin = 0, end = 0, d = INT_MAX, head = 0;
-    while(end < s.size()) {
-        if(map[s[end++]]-- > 0) counter--; // in t
-        while(counter == 0) { // valid
-            if(end - begin < d) d = end - (head = begin);
-            if(map[s[begin++]]++ == 0) counter++; // make it invalid
-        }  
-    }
-    return d == INT_MAX ? "" : s.substr(head, d);
-}
-```
-
-### Example: Longest Substring with At Most Two Distinct Characters
-
-```cpp
-int lengthOfLongestSubstringTwoDistinct(string s) {
-    vector<int> map(128, 0);
-    int counter = 0, begin = 0, end = 0, d = 0; 
-    while(end < s.size()) {
-        if(map[s[end++]]++ == 0) counter++;
-        while(counter > 2) if(map[s[begin++]]-- == 1) counter--;
-        d = max(d, end - begin);
-    }
-    return d;
-}
-```
-
-### Example: Longest Substring Without Repeating Characters
-
-```cpp
-int lengthOfLongestSubstring(string s) {
-    vector<int> map(128, 0);
-    int counter = 0, begin = 0, end = 0, d = 0; 
-    while(end < s.size()) {
-        if(map[s[end++]]++ > 0) counter++; 
-        while(counter > 0) if(map[s[begin++]]-- > 1) counter--;
-        d = max(d, end - begin); // while valid, update d
-    }
-    return d;
-}
-```
-
----
-
-### Problem 1: Maximum Sum Subarray of Size K
-
-**Problem:** Find maximum sum of any contiguous subarray of size k.
-
-**C++ Solution:**
-
-```cpp
-int maxSumSubarray(vector<int>& arr, int k) {
-    int n = arr.size();
-    if (n < k) return -1;
-    
-    // Calculate sum of first window
-    int windowSum = 0;
-    for (int i = 0; i < k; i++) {
-        windowSum += arr[i];
-    }
-    
-    int maxSum = windowSum;
-    
-    // Slide the window
-    for (int i = k; i < n; i++) {
-        windowSum += arr[i] - arr[i - k];
-        maxSum = max(maxSum, windowSum);
-    }
-    
-    return maxSum;
-}
-```
-
-**Dry Run:**
-
-```
-arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4
-
-Step 1: Build first window [0..3]
-        [1, 4, 2, 10]
-         ^--------^
-        windowSum = 1+4+2+10 = 17
-        maxSum = 17
-
-Step 2: Slide to [1..4]
-        Remove arr[0]=1, Add arr[4]=23
-        [4, 2, 10, 23]
-         ^---------^
-        windowSum = 17 - 1 + 23 = 39
-        maxSum = 39
-
-Step 3: Slide to [2..5]
-        Remove arr[1]=4, Add arr[5]=3
-        [2, 10, 23, 3]
-        windowSum = 39 - 4 + 3 = 38
-        maxSum = 39 (no change)
-
-... continue ...
-
-Final: maxSum = 39
-```
-
-**Time Complexity:** O(n) - Single pass with sliding
-
-**Why Not O(n*k)?** We don't recalculate sum each time!
-
----
-
-### Problem 2: Longest Substring Without Repeating Characters
-
-**Problem:** Find length of longest substring without repeating characters.
-
-**Key Insight:**
-```
-"abcabcbb"
-
-Window grows until duplicate found
-Then shrink from left until duplicate removed
-
-[a,b,c] → add 'a' → duplicate! → shrink → [b,c,a]
-```
-
-**C++ Solution:**
-
-```cpp
-int lengthOfLongestSubstring(string s) {
-    unordered_map<char, int> charIndex;  // char -> last seen index
-    int left = 0;
-    int maxLen = 0;
-    
-    for (int right = 0; right < s.length(); right++) {
-        char c = s[right];
-        
-        // If char seen before and within window
-        if (charIndex.count(c) && charIndex[c] >= left) {
-            left = charIndex[c] + 1;  // Move left past duplicate
+        if(sum == K) {
+            maxLen = max(maxLen, right - left + 1);
         }
         
-        charIndex[c] = right;
-        maxLen = max(maxLen, right - left + 1);
+        right++;
     }
-    
     return maxLen;
 }
 ```
 
-**Detailed Dry Run:**
+**Dry Run:**
+```
+A = [10, 5, 2, 7, 1, 9], K=15
 
+right=0: sum=10, 10!=15, right=1
+right=1: sum=10+5=15, 15==15, maxLen=2, right=2
+right=2: sum=15+2=17>15, sum-=10, left=1, sum=7, right=3
+right=3: sum=7+7=14!=15, right=4
+right=4: sum=14+1=15==15, maxLen=max(2,4)=4, right=5
+right=5: sum=15+9=24>15, sum-=5, left=2, sum=19>15, sum-=2, left=3, sum=17>15, sum-=7, left=4, sum=10!=15
+
+Final: maxLen=4 (subarray [5,2,7,1])
+```
+
+**Edge Cases:**
+- No subarray sums to K: 0
+- Multiple subarrays: Largest length
+- Negative numbers: More complex, may need different approach
+
+#### Problem 2: Longest Substring with K Unique Characters
+
+**Problem:** Find length of longest substring with exactly K unique characters.
+
+**Approach:**
+- Use map to track character frequencies
+- Expand right, shrink left when unique chars > K
+- Track max length when unique == K
+
+**Solution:**
+```cpp
+int longestKSubstr(string s, int k) {
+    if(k == 0) return 0;
+    
+    unordered_map<char, int> freq;
+    int left = 0, maxLen = -1;
+    
+    for(int right = 0; right < s.length(); right++) {
+        freq[s[right]]++;
+        
+        while(freq.size() > k && left <= right) {
+            freq[s[left]]--;
+            if(freq[s[left]] == 0) freq.erase(s[left]);
+            left++;
+        }
+        
+        if(freq.size() == k) {
+            maxLen = max(maxLen, right - left + 1);
+        }
+    }
+    return maxLen;
+}
+```
+
+**Dry Run:**
+```
+s = "aabacbebebe", k=3
+
+right=0: freq={'a':1}, size=1!=3
+right=1: freq={'a':2}, size=1!=3
+right=2: freq={'a':2,'b':1}, size=2!=3
+right=3: freq={'a':2,'b':1,'c':1}, size=3==3, maxLen=4
+right=4: freq={'a':2,'b':2,'c':1}, size=3==3, maxLen=5
+right=5: freq={'a':2,'b':2,'c':1,'e':1}, size=4>3, shrink, freq={'a':1,'b':2,'c':1,'e':1}, size=4>3, shrink, freq={'b':2,'c':1,'e':1}, size=3==3, maxLen=5
+... continues
+
+Final: maxLen=5
+```
+
+**Edge Cases:**
+- K=0: 0
+- K > unique chars: -1
+- All same chars: If K=1, whole string
+
+#### Problem 3: Longest Substring Without Repeating Characters
+
+**Problem:** Find length of longest substring without repeating characters.
+
+**Approach:**
+- Use set or map to track characters in current window
+- Expand right, shrink left when duplicate found
+- Track maximum length
+
+**Solution:**
+```cpp
+int lengthOfLongestSubstring(string s) {
+    unordered_set<char> chars;
+    int left = 0, maxLen = 0;
+    
+    for(int right = 0; right < s.length(); right++) {
+        while(chars.count(s[right]) && left <= right) {
+            chars.erase(s[left]);
+            left++;
+        }
+        chars.insert(s[right]);
+        maxLen = max(maxLen, right - left + 1);
+    }
+    return maxLen;
+}
+```
+
+**Dry Run:**
 ```
 s = "abcabcbb"
 
-Step 1: right=0, char='a'
-        Window: [a]
-        left=0, maxLen=1
-        charIndex: {a:0}
+right=0: 'a' not in set, insert, maxLen=1
+right=1: 'b' not in set, insert, maxLen=2
+right=2: 'c' not in set, insert, maxLen=3
+right=3: 'a' in set, remove 'a', left=1, insert 'a', maxLen=3
+right=4: 'b' in set, remove 'b','c', left=3, insert 'b', maxLen=3
+... continues
 
-Step 2: right=1, char='b'
-        Window: [a,b]
-        left=0, maxLen=2
-        charIndex: {a:0, b:1}
-
-Step 3: right=2, char='c'
-        Window: [a,b,c]
-        left=0, maxLen=3
-        charIndex: {a:0, b:1, c:2}
-
-Step 4: right=3, char='a'
-        Duplicate! 'a' at index 0
-        left = charIndex['a'] + 1 = 1
-        Window: [b,c,a]
-        maxLen=3 (no change)
-        charIndex: {a:3, b:1, c:2}
-
-Step 5: right=4, char='b'
-        Duplicate! 'b' at index 1
-        left = charIndex['b'] + 1 = 2
-        Window: [c,a,b]
-        maxLen=3
-        charIndex: {a:3, b:4, c:2}
-
-Step 6: right=5, char='c'
-        Duplicate! 'c' at index 2
-        left = charIndex['c'] + 1 = 3
-        Window: [a,b,c]
-        maxLen=3
-        charIndex: {a:3, b:4, c:5}
-
-Step 7: right=6, char='b'
-        Duplicate! 'b' at index 4
-        left = charIndex['b'] + 1 = 5
-        Window: [c,b]
-        maxLen=3
-        charIndex: {a:3, b:6, c:5}
-
-Step 8: right=7, char='b'
-        Duplicate! 'b' at index 6
-        left = charIndex['b'] + 1 = 7
-        Window: [b]
-        maxLen=3
-        charIndex: {a:3, b:7, c:5}
-
-Final: maxLen = 3 (substring "abc")
+Final: maxLen=3
 ```
 
----
+**Edge Cases:**
+- Empty string: 0
+- All unique: Length of string
+- All same: 1
 
-### Problem 3: Minimum Window Substring
+#### Problem 4: Pick Toys (Maximum Number of Toys with at Most 2 Types)
 
-**Problem:** Find minimum window in S containing all characters of T.
+**Problem:** Find maximum number of toys you can pick with at most 2 different types.
 
-**Hard Problem - But Pattern is Same!**
+**Approach:**
+- Similar to longest substring with at most 2 distinct
+- Use sliding window with frequency map
+- Track maximum window when distinct <= 2
 
-**Key Insight:**
+**Solution:**
+```cpp
+int totalFruits(vector<int>& fruits) {
+    unordered_map<int, int> freq;
+    int left = 0, maxFruits = 0;
+    
+    for(int right = 0; right < fruits.size(); right++) {
+        freq[fruits[right]]++;
+        
+        while(freq.size() > 2 && left <= right) {
+            freq[fruits[left]]--;
+            if(freq[fruits[left]] == 0) freq.erase(fruits[left]);
+            left++;
+        }
+        
+        maxFruits = max(maxFruits, right - left + 1);
+    }
+    return maxFruits;
+}
 ```
-S = "ADOBECODEBANC", T = "ABC"
 
-Expand right until valid window (contains all T)
-Shrink left while still valid
-Track minimum window
+**Dry Run:**
+```
+fruits = [1,2,1,2,3,2,1]
+
+right=0: freq={1:1}, size=1, maxFruits=1
+right=1: freq={1:1,2:1}, size=2, maxFruits=2
+right=2: freq={1:2,2:1}, size=2, maxFruits=3
+right=3: freq={1:2,2:2}, size=2, maxFruits=4
+right=4: freq={1:2,2:2,3:1}, size=3>2, shrink, freq={2:2,3:1}, size=2, maxFruits=4
+... continues
+
+Final: maxFruits=4
 ```
 
-**C++ Solution:**
+**Edge Cases:**
+- All same type: Whole array
+- More than 2 types: Maximum window with 2 types
 
+#### Problem 5: Maximum Window Substring
+
+**Problem:** Find minimum window substring that contains all characters of another string.
+
+**Approach:**
+- Use two pointers with frequency maps
+- Expand right until all characters found
+- Shrink left while maintaining all characters
+- Track minimum window
+
+**Solution:**
 ```cpp
 string minWindow(string s, string t) {
-    if (s.empty() || t.empty()) return "";
+    unordered_map<char, int> need, window;
+    for(char c : t) need[c]++;
     
-    // Count characters in t
-    unordered_map<char, int> need;
-    for (char c : t) {
-        need[c]++;
-    }
+    int left = 0, right = 0, valid = 0, start = 0, minLen = INT_MAX;
     
-    unordered_map<char, int> window;
-    int left = 0, right = 0;
-    int valid = 0;  // Number of satisfied characters
-    int start = 0, minLen = INT_MAX;
-    
-    while (right < s.length()) {
+    while(right < s.length()) {
         char c = s[right];
         right++;
         
-        // Expand window
-        if (need.count(c)) {
+        if(need.count(c)) {
             window[c]++;
-            if (window[c] == need[c]) {
-                valid++;
-            }
+            if(window[c] == need[c]) valid++;
         }
         
-        // Shrink window while valid
-        while (valid == need.size()) {
-            // Update minimum window
-            if (right - left < minLen) {
-                start = left;
+        while(valid == need.size() && left <= right) {
+            if(right - left < minLen) {
                 minLen = right - left;
+                start = left;
             }
             
             char d = s[left];
             left++;
             
-            if (need.count(d)) {
-                if (window[d] == need[d]) {
-                    valid--;
-                }
+            if(need.count(d)) {
+                if(window[d] == need[d]) valid--;
                 window[d]--;
             }
         }
@@ -743,303 +613,487 @@ string minWindow(string s, string t) {
 ```
 
 **Dry Run:**
-
 ```
-S = "ADOBECODEBANC", T = "ABC"
-need = {A:1, B:1, C:1}
+s = "ADOBECODEBANC", t = "ABC"
 
-Step 1-5: Expand until valid
-right=0: A → window={A:1}, valid=1
-right=1: D → window={A:1,D:1}, valid=1
-right=2: O → window={A:1,D:1,O:1}, valid=1
-right=3: B → window={A:1,D:1,O:1,B:1}, valid=2
-right=4: E → window={A:1,D:1,O:1,B:1,E:1}, valid=2
-right=5: C → window={A:1,D:1,O:1,B:1,E:1,C:1}, valid=3 ✓
+Build need = {'A':1,'B':1,'C':1}
 
-Now valid! Window = "ADOBEC"
+right moves until valid=3, then shrink left while valid, track min window
 
-Step 6: Shrink from left
-left=0: Remove A
-        window={D:1,O:1,B:1,E:1,C:1}, valid=2
-        Not valid anymore
-
-Step 7-11: Continue expanding right...
-
-... pattern continues ...
-
-Final: "BANC" (length 4)
+Final: "BANC"
 ```
 
----
+**Edge Cases:**
+- T longer than S: ""
+- No valid window: ""
+- Multiple possibilities: Smallest window
 
-### Problem 4: Longest Substring with At Most K Distinct Characters
+## 4. Advanced Templates (Shrinkable vs Non-Shrinkable)
 
-**Problem:** Find the length of the longest substring with at most K distinct characters.
+### Why Advanced Templates?
 
-**Key Insight:**
+Basic sliding window handles most problems, but some require **different shrinking strategies**. The key difference is **WHEN** you shrink the window:
+
+- **Shrinkable**: Shrink immediately when invalid → Track maximum size **during** the process
+- **Non-Shrinkable**: Shrink only when necessary → Track maximum size **at the end**
+
+### Shrinkable Template (Keep Window Always Valid)
+
+#### When to Use
+Use when you need the **largest valid window encountered** during the sliding process. The window is always kept valid after each expansion.
+
+#### How It Works (Step by Step)
+1. **Expand Right**: Add `arr[right]` to your state (sum, frequency, etc.)
+2. **Shrink if Invalid**: While window is invalid AND `left ≤ right`, remove `arr[left]` and increment `left`
+3. **Update Answer**: After shrinking, update answer with current window size `right - left + 1`
+4. **Repeat**: Move `right` to next element
+
+#### Visual Diagram
 ```
-"eceba", K=2
+Array: [1, 2, 3, 4, 5]  |  Condition: Sum ≤ 7
 
-Window expands until > K distinct chars
-Then shrinks from left until <= K distinct
+Step 1: right=0, add 1, sum=1 ≤7 ✓, ans=max(0,1)=1
+Window: [1]
 
-[e,c,e] → 2 distinct ✓
-[e,c,e,b] → 3 distinct ✗ → shrink → [c,e,b] → 3 ✗ → [e,b] → 2 ✓
-[e,b,a] → 3 ✗ → shrink → [b,a] → 2 ✓
+Step 2: right=1, add 2, sum=3 ≤7 ✓, ans=max(1,2)=2
+Window: [1,2]
+
+Step 3: right=2, add 3, sum=6 ≤7 ✓, ans=max(2,3)=3
+Window: [1,2,3]
+
+Step 4: right=3, add 4, sum=10 >7 ✗
+        Shrink: remove 1, sum=9 >7 ✗, remove 2, sum=7 ≤7 ✓
+        Window: [3,4], ans=max(3,2)=3
 ```
 
-**C++ Solution:**
+#### Template Code
+```cpp
+int shrinkableTemplate(vector<int>& arr) {
+    int left = 0, ans = 0;
+    // Initialize state (sum, map, etc.)
+    
+    for (int right = 0; right < arr.size(); right++) {
+        // Add arr[right] to state
+        
+        // Shrink while invalid
+        while (/* invalid condition */ && left <= right) {
+            // Remove arr[left] from state
+            left++;
+        }
+        
+        // Update answer (window is now valid)
+        ans = max(ans, right - left + 1);
+    }
+    
+    return ans;
+}
+```
 
+#### Example: Longest Substring with At Most K Distinct Characters
 ```cpp
 int lengthOfLongestSubstringKDistinct(string s, int k) {
-    unordered_map<char, int> window;
-    int left = 0;
-    int maxLen = 0;
+    unordered_map<char, int> freq;
+    int left = 0, ans = 0;
     
     for (int right = 0; right < s.length(); right++) {
-        // Expand window
-        window[s[right]]++;
+        freq[s[right]]++;  // Add character
         
-        // Shrink window while too many distinct chars
-        while (window.size() > k) {
-            window[s[left]]--;
-            if (window[s[left]] == 0) {
-                window.erase(s[left]);
-            }
+        // Shrink while too many distinct chars
+        while (freq.size() > k && left <= right) {
+            freq[s[left]]--;
+            if (freq[s[left]] == 0) freq.erase(s[left]);
             left++;
         }
         
         // Update answer
-        maxLen = max(maxLen, right - left + 1);
+        ans = max(ans, right - left + 1);
     }
     
-    return maxLen;
+    return ans;
 }
 ```
 
-**Dry Run:**
+#### Practice Questions
+1. **Q:** In shrinkable template, when does the window become valid again?
+   **A:** Immediately after shrinking, before updating the answer.
 
+2. **Q:** What happens if we don't shrink immediately when invalid?
+   **A:** The window stays invalid, and we might miss valid sub-windows.
+
+3. **Q:** When would you choose shrinkable over non-shrinkable?
+   **A:** When you need the maximum valid window size seen at any point, not just the final one.
+
+### Non-Shrinkable Template (Grow Maximally, Shrink Minimally)
+
+#### When to Use
+Use when you want the **largest possible valid window at the end**. Allow the window to grow as much as possible, only shrinking when absolutely necessary.
+
+#### How It Works (Step by Step)
+1. **Expand Right**: Add `arr[right]` to your state
+2. **Shrink if Invalid**: If window becomes invalid, remove `arr[left]` ONCE and increment `left`
+3. **No Answer Update**: Don't update answer during loop - window might be invalid
+4. **Final Answer**: Return `arr.size() - left` (final window size from `left` to end)
+
+#### Visual Diagram
 ```
-s = "eceba", k=2
+Array: [1, 2, 3, 4, 5]  |  Condition: Sum ≤ 7
 
-Step 1: right=0, char='e'
-        Window: [e]
-        window={e:1}, size=1 <=2
-        maxLen=1
+Step 1: right=0, add 1, sum=1 ≤7 ✓, no shrink
+Window: [1]
 
-Step 2: right=1, char='c'
-        Window: [e,c]
-        window={e:1,c:1}, size=2 <=2
-        maxLen=2
+Step 2: right=1, add 2, sum=3 ≤7 ✓, no shrink
+Window: [1,2]
 
-Step 3: right=2, char='e'
-        Window: [e,c,e]
-        window={e:2,c:1}, size=2 <=2
-        maxLen=3
+Step 3: right=2, add 3, sum=6 ≤7 ✓, no shrink
+Window: [1,2,3]
 
-Step 4: right=3, char='b'
-        Window: [e,c,e,b]
-        window={e:2,c:1,b:1}, size=3 >2 ✗
-        Shrink: remove 'e', window={e:1,c:1,b:1}, size=3 >2
-        Shrink: remove 'c', window={e:1,b:1}, size=2 <=2
-        Window: [e,b]
-        maxLen=3
+Step 4: right=3, add 4, sum=10 >7 ✗
+        Shrink ONCE: remove 1, sum=9, left=1
+        Window: [2,3,4], sum=9 >7 (still invalid, but we don't shrink again)
 
-Step 5: right=4, char='a'
-        Window: [e,b,a]
-        window={e:1,b:1,a:1}, size=3 >2 ✗
-        Shrink: remove 'e', window={b:1,a:1}, size=2 <=2
-        Window: [b,a]
-        maxLen=3
+Step 5: right=4, add 5, sum=14 >7 ✗
+        Shrink ONCE: remove 2, sum=12, left=2
+        Window: [3,4,5], sum=12 >7 (still invalid)
 
-Final: maxLen = 3 (substring "ece")
-```
-
----
-
-### Problem 5: Minimum Size Subarray Sum
-
-**Problem:** Find the minimum length of a contiguous subarray of which the sum is at least target.
-
-**Key Insight:**
-```
-nums = [2,3,1,2,4,3], target=7
-
-Expand right until sum >= target
-Shrink left while sum still >= target
-Track minimum length
+Final: Return 5-2=3 (window [3,4,5] is invalid, but represents max possible)
 ```
 
-**C++ Solution:**
-
+#### Template Code
 ```cpp
-int minSubArrayLen(int target, vector<int>& nums) {
+int nonShrinkableTemplate(vector<int>& arr) {
     int left = 0;
-    int minLen = INT_MAX;
-    int currentSum = 0;
+    // Initialize state
+    
+    for (int right = 0; right < arr.size(); right++) {
+        // Add arr[right] to state
+        
+        // Shrink only once if invalid
+        if (/* invalid condition */) {
+            // Remove arr[left] from state
+            left++;
+        }
+        
+        // Don't update answer here
+    }
+    
+    return arr.size() - left;  // Final window size
+}
+```
+
+#### Example: Frequency of the Most Frequent Element
+```cpp
+int maxFrequency(vector<int>& nums, int k) {
+    sort(nums.begin(), nums.end());
+    int left = 0, sum = 0;
     
     for (int right = 0; right < nums.size(); right++) {
-        // Expand window
-        currentSum += nums[right];
+        sum += nums[right];
         
-        // Shrink window while sum >= target
-        while (currentSum >= target && left <= right) {
-            // Update minimum length
-            minLen = min(minLen, right - left + 1);
-            
-            // Shrink from left
-            currentSum -= nums[left];
+        // Operations needed = window_size * rightmost - sum
+        if ((right - left + 1) * nums[right] - sum > k) {
+            sum -= nums[left];  // Shrink once
             left++;
         }
     }
     
-    return minLen == INT_MAX ? 0 : minLen;
+    return nums.size() - left;  // Final window size
 }
 ```
 
-**Dry Run:**
+#### Practice Questions
+1. **Q:** In non-shrinkable template, how many times do we shrink per right movement?
+   **A:** At most once - only when the window becomes invalid.
+
+2. **Q:** Why don't we update the answer inside the loop?
+   **A:** Because the window might be invalid at the end of each iteration.
+
+3. **Q:** When is the final window size returned?
+   **A:** At the very end, representing the maximum possible valid window we could achieve.
+
+4. **Q:** What's the key difference in shrinking strategy?
+   **A:** Shrinkable uses `while` (shrink until valid), Non-shrinkable uses `if` (shrink once).
+
+### Key Differences Summary
+
+| Aspect | Shrinkable Template | Non-Shrinkable Template |
+|--------|-------------------|----------------------|
+| **Shrinking** | `while` loop - shrink until valid | `if` statement - shrink once |
+| **Validity** | Window always valid after shrinking | Window may be invalid at end |
+| **Answer Update** | During loop, after shrinking | At the end only |
+| **Use Case** | Maximum valid window seen | Maximum possible window |
+| **Example** | Longest substring with K distinct | Frequency of most frequent element |
+
+### Common Mistakes
+1. **Using wrong template**: Choose based on whether you need "maximum encountered" vs "maximum possible"
+2. **Wrong shrinking condition**: `while` vs `if` makes a big difference
+3. **Answer timing**: Update during loop for shrinkable, at end for non-shrinkable
+
+### Practice Problems for Advanced Templates
+
+**Shrinkable Template Problems:**
+- Longest Substring with At Most K Distinct Characters
+- Longest Subarray with Sum ≤ K
+- Minimum Window Substring (modified version)
+
+**Non-Shrinkable Template Problems:**
+- 1838. Frequency of the Most Frequent Element
+- 1493. Longest Subarray of 1's After Deleting One Element
+- 713. Subarray Product Less Than K
+
+Master these templates, and you'll handle the most complex sliding window problems! 🎯
+
+## 7. Problem Recognition Framework
+
+### Decision Tree for Sliding Window Problems
 
 ```
-nums = [2,3,1,2,4,3], target=7
+START: Is it a Sliding Window Problem?
 
-Step 1: right=0, currentSum=2 <7
-        Window: [2]
+Q1: Does it involve contiguous subarrays/substrings?
+├─ YES → Continue
+├─ NO → Maybe not sliding window
 
-Step 2: right=1, currentSum=2+3=5 <7
-        Window: [2,3]
+Q2: Is the window size fixed or variable?
+├─ Fixed (k) → Fixed Window Template
+├─ Variable → Variable Window Template
 
-Step 3: right=2, currentSum=5+1=6 <7
-        Window: [2,3,1]
+Q3: What are we optimizing?
+├─ Maximum sum/length → Track max during process
+├─ Minimum window → Track min during process
+├─ Count valid windows → Count when condition met
+├─ All subarrays of size k → Fixed window
 
-Step 4: right=3, currentSum=6+2=8 >=7 ✓
-        Shrink: minLen = 4-0+1=4, currentSum=8-2=6, left=1
-        Window: [3,1,2]
+Q4: Key indicator words?
+├─ "Maximum subarray of size k" → Fixed window
+├─ "Longest substring with property" → Variable window
+├─ "Minimum window containing all" → Variable window
+├─ "All subarrays" → Fixed window
+├─ "Sliding window" → Explicitly mentioned!
 
-Step 5: right=4, currentSum=6+4=10 >=7 ✓
-        Shrink: minLen = min(4,5-1+1=5)=4, currentSum=10-3=7, left=2
-        Shrink: minLen=4, currentSum=7-1=6, left=3
-        Window: [2,4]
+Q5: What state needs tracking?
+├─ Sum only → Simple variables
+├─ Frequencies → HashMap/HashSet
+├─ Multiple conditions → Custom state object
+```
 
-Step 6: right=5, currentSum=6+3=9 >=7 ✓
-        Shrink: minLen=4, currentSum=9-2=7, left=4
-        Shrink: minLen=4, currentSum=7-4=3, left=5
-        Window: [3]
+### Pattern Recognition Cheat Sheet
 
-Final: minLen = 4 (subarray [2,3,1,2])
+| Problem Contains | Pattern | Template |
+|-----------------|---------|----------|
+| "maximum sum subarray of size k" | Fixed Window | Basic fixed window |
+| "first negative in every window k" | Fixed Window | Queue for negatives |
+| "maximum of all subarrays of size k" | Fixed Window | Deque for sliding max |
+| "count anagrams" | Fixed Window | Frequency comparison |
+| "longest substring with k distinct" | Variable Window | Map size tracking |
+| "longest substring without repeating" | Variable Window | Set for uniqueness |
+| "minimum window substring" | Variable Window | Two pointers with validity |
+| "largest subarray sum <= k" | Variable Window | Sum tracking |
+| "pick toys (at most 2 types)" | Variable Window | Type counting |
+
+---
+
+## Key Takeaways & Mental Models
+
+### 1. **Fixed Window = Steady State Machine**
+```
+Mental Model: Assembly line with fixed conveyor belt
+- Window size never changes
+- Add new element, remove old element
+- Process each position exactly once
+- Perfect for: "every subarray of size k"
+```
+
+### 2. **Variable Window = Dynamic Boundary**
+```
+Mental Model: Elastic band stretching and shrinking
+- Window grows until condition violated
+- Shrinks until condition satisfied again
+- Tracks optimal window during expansion
+- Perfect for: "longest/shortest with property"
+```
+
+### 3. **Advanced Templates = Smart Shrinking Strategy**
+```
+Shrinkable: Always valid, track max encountered
+Non-Shrinkable: Grow maximally, track final size
+
+Choose based on: "Do I need the maximum seen, or maximum possible?"
+```
+
+### 4. **Time Complexity Pattern**
+```
+Fixed Window: O(n) - single pass
+Variable Window: O(n) - amortized, each element added/removed once
+Advanced: O(n) - same as above
+
+Space: O(1) to O(n) depending on state tracking
+```
+
+### 5. **Common State Variables**
+```
+- Sum: int currentSum
+- Frequency: unordered_map<char, int> or vector<int>
+- Count: int validCount
+- Maximum: deque<int> for sliding window maximum
+- Minimum: deque<int> for sliding window minimum
 ```
 
 ---
 
-### Problem 6: Frequency of the Most Frequent Element
+## Common Pitfalls & How to Avoid
 
-**Problem:** Given an array of integers `nums` and an integer `k`, find the maximum possible frequency of an element after performing at most `k` operations. In each operation, you can increment any element by 1.
-
-**Key Insight:**
-```
-Sort the array first
-Use sliding window to find maximum window where we can make all elements equal to the rightmost element
-Operations needed = window_size * rightmost - current_sum
-```
-
-**C++ Solution (Shrinkable Template):**
-
+### Pitfall 1: Wrong Window Size Tracking
 ```cpp
-class Solution {
-public:
-    int maxFrequency(vector<int>& A, int k) {
-        sort(begin(A), end(A));
-        long i = 0, N = A.size(), ans = 1, sum = 0;
-        for (int j = 0; j < N; ++j) {
-            sum += A[j];
-            while ((j - i + 1) * A[j] - sum > k) sum -= A[i++];
-            ans = max(ans, j - i + 1);
-        }
-        return ans;
-    }
-};
+// WRONG: Off-by-one in window size
+int windowSize = right - left;  // Missing +1
+
+// RIGHT: Include both boundaries
+int windowSize = right - left + 1;
 ```
 
-**C++ Solution (Non-Shrinkable Template):**
-
+### Pitfall 2: Forgetting to Update State on Shrink
 ```cpp
-class Solution {
-public:
-    int maxFrequency(vector<int>& A, int k) {
-        sort(begin(A), end(A));
-        long i = 0, j = 0, N = A.size(), sum = 0;
-        for (; j < N; ++j) {
-            sum += A[j];
-            if ((j - i + 1) * A[j] - sum > k) sum -= A[i++];
-        }
-        return j - i;
-    }
-};
+// WRONG: Only move pointer, forget state
+while (condition) {
+    left++;  // Forgot to update sum/frequency!
+}
+
+// RIGHT: Update state when shrinking
+while (condition) {
+    sum -= arr[left];
+    freq[arr[left]]--;
+    left++;
+}
 ```
 
-**Dry Run:**
+### Pitfall 3: Using Wrong Template Type
+```cpp
+// WRONG: Using shrinkable when non-shrinkable needed
+// For "maximum frequency after operations"
+// Need non-shrinkable to find final maximum window
 
-```
-A = [1,2,5], k=5 (sorted: [1,2,5])
-
-Step 1: j=0, sum=1
-        (1*1) - 1 = 0 <=5 ✓
-        ans=1
-
-Step 2: j=1, sum=1+2=3
-        (2*2) - 3 = 1 <=5 ✓
-        ans=2
-
-Step 3: j=2, sum=3+5=8
-        (3*5) - 8 = 7 >5 ✗
-        sum -= A[0]=1, sum=7, i=1
-        (2*5) - 7 = 3 <=5 ✓
-        ans=2
-
-Final: ans=2 (can make [2,5] both 5 with 3 operations)
+// RIGHT: Choose based on problem requirement
+// "Maximum encountered" → Shrinkable
+// "Maximum possible" → Non-Shrinkable
 ```
 
-**Problems Solvable with These Templates:**
+### Pitfall 4: Edge Cases in Empty/Invalid Windows
+```cpp
+// Handle empty windows
+if (right - left + 1 == 0) continue;
 
-- **1838. Frequency of the Most Frequent Element** (as above)
-- **1493. Longest Subarray of 1's After Deleting One Element**
-- **3. Longest Substring Without Repeating Characters**
-- **713. Subarray Product Less Than K**
-- **159. Longest Substring with At Most Two Distinct Characters**
-- **340. Longest Substring with At Most K Distinct Characters**
-- **424. Longest Repeating Character Replacement**
-- And many more...
+// Handle invalid states
+if (freq.size() > k && k == 0) return 0;
+```
 
-## 6. Problem-Solving Framework
+### Pitfall 5: Integer Overflow in Sum Calculations
+```cpp
+// WRONG: May overflow
+long long sum = 0;  // Use long long for large arrays
+```
 
-### Step-by-Step Approach
+### Pitfall 6: Wrong Deque Operations for Sliding Maximum
+```cpp
+// WRONG: Remove from front without checking
+while (!dq.empty() && dq.front() == i - k) dq.pop_front();
 
-1. **Identify Window Type:** Fixed or variable size?
-2. **Define State:** What to track (sum, frequency, count)?
-3. **Define Condition:** When is window valid/invalid?
-4. **Choose Template:** Based on problem requirements
-5. **Handle Edge Cases:** Empty, single element, etc.
-6. **Implement Carefully:** Update state correctly
+// RIGHT: Remove elements outside window
+while (!dq.empty() && dq.front() <= i - k) dq.pop_front();
+```
 
-### Common Patterns
+---
 
-- **Fixed Sum:** Track current sum
-- **Distinct Elements:** Use map/set
-- **No Repeats:** Use map for last seen
-- **At Most K:** Track count of violations
+## Final Thoughts
 
-### Practice Problems
+**The Power of Sliding Window:**
+- Transforms O(n²) nested loops into O(n) single pass
+- Handles 30% of array/string interview problems
+- Once mastered, becomes your default approach for subarray problems
 
-**Easy:**
-- Maximum Sum Subarray of Size K
-- Contains Duplicate II
+**How to Master Sliding Window:**
+1. **Start with Fixed Window** - Easier to understand
+2. **Master Variable Window** - Most common in interviews  
+3. **Learn Advanced Templates** - For complex optimization
+4. **Practice Pattern Recognition** - Identify problems quickly
+5. **Focus on State Management** - Correctly add/remove elements
 
-**Medium:**
-- Longest Substring Without Repeating Characters
-- Minimum Window Substring
-- Longest Substring with At Most K Distinct
+**Remember:** Sliding window isn't just a technique - it's a **mindset**. When you see "subarray" or "substring", think sliding window first!
 
-**Hard:**
-- Minimum Window Substring
-- Substring with Concatenation of All Words
+**Key Insight:** Every sliding window problem can be solved by asking:
+- What state do I need to track?
+- When do I expand? When do I shrink?
+- What do I update at each step?
+
+Master this framework, and you'll solve sliding window problems with confidence! 🚀
+
+---
+
+## General Time and Space Complexity of Sliding Window Patterns
+
+### Time Complexity Analysis
+
+| Pattern Type | Time Complexity | Explanation |
+|-------------|----------------|-------------|
+| **Fixed Window** | O(n) | Single pass through array |
+| **Variable Window** | O(n) | Amortized O(1) per element (each added/removed once) |
+| **Advanced Templates** | O(n) | Same as variable window |
+| **Sliding Window Maximum** | O(n) | Deque operations are amortized O(1) |
+
+**Why O(n) for all?**
+- Each element is processed constant time on average
+- Left and right pointers move rightward only
+- No backtracking or revisiting elements
+
+### Space Complexity Analysis
+
+| State Tracking | Space Complexity | Examples |
+|----------------|------------------|----------|
+| **Simple variables** | O(1) | Sum, count, pointers |
+| **HashMap/HashSet** | O(min(n, charset)) | Frequency counting, unique elements |
+| **Deque** | O(k) | Sliding window maximum (k = window size) |
+| **Multiple maps** | O(n) | Complex state tracking |
+
+**Optimization Tips:**
+- Use arrays instead of maps for small charsets (26 letters)
+- Clear unused map entries to save space
+- Use long long for sum calculations to prevent overflow
+
+---
+
+## Practice Leetcode Questions
+
+### Easy Level
+1. **Maximum Sum Subarray of Size K** - https://leetcode.com/problems/maximum-sum-subarray-of-size-k/
+2. **First Negative in Every Window of Size K** - https://leetcode.com/problems/first-negative-integer-in-every-window-of-size-k/
+3. **Count Occurrences of Anagrams** - https://leetcode.com/problems/count-anagrams/
+4. **Maximum of All Subarrays of Size K** - https://leetcode.com/problems/sliding-window-maximum/
+
+### Medium Level
+1. **Longest Substring with K Distinct Characters** - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+2. **Longest Substring Without Repeating Characters** - https://leetcode.com/problems/longest-substring-without-repeating-characters/
+3. **Minimum Window Substring** - https://leetcode.com/problems/minimum-window-substring/
+4. **Longest Repeating Character Replacement** - https://leetcode.com/problems/longest-repeating-character-replacement/
+5. **Subarray Product Less Than K** - https://leetcode.com/problems/subarray-product-less-than-k/
+6. **Permutation in String** - https://leetcode.com/problems/permutation-in-string/
+7. **Find All Anagrams in a String** - https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+### Hard Level
+1. **Minimum Window Substring** - https://leetcode.com/problems/minimum-window-substring/
+2. **Sliding Window Maximum** - https://leetcode.com/problems/sliding-window-maximum/
+3. **Substring with Concatenation of All Words** - https://leetcode.com/problems/substring-with-concatenation-of-all-words/
+4. **Longest Substring with At Most K Distinct Characters** - https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+5. **Minimum Size Subarray Sum** - https://leetcode.com/problems/minimum-size-subarray-sum/
+
+### Advanced Practice (Multiple Patterns)
+1. **Frequency of the Most Frequent Element** - https://leetcode.com/problems/frequency-of-the-most-frequent-element/
+2. **Longest Subarray of 1's After Deleting One Element** - https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/
+3. **Max Consecutive Ones III** - https://leetcode.com/problems/max-consecutive-ones-iii/
+
+**Practice Strategy:**
+- Start with fixed window problems
+- Move to variable window
+- End with advanced templates
+- Focus on understanding state management
+- Time yourself to build speed
 
 **Master sliding window, and you'll solve array/string problems effortlessly! 🚀**
