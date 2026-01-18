@@ -173,9 +173,51 @@ Final: maxSum = 39
 **Problem:** Given an array and window size k, print first negative element in every window of size k. If no negative element, print 0.
 
 **Approach:**
-- Use a queue to store indices of negative elements
-- For each window, the front of queue gives first negative
-- Remove elements outside current window
+- **Key Insights**:
+  - **Naive Solution**: For each window of size k, scan from left to find first negative → O(n*k) time (inefficient for large n/k).
+  - **Optimized Solution**: Use a queue to maintain negative elements in the order they appear. The front of the queue always gives the first negative in the current window.
+  - **Why Queue?**: Maintains FIFO order for negatives, allows efficient removal of expired elements outside the window.
+
+- **Step-by-Step Approach**:
+  1. **Initialize Data Structures**:
+     - Queue `q` to store negative values (or indices) in order.
+     - Pointers `i = 0` (left of window), `j = 0` (right of window).
+     - Result vector `ans` to store answers.
+
+  2. **Process Each Element** (Right Pointer `j` from 0 to n-1):
+     - If `arr[j] < 0`, add `arr[j]` to queue (or its index for position tracking).
+     - If window size `j - i + 1 == k`:
+       - If queue is empty, add 0 to `ans` (no negative in window).
+       - Else, add `q.front()` to `ans` (first negative).
+       - If `q.front() == arr[i]` (expired, left of window), pop from queue.
+       - Increment `i` to slide window.
+
+  3. **Edge Cases**:
+     - No negatives in array: All windows return 0.
+     - All negatives: First negative of each window.
+     - K = 1: Each element if negative, else 0.
+     - K > n: No windows, return empty.
+
+- **Algorithm Flow**:
+  ```
+  Initialize: q = [], i = 0, j = 0, ans = []
+  While j < n:
+      If arr[j] < 0: q.push(arr[j])
+      If j - i + 1 == k:
+          If q.empty(): ans.push_back(0)
+          Else: ans.push_back(q.front())
+          If (!q.empty() && q.front() == arr[i]): q.pop()
+          i++
+      j++
+  Return ans
+  ```
+
+- **Why This Works**:
+  - Queue maintains negatives in window order.
+  - Front is always the leftmost negative in current window.
+  - Expired negatives (left of i) are removed when `q.front() == arr[i]`.
+  - **Time Complexity**: O(n) - Each element added/removed from queue at most once.
+  - **Space Complexity**: O(k) - Queue holds at most k negatives.
 
 **Solution:**
 ```cpp
@@ -241,55 +283,117 @@ Final: [-1, -1, -7, -15, -15, 0]
 **Problem:** Find maximum element in each subarray of size k.
 
 **Approach:**
-- Use sliding window to maintain deque of indices in decreasing order
-- Front of deque always contains maximum for current window
-- Remove elements outside window and smaller than current element
+Naive Solution: For each window of size k, scan and find max → O(n*k) time (too slow).
+Optimized Solution: Use a deque to maintain indices in decreasing order of values. The front always holds the current window's maximum.
+Why Deque?: Allows O(1) access to front/back and efficient removal from both ends.
+Step-by-Step Approach
+Initialize Deque:
+
+Store indices (not values) to track positions.
+Deque will maintain indices in decreasing order of nums[index].
+Process Each Element (Right Pointer j from 0 to n-1):
+
+Remove from Back: While deque not empty and nums[dq.back()] <= nums[j], pop back. This ensures decreasing order (larger elements at front).
+Add Current Index: Push j to back of deque.
+Remove Expired from Front: While deque not empty and dq.front() <= j - k, pop front. This removes indices outside the current window [j-k+1, j].
+Record Max: If window size >= k (i.e., j >= k-1), add nums[dq.front()] to result (front is the max).
+Edge Cases:
+
+k > nums.size(): Return empty result.
+k == 1: Each element is its own max.
+All elements equal: Any valid index works.
 
 **Solution:**
 ```cpp
-vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+vector<int> Solution::slidingMaximum(const vector<int> &A, int B) {
     vector<int> ans;
-    if (k > nums.size()) return ans;
-    
-    deque<int> dq; // stores indices
+    // storing indices
+    deque<int>dq;
     int i = 0, j = 0;
     
-    while (j < nums.size()) {
-        // Remove elements outside window
-        while (!dq.empty() && dq.front() <= j - k) dq.pop_front();
-        
-        // Remove smaller elements from back
-        while (!dq.empty() && nums[dq.back()] <= nums[j]) dq.pop_back();
-        
-        // Add current element index
+    while (j < A.size()) {
+        // Remove elements which are not going to be part of answer because the current element is greater than all the existing element in the list.
+        while (!dq.empty() && A[dq.back()] <A[j]) dq.pop_back();
+
+        // Add current element in the list because this may be the maximum value in the subarry
         dq.push_back(j);
         
-        if (j - i + 1 < k) {
+        if (j - i + 1 < B) {
             j++;
-        } else if (j - i + 1 == k) {
-            // Add maximum (front of deque) to answer
-            ans.push_back(nums[dq.front()]);
-            // Remove left element if it's the front of deque
-            if (!dq.empty() && dq.front() == i) dq.pop_front();
+        } else if (j - i + 1 == B) {
+            // Add maximum (front of list) to answer
+            ans.push_back(A[dq.front()]);
+            //Shrinking the window
+            if (dq.front() == i) dq.pop_front();
             i++;
-            j++;
+            j++; 
         }
     }
     return ans;
 }
 ```
 
-**Dry Run:**
+Example Input: A = [1, 3, -1, -3, 5, 3, 6, 7], B = 3
+Expected Output: [3, 3, 5, 5, 6, 7] (Maximums for windows: [1,3,-1]→3, [3,-1,-3]→3, [-1,-3,5]→5, [-3,5,3]→5, [5,3,6]→6, [3,6,7]→7)
 ```
-nums = [1,3,-1,-3,5,3,6,7], k=3
+Step-by-Step Dry Run:
 
-j=0: remove <=0-3=-3 none, nums[dq.back() empty] <= nums[0]=1, add 0, dq=[0], size=1<3, j=1
-j=1: remove <=1-3=-2 none, nums[0]=1 <= nums[1]=3, pop 0, add 1, dq=[1], size=2<3, j=2
-j=2: remove <=2-3=-1 none, nums[1]=3 > nums[2]=-1, no pop, add 2, dq=[1,2], size=3==3, ans=[3], front=1 != i=0, i=1, j=3
-j=3: remove <=3-3=0, pop 1 (since 1<=0? wait, 1<=0 is false), nums[2]=-1 <= nums[3]=-3, no pop, add 3, dq=[2,3], size=3==3, ans=[3,3], front=2 != i=1, i=2, j=4
-... continues
+Initialization: dq = [], i = 0, j = 0, ans = []
 
-Final: [3,3,5,5,6,7]
+j=0 (A[0] = 1):
+
+Back removal: dq empty → no action.
+Add: dq.push_back(0) → dq = [0].
+Window size: 1 < 3 → j = 1.
+j=1 (A[1] = 3):
+
+Back removal: A[dq.back()] = A[0] = 1 < 3 → dq.pop_back(), dq = [].
+Add: dq.push_back(1) → dq = [1].
+Window size: 2 < 3 → j = 2.
+j=2 (A[2] = -1):
+
+Back removal: A[1] = 3 > -1 → no pop.
+Add: dq.push_back(2) → dq = [1, 2].
+Window size: 3 == 3 → ans.push_back(A[1]) = 3, ans = [3].
+Shrinking: dq.front() = 1 == i = 0? No → no pop.
+i = 1, j = 3.
+j=3 (A[3] = -3):
+
+Back removal: A[2] = -1 > -3 → no pop.
+Add: dq.push_back(3) → dq = [1, 2, 3].
+Window size: 3 == 3 → ans.push_back(A[1]) = 3, ans = [3, 3].
+Shrinking: dq.front() = 1 == i = 1? Yes → dq.pop_front(), dq = [2, 3].
+i = 2, j = 4.
+j=4 (A[4] = 5):
+
+Back removal: A[3] = -3 < 5 → pop 3; A[2] = -1 < 5 → pop 2; dq = [].
+Add: dq.push_back(4) → dq = [4].
+Window size: 3 == 3 → ans.push_back(A[4]) = 5, ans = [3, 3, 5].
+Shrinking: dq.front() = 4 == i = 2? No → no pop.
+i = 3, j = 5.
+j=5 (A[5] = 3):
+
+Back removal: A[4] = 5 > 3 → no pop.
+Add: dq.push_back(5) → dq = [4, 5].
+Window size: 3 == 3 → ans.push_back(A[4]) = 5, ans = [3, 3, 5, 5].
+Shrinking: dq.front() = 4 == i = 3? No → no pop.
+i = 4, j = 6.
+j=6 (A[6] = 6):
+
+Back removal: A[5] = 3 < 6 → pop 5; A[4] = 5 < 6 → pop 4; dq = [].
+Add: dq.push_back(6) → dq = [6].
+Window size: 3 == 3 → ans.push_back(A[6]) = 6, ans = [3, 3, 5, 5, 6].
+Shrinking: dq.front() = 6 == i = 4? No → no pop.
+i = 5, j = 7.
+j=7 (A[7] = 7):
+
+Back removal: A[6] = 6 < 7 → pop 6; dq = [].
+Add: dq.push_back(7) → dq = [7].
+Window size: 3 == 3 → ans.push_back(A[7]) = 7, ans = [3, 3, 5, 5, 6, 7].
+Shrinking: dq.front() = 7 == i = 5? No → no pop.
+i = 6, j = 8.
+End: j = 8 >= A.size() = 8 → Done.
+Final ans = [3, 3, 5, 5, 6, 7] ✅
 ```
 
 **Edge Cases:**
@@ -297,14 +401,56 @@ Final: [3,3,5,5,6,7]
 - Decreasing array: Each window's first element
 - All same: Any element
 
+
 #### Problem 4: Count Occurrence of Anagrams
 
 **Problem:** Count occurrences of anagrams of string pat in string txt.
 
 **Approach:**
-- Use sliding window of size pat.length()
-- Maintain frequency arrays for pat and current window
-- When frequencies match exactly, it's an anagram
+- **Key Insights**:
+  - **Naive Solution**: For each window of size m (pat.length()), sort the window and compare with sorted pat → O(n*m log m) time (inefficient).
+  - **Optimized Solution**: Use frequency arrays (or maps) for pat and current window. Slide the window and check if frequencies match exactly.
+  - **Why Frequency Arrays?**: Anagrams have identical character counts. Comparing arrays is O(1) after updates.
+
+- **Step-by-Step Approach**:
+  1. **Initialize Data Structures**:
+     - Frequency array `patFreq[26]` for pat's characters.
+     - Frequency array `windowFreq[26]` for current window.
+     - Variables: `count = 0`, `i = 0` (left), `j = 0` (right), `m = pat.length()`, `n = txt.length()`.
+
+  2. **Process Each Element** (Right Pointer `j` from 0 to n-1):
+     - Increment `windowFreq[txt[j] - 'a']`.
+     - If window size `j - i + 1 == m`:
+       - If `windowFreq == patFreq`, increment `count` (anagram found).
+       - Decrement `windowFreq[txt[i] - 'a']` to slide window.
+       - Increment `i`.
+
+  3. **Edge Cases**:
+     - `m > n`: Return 0.
+     - No anagrams: 0.
+     - All characters same: Count all windows if frequencies match.
+     - Case sensitivity: Assume lowercase, adjust for uppercase.
+
+- **Algorithm Flow**:
+  ```
+  Initialize: patFreq = [0]*26, for c in pat: patFreq[c-'a']++
+  windowFreq = [0]*26, count = 0, i = 0, j = 0
+  While j < n:
+      windowFreq[txt[j]-'a']++
+      If j - i + 1 == m:
+          If windowFreq == patFreq: count++
+          windowFreq[txt[i]-'a']--
+          i++
+      j++
+  Return count
+  ```
+
+- **Why This Works**:
+  - Window maintains exact size m.
+  - Frequency comparison detects anagrams instantly.
+  - Sliding removes left char, adds right char.
+  - **Time Complexity**: O(n) - Each char processed once, frequency check O(26).
+  - **Space Complexity**: O(1) - Fixed-size arrays.
 
 **Solution:**
 ```cpp
@@ -359,9 +505,49 @@ Final: count = 3
 **Problem:** Check if there exists any subarray of size k with sum equal to target.
 
 **Approach:**
-- Use sliding window to maintain sum of current window of size k
-- Check if current sum equals target at any point
-- Return true if found, false otherwise
+- **Key Insights**:
+  - **Naive Solution**: For each possible window of size k, compute sum by iterating → O(n*k) time (too slow for large n/k).
+  - **Optimized Solution**: Use sliding window with running sum. Add new element, remove old element when window slides.
+  - **Why Running Sum?**: Maintains current window sum in O(1) per update, avoids O(k) recomputation.
+
+- **Step-by-Step Approach**:
+  1. **Initialize Data Structures**:
+     - `windowSum = 0` for current window sum.
+     - Pointers `i = 0` (left), `j = 0` (right).
+     - Target value to check against.
+
+  2. **Process Each Element** (Right Pointer `j` from 0 to n-1):
+     - Add `arr[j]` to `windowSum`.
+     - If window size `j - i + 1 == k`:
+       - If `windowSum == target`, return true (found).
+       - Subtract `arr[i]` from `windowSum` to slide window.
+       - Increment `i`.
+
+  3. **Edge Cases**:
+     - `k > arr.size()`: Return false.
+     - No subarray sums to target: false.
+     - Multiple matches: true (any one).
+     - Negative numbers: Works fine.
+
+- **Algorithm Flow**:
+  ```
+  Initialize: windowSum = 0, i = 0, j = 0
+  While j < n:
+      windowSum += arr[j]
+      If j - i + 1 == k:
+          If windowSum == target: return true
+          windowSum -= arr[i]
+          i++
+      j++
+  Return false
+  ```
+
+- **Why This Works**:
+  - Window always size k when checking.
+  - Running sum updated in O(1).
+  - Early return on match.
+  - **Time Complexity**: O(n) - Single pass.
+  - **Space Complexity**: O(1) - No extra space.
 
 **Solution:**
 ```cpp
