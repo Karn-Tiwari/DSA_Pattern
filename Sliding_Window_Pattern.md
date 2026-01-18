@@ -500,266 +500,45 @@ Final: count = 3
 - Multiple same chars: Correct count
 - pat longer than txt: 0
 
-#### Problem 5: Check if Any Subarray of Size K has Sum Equal to Target
+#### Problem 5: Count Subarrays of Size K with Distinct Elements
 
-**Problem:** Check if there exists any subarray of size k with sum equal to target.
-
-**Approach:**
-- **Key Insights**:
-  - **Naive Solution**: For each possible window of size k, compute sum by iterating → O(n*k) time (too slow for large n/k).
-  - **Optimized Solution**: Use sliding window with running sum. Add new element, remove old element when window slides.
-  - **Why Running Sum?**: Maintains current window sum in O(1) per update, avoids O(k) recomputation.
-
-- **Step-by-Step Approach**:
-  1. **Initialize Data Structures**:
-     - `windowSum = 0` for current window sum.
-     - Pointers `i = 0` (left), `j = 0` (right).
-     - Target value to check against.
-
-  2. **Process Each Element** (Right Pointer `j` from 0 to n-1):
-     - Add `arr[j]` to `windowSum`.
-     - If window size `j - i + 1 == k`:
-       - If `windowSum == target`, return true (found).
-       - Subtract `arr[i]` from `windowSum` to slide window.
-       - Increment `i`.
-
-  3. **Edge Cases**:
-     - `k > arr.size()`: Return false.
-     - No subarray sums to target: false.
-     - Multiple matches: true (any one).
-     - Negative numbers: Works fine.
-
-- **Algorithm Flow**:
-  ```
-  Initialize: windowSum = 0, i = 0, j = 0
-  While j < n:
-      windowSum += arr[j]
-      If j - i + 1 == k:
-          If windowSum == target: return true
-          windowSum -= arr[i]
-          i++
-      j++
-  Return false
-  ```
-
-- **Why This Works**:
-  - Window always size k when checking.
-  - Running sum updated in O(1).
-  - Early return on match.
-  - **Time Complexity**: O(n) - Single pass.
-  - **Space Complexity**: O(1) - No extra space.
-
-**Solution:**
-```cpp
-bool checkSubarraySum(vector<int>& arr, int k, int target) {
-    if (k > arr.size()) return false;
-    
-    int windowSum = 0;
-    int i = 0, j = 0;
-    
-    while (j < arr.size()) {
-        windowSum += arr[j];
-        
-        if (j - i + 1 < k) {
-            j++;
-        } else if (j - i + 1 == k) {
-            if (windowSum == target) return true;
-            windowSum -= arr[i];
-            i++;
-            j++;
-        }
-    }
-    return false;
-}
-```
-
-**Dry Run:**
-```
-arr = [1, 4, 2, 10, 23, 3, 1, 0, 20], k = 4, target = 39
-
-j=0: windowSum=1, size=1<4, j=1
-j=1: windowSum=1+4=5, size=2<4, j=2
-j=2: windowSum=5+2=7, size=3<4, j=3
-j=3: windowSum=7+10=17, size=4==4, 17!=39, windowSum=17-1=16, i=1, j=4
-j=4: windowSum=16+23=39, size=4==4, 39==39, return true
-
-Final: true
-```
-
-**Edge Cases:**
-- Target not found: false
-- K > array size: false
-- Multiple possible windows: true (any one)
-
-#### Problem 6: Average of All Subarrays of Size K
-
-**Problem:** Find the average of each subarray of size k and return as array.
+**Problem:** Count the number of subarrays of size k that contain all distinct elements.  
 
 **Approach:**
-- Maintain running sum of current window
-- When window size reaches k, calculate average and add to result
-- Slide window by removing left element and adding right element
 
-**Solution:**
-```cpp
-vector<double> findAverages(vector<int>& arr, int k) {
-    vector<double> result;
-    if (k > arr.size()) return result;
-    
-    double windowSum = 0;
-    int i = 0, j = 0;
-    
-    while (j < arr.size()) {
-        windowSum += arr[j];
-        
-        if (j - i + 1 < k) {
-            j++;
-        } else if (j - i + 1 == k) {
-            result.push_back(windowSum / k);
-            windowSum -= arr[i];
-            i++;
-            j++;
-        }
-    }
-    return result;
-}
+**Key Insights:**
+- **Naive Approach:** Check every subarray of size k by iterating through each possible starting index and verifying distinctness, leading to O(n*k) time complexity.
+- **Optimized Approach:** Use a sliding window of fixed size k with a frequency map to track element counts. When the window reaches size k, check if the map size equals k (indicating all distinct elements). Slide the window by moving the left pointer, updating the map accordingly. This achieves O(n) time complexity.
+
+**Step-by-Step Approach:**
+1. **Initialization:** Use two pointers i and j starting at 0. Maintain a frequency map (unordered_map) to count occurrences of elements in the current window.
+2. **Expand Window:** Move j from 0 to n-1, adding arr[j] to the frequency map.
+3. **Check Window Size:** When j - i + 1 == k, check if freq.size() == k. If yes, increment count.
+4. **Slide Window:** Decrement freq[arr[i]], erase if count becomes 0, then increment i. Continue moving j.
+5. **Edge Cases:** If k > n, return 0. Handle arrays with duplicates (freq.size() < k) or all distinct (freq.size() == k).
+
+**Algorithm Flow (Pseudocode):**
+```
+Initialize i=0, j=0, count=0, freq=empty map
+While j < n:
+    freq[arr[j]]++
+    If j - i + 1 < k:
+        j++
+    Else if j - i + 1 == k:
+        If freq.size() == k:
+            count++
+        freq[arr[i]]--
+        If freq[arr[i]] == 0:
+            erase freq[arr[i]]
+        i++
+        j++
+Return count
 ```
 
-**Dry Run:**
-```
-arr = [1, 3, 2, 6, -1, 4, 1, 8, 2], k = 3
-
-j=0: windowSum=1, size=1<3, j=1
-j=1: windowSum=1+3=4, size=2<3, j=2
-j=2: windowSum=4+2=6, size=3==3, avg=6/3=2.0, result=[2.0], windowSum=6-1=5, i=1, j=3
-j=3: windowSum=5+6=11, size=3==3, avg=11/3=3.67, result=[2.0,3.67], windowSum=11-3=8, i=2, j=4
-j=4: windowSum=8+(-1)=7, size=3==3, avg=7/3=2.33, result=[2.0,3.67,2.33], windowSum=7-2=5, i=3, j=5
-... continues
-
-Final: [2.0, 3.67, 2.33, 3.0, 1.33, 4.33, 3.67]
-```
-
-**Edge Cases:**
-- K = 1: Each element as average
-- K = array size: Single average
-- Negative numbers: Correct average calculation
-
-#### Problem 7: Number of Subarrays of Size K with Sum Less Than Target
-
-**Problem:** Count the number of subarrays of size k with sum less than target.
-
-**Approach:**
-- Use sliding window to maintain sum of current window
-- When window size is k, check if sum < target
-- Count valid windows and slide the window
-
-**Solution:**
-```cpp
-int countSubarrays(vector<int>& arr, int k, int target) {
-    if (k > arr.size()) return 0;
-    
-    int count = 0;
-    int windowSum = 0;
-    int i = 0, j = 0;
-    
-    while (j < arr.size()) {
-        windowSum += arr[j];
-        
-        if (j - i + 1 < k) {
-            j++;
-        } else if (j - i + 1 == k) {
-            if (windowSum < target) count++;
-            windowSum -= arr[i];
-            i++;
-            j++;
-        }
-    }
-    return count;
-}
-```
-
-**Dry Run:**
-```
-arr = [2, 1, 5, 1, 3, 2], k = 3, target = 8
-
-j=0: windowSum=2, size=1<3, j=1
-j=1: windowSum=2+1=3, size=2<3, j=2
-j=2: windowSum=3+5=8, size=3==3, 8<8? no, windowSum=8-2=6, i=1, j=3
-j=3: windowSum=6+1=7, size=3==3, 7<8? yes, count=1, windowSum=7-1=6, i=2, j=4
-j=4: windowSum=6+3=9, size=3==3, 9<8? no, windowSum=9-5=4, i=3, j=5
-j=5: windowSum=4+2=6, size=3==3, 6<8? yes, count=2, windowSum=6-1=5, i=4, j=6
-
-Final: count = 2
-```
-
-**Edge Cases:**
-- No subarrays meet condition: 0
-- All subarrays meet condition: Total windows count
-- Target very small: 0
-
-#### Problem 8: Find Minimum Sum Subarray of Size K
-
-**Problem:** Find the minimum sum of any contiguous subarray of size k.
-
-**Approach:**
-- Use sliding window to maintain sum of current window
-- Track minimum sum found when window size is k
-- Slide window and update minimum
-
-**Solution:**
-```cpp
-int minSumSubarray(vector<int>& arr, int k) {
-    if (k > arr.size()) return -1; // or handle error
-    
-    int minSum = INT_MAX;
-    int windowSum = 0;
-    int i = 0, j = 0;
-    
-    while (j < arr.size()) {
-        windowSum += arr[j];
-        
-        if (j - i + 1 < k) {
-            j++;
-        } else if (j - i + 1 == k) {
-            minSum = min(minSum, windowSum);
-            windowSum -= arr[i];
-            i++;
-            j++;
-        }
-    }
-    return minSum == INT_MAX ? -1 : minSum;
-}
-```
-
-**Dry Run:**
-```
-arr = [10, 4, 2, 5, 6, 3, 8, 1], k = 3
-
-j=0: windowSum=10, size=1<3, j=1
-j=1: windowSum=10+4=14, size=2<3, j=2
-j=2: windowSum=14+2=16, size=3==3, minSum=min(INT_MAX,16)=16, windowSum=16-10=6, i=1, j=3
-j=3: windowSum=6+5=11, size=3==3, minSum=min(16,11)=11, windowSum=11-4=7, i=2, j=4
-j=4: windowSum=7+6=13, size=3==3, minSum=min(11,13)=11, windowSum=13-2=11, i=3, j=5
-j=5: windowSum=11+3=14, size=3==3, minSum=min(11,14)=11, windowSum=14-5=9, i=4, j=6
-j=6: windowSum=9+8=17, size=3==3, minSum=min(11,17)=11, windowSum=17-6=11, i=5, j=7
-j=7: windowSum=11+1=12, size=3==3, minSum=min(11,12)=11, windowSum=12-3=9, i=6, j=8
-
-Final: minSum = 11
-```
-
-**Edge Cases:**
-- All positive numbers: Smallest window sum
-- Negative numbers: Could be very small
-- K = 1: Smallest element
-
-#### Problem 9: Count Subarrays of Size K with Distinct Elements
-
-**Problem:** Count the number of subarrays of size k that contain all distinct elements.
-
-**Approach:**
-- Use sliding window with a set or map to track unique elements
-- When window size is k, check if unique count equals k
-- Slide window and maintain uniqueness
+**Why It Works:**
+- **Time Complexity:** O(n) since each element is added and removed at most once.
+- **Space Complexity:** O(k) for the frequency map, as it holds at most k elements in the window.
+- The frequency map ensures we track uniqueness efficiently, avoiding redundant checks.
 
 **Solution:**
 ```cpp
@@ -777,7 +556,7 @@ int countDistinctSubarrays(vector<int>& arr, int k) {
             j++;
         } else if (j - i + 1 == k) {
             if (freq.size() == k) count++;
-            freq[arr[i]]--;
+            freq[arr[i]]--; +
             if (freq[arr[i]] == 0) freq.erase(arr[i]);
             i++;
             j++;
@@ -807,58 +586,7 @@ Final: count = 4
 - All same elements: 0
 - K = 1: Always count (all single elements are distinct)
 
-#### Problem 10: Maximum Average Subarray of Size K
 
-**Problem:** Find the maximum average of any subarray of size k.
-
-**Approach:**
-- Use sliding window to maintain sum of current window
-- Track maximum average found when window size is k
-- Average = sum / k, so maximum sum gives maximum average
-
-**Solution:**
-```cpp
-double findMaxAverage(vector<int>& arr, int k) {
-    if (k > arr.size()) return 0.0;
-    
-    double maxAvg = -INFINITY;
-    double windowSum = 0;
-    int i = 0, j = 0;
-    
-    while (j < arr.size()) {
-        windowSum += arr[j];
-        
-        if (j - i + 1 < k) {
-            j++;
-        } else if (j - i + 1 == k) {
-            maxAvg = max(maxAvg, windowSum / k);
-            windowSum -= arr[i];
-            i++;
-            j++;
-        }
-    }
-    return maxAvg;
-}
-```
-
-**Dry Run:**
-```
-arr = [1, 12, -5, -6, 50, 3], k = 4
-
-j=0: windowSum=1, size=1<4, j=1
-j=1: windowSum=1+12=13, size=2<4, j=2
-j=2: windowSum=13+(-5)=8, size=3<4, j=3
-j=3: windowSum=8+(-6)=2, size=4==4, avg=2/4=0.5, maxAvg=0.5, windowSum=2-1=1, i=1, j=4
-j=4: windowSum=1+50=51, size=4==4, avg=51/4=12.75, maxAvg=12.75, windowSum=51-12=39, i=2, j=5
-j=5: windowSum=39+3=42, size=4==4, avg=42/4=10.5, maxAvg=12.75, windowSum=42-(-5)=47, i=3, j=6
-
-Final: maxAvg = 12.75
-```
-
-**Edge Cases:**
-- All negative numbers: Largest (least negative) average
-- K = 1: Largest element
-- Mixed positive/negative: Correct maximum average
 
 ## 3. Variable Size Window
 
@@ -913,8 +641,37 @@ int variableWindowTemplate(vector<int>& arr) {
 **Problem:** Find the length of the largest subarray with sum k.
 
 **Approach:**
-- Use variable window, expand right, shrink left when sum > k
-- Track maximum length when sum == k
+
+**Key Insights:**
+- **Naive Approach:** Check all possible subarrays by iterating over all pairs of start and end indices, computing sums each time, leading to O(n^2) time.
+- **Optimized Approach:** Use two pointers for a variable-size window. Expand the right pointer to include more elements, increasing the sum. If sum exceeds k, shrink from the left until sum <= k. When sum == k, update the maximum length. This works efficiently for arrays with non-negative numbers.
+
+**Step-by-Step Approach:**
+1. **Initialization:** Set left=0, right=0, sum=0, maxLen=0.
+2. **Expand Right:** Add A[right] to sum, increment right.
+3. **Shrink Left if Needed:** While sum > k and left <= right, subtract A[left] from sum, increment left.
+4. **Check Sum:** If sum == k, update maxLen with right - left + 1.
+5. **Repeat:** Continue until right == N.
+6. **Edge Cases:** No subarray sums to k (maxLen=0), k=0 (empty subarray, but typically length 0), all elements negative (may not work, assumes non-negative).
+
+**Algorithm Flow (Pseudocode):**
+```
+Initialize left=0, right=0, sum=0, maxLen=0
+While right < N:
+    sum += A[right]
+    While sum > K and left <= right:
+        sum -= A[left]
+        left++
+    If sum == K:
+        maxLen = max(maxLen, right - left + 1)
+    right++
+Return maxLen
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each pointer moves at most n times.
+- **Space Complexity:** O(1) extra space.
+- The shrinking ensures the window is always valid, and we capture the maximum length when sum matches.
 
 **Solution:**
 ```cpp
@@ -963,9 +720,37 @@ Final: maxLen=4 (subarray [5,2,7,1])
 **Problem:** Find length of longest substring with exactly K unique characters.
 
 **Approach:**
-- Use map to track character frequencies
-- Expand right, shrink left when unique chars > K
-- Track max length when unique == K
+
+**Key Insights:**
+- **Naive Approach:** Generate all possible substrings and check the number of unique characters, leading to O(n^2) time due to substring generation and set operations.
+- **Optimized Approach:** Use two pointers with a frequency map. Expand the right pointer to include characters, tracking unique count via map size. When unique > k, shrink from the left until unique <= k. When unique == k, update the maximum length. This ensures we find the longest substring with exactly k uniques.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left=0, freq=empty map, maxLen=-1.
+2. **Expand Right:** For each right from 0 to n-1, add s[right] to freq.
+3. **Shrink Left if Needed:** While freq.size() > k and left <= right, decrement freq[s[left]], erase if 0, increment left.
+4. **Check Unique Count:** If freq.size() == k, update maxLen with right - left + 1.
+5. **Edge Cases:** k=0 (return 0), k > total unique chars (maxLen=-1), string shorter than k (no valid substring).
+
+**Algorithm Flow (Pseudocode):**
+```
+Initialize left=0, freq=empty map, maxLen=-1
+For right = 0 to n-1:
+    freq[s[right]]++
+    While freq.size() > k and left <= right:
+        freq[s[left]]--
+        If freq[s[left]] == 0:
+            erase freq[s[left]]
+        left++
+    If freq.size() == k:
+        maxLen = max(maxLen, right - left + 1)
+Return maxLen
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each pointer moves at most n times, and map operations are amortized O(1).
+- **Space Complexity:** O(min(n, charset)) for the frequency map.
+- The shrinking maintains the invariant that unique characters never exceed k, allowing efficient tracking of valid substrings.
 
 **Solution:**
 ```cpp
@@ -1017,9 +802,34 @@ Final: maxLen=5
 **Problem:** Find length of longest substring without repeating characters.
 
 **Approach:**
-- Use set or map to track characters in current window
-- Expand right, shrink left when duplicate found
-- Track maximum length
+
+**Key Insights:**
+- **Naive Approach:** For each starting index, expand until a repeat is found, checking with a set, resulting in O(n^2) worst case.
+- **Optimized Approach:** Use two pointers with a set to track characters in the current window. Expand right, adding characters. If a duplicate is found, shrink from the left until the duplicate is removed. Update max length at each step. This ensures no repeats in the window.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left=0, chars=empty set, maxLen=0.
+2. **Expand Right:** For each right from 0 to n-1, while s[right] is in chars and left <= right, erase s[left] from chars, increment left.
+3. **Add Character:** Insert s[right] into chars.
+4. **Update Max:** Set maxLen = max(maxLen, right - left + 1).
+5. **Edge Cases:** Empty string (0), all unique (whole string), all same (1), string with repeats.
+
+**Algorithm Flow (Pseudocode):**
+```
+Initialize left=0, chars=empty set, maxLen=0
+For right = 0 to n-1:
+    While s[right] in chars and left <= right:
+        erase s[left] from chars
+        left++
+    Insert s[right] into chars
+    maxLen = max(maxLen, right - left + 1)
+Return maxLen
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each character is added and removed at most once.
+- **Space Complexity:** O(min(n, charset)) for the set.
+- The shrinking removes the conflicting character, maintaining uniqueness in the window.
 
 **Solution:**
 ```cpp
@@ -1063,9 +873,36 @@ Final: maxLen=3
 **Problem:** Find maximum number of toys you can pick with at most 2 different types.
 
 **Approach:**
-- Similar to longest substring with at most 2 distinct
-- Use sliding window with frequency map
-- Track maximum window when distinct <= 2
+
+**Key Insights:**
+- **Naive Approach:** Check all subarrays and count distinct types, leading to O(n^2) time.
+- **Optimized Approach:** Use two pointers with a frequency map. Expand right to include more fruits. When distinct types > 2, shrink from the left until <= 2. Update max fruits at each valid window. This finds the longest subarray with at most 2 distinct types.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left=0, freq=empty map, maxFruits=0.
+2. **Expand Right:** For each right from 0 to n-1, add fruits[right] to freq.
+3. **Shrink Left if Needed:** While freq.size() > 2 and left <= right, decrement freq[fruits[left]], erase if 0, increment left.
+4. **Update Max:** Set maxFruits = max(maxFruits, right - left + 1).
+5. **Edge Cases:** Less than 2 types (whole array), all same type (whole array), more than 2 types throughout.
+
+**Algorithm Flow (Pseudocode):**
+```
+Initialize left=0, freq=empty map, maxFruits=0
+For right = 0 to n-1:
+    freq[fruits[right]]++
+    While freq.size() > 2 and left <= right:
+        freq[fruits[left]]--
+        If freq[fruits[left]] == 0:
+            erase freq[fruits[left]]
+        left++
+    maxFruits = max(maxFruits, right - left + 1)
+Return maxFruits
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as pointers move at most n times.
+- **Space Complexity:** O(1) since at most 2 types in map.
+- Shrinking ensures the window always has <= 2 distinct types, maximizing the length.
 
 **Solution:**
 ```cpp
@@ -1111,10 +948,45 @@ Final: maxFruits=4
 **Problem:** Find minimum window substring that contains all characters of another string.
 
 **Approach:**
-- Use two pointers with frequency maps
-- Expand right until all characters found
-- Shrink left while maintaining all characters
-- Track minimum window
+
+**Key Insights:**
+- **Naive Approach:** Check all possible substrings of s that contain all characters of t, leading to O(n^2) time.
+- **Optimized Approach:** Use two pointers with two frequency maps: 'need' for t's characters and 'window' for current substring. Expand right until the window contains all characters of t (valid == need.size()). Then shrink left while still valid, updating the minimum window length. This finds the smallest substring containing all of t.
+
+**Step-by-Step Approach:**
+1. **Initialization:** Build 'need' map for t. left=0, right=0, valid=0, minLen=INF, start=0.
+2. **Expand Right:** Move right, add s[right] to window, increment valid if window[c] == need[c].
+3. **Shrink Left:** While valid == need.size(), update minLen and start, then remove s[left] from window, decrement valid if necessary.
+4. **Edge Cases:** t longer than s (""), no substring contains all (""), t empty (""), multiple occurrences (smallest window).
+
+**Algorithm Flow (Pseudocode):**
+```
+Build need map for t
+Initialize left=0, right=0, valid=0, minLen=INF, start=0
+While right < n:
+    c = s[right]
+    right++
+    If c in need:
+        window[c]++
+        If window[c] == need[c]:
+            valid++
+    While valid == need.size() and left <= right:
+        If right - left < minLen:
+            minLen = right - left
+            start = left
+        d = s[left]
+        left++
+        If d in need:
+            If window[d] == need[d]:
+                valid--
+            window[d]--
+Return "" if minLen == INF else s.substr(start, minLen)
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each pointer moves at most n times.
+- **Space Complexity:** O(charset) for maps.
+- The valid counter ensures we only shrink when the window is complete, finding the minimum valid window.
 
 **Solution:**
 ```cpp
@@ -1473,7 +1345,7 @@ Space: O(1) to O(n) depending on state tracking
 ### 5. **Common State Variables**
 ```
 - Sum: int currentSum
-- Frequency: unordered_map<char, int> or vector<int>
+- Frequency: unordered_map<char, int> or vector<int> 
 - Count: int validCount
 - Maximum: deque<int> for sliding window maximum
 - Minimum: deque<int> for sliding window minimum

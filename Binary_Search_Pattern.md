@@ -266,16 +266,36 @@ Valid?   [N  N  N  N  Y  Y  Y  Y]
 
 **Problem:** Given sorted array, find the index where target should be inserted.
 
-**Thinking Process:**
-```
-Array: [1, 3, 5, 6]
-Target: 5
+**Approach:**
 
-Question: What are we minimizing?
-Answer: The MINIMAL index k where nums[k] >= target
+**Key Insights:**
+- **Naive Approach:** Linear search through the array to find the insertion point, O(n) time.
+- **Optimized Approach:** Use binary search to find the minimal index k where nums[k] >= target. The search space is monotonic: for smaller indices, nums[k] may be < target, but once >= target, all larger indices also satisfy (since sorted). This finds the leftmost position for insertion.
 
-Condition: nums[k] >= target
+**Step-by-Step Approach:**
+1. **Initialization:** left = 0, right = nums.size() (inclusive upper bound to allow insertion at end).
+2. **Loop:** While left < right, compute mid = left + (right - left)/2.
+3. **Check Condition:** If nums[mid] >= target, the condition is satisfied, so search left half (right = mid) to find smaller index.
+4. **Else:** nums[mid] < target, search right half (left = mid + 1).
+5. **Termination:** When left == right, that's the insertion index.
+6. **Edge Cases:** Target smaller than all (insert at 0), larger than all (insert at end), target exists (insert at existing position).
+
+**Algorithm Flow (Pseudocode):**
 ```
+left = 0, right = n
+While left < right:
+    mid = left + (right - left) / 2
+    If nums[mid] >= target:
+        right = mid  // try smaller index
+    Else:
+        left = mid + 1  // too small, go right
+Return left
+```
+
+**Why It Works:**
+- **Time Complexity:** O(log n) as we halve the search space each time.
+- **Space Complexity:** O(1) extra space.
+- The monotonicity ensures the boundary is found correctly; left converges to the first index where nums[left] >= target.
 
 **C++ Solution:**
 
@@ -345,18 +365,37 @@ If right = size() = 4, we can return 4 ✓
 
 **Problem:** Find integer square root (floor of sqrt).   
 
-**Thinking Process:**
+**Approach:**
+
+**Key Insights:**
+- **Naive Approach:** Check integers from 1 to sqrt(x) or use linear search, but inefficient for large x.
+- **Optimized Approach:** Binary search to find the maximum k where k*k <= x (floor of square root). The condition k*k <= x is monotonic: for small k, false; for large k, true. We find the rightmost k where condition holds.
+
+**Step-by-Step Approach:**
+1. **Initialization:** If x == 0, return 0. left = 1, right = x (since sqrt(x) <= x for x >= 1).
+2. **Loop:** While left < right, mid = left + (right - left)/2.
+3. **Check Condition:** If mid > x/mid (to avoid overflow, equivalent to mid*mid > x), then mid is too big, right = mid.
+4. **Else:** mid*mid <= x, so left = mid + 1 (try larger).
+5. **Termination:** left == right, return left - 1 (since loop finds first k where k*k > x, so k-1 is floor sqrt).
+6. **Edge Cases:** x=0 (0), x=1 (1), large x (up to 2^31-1).
+
+**Algorithm Flow (Pseudocode):**
 ```
-x = 8
-
-We want: MAXIMUM k where k² <= x
-Which equals: MINIMUM k where k² > x, then return k-1
-
-Better approach: MINIMUM k where k² > x is same as
-                MAXIMUM k where k² <= x + 1
-
-Let's use: Find maximum k where (k+1)² > x
+If x == 0: return 0
+left = 1, right = x
+While left < right:
+    mid = left + (right - left) / 2
+    If mid > x / mid:  // mid*mid > x
+        right = mid
+    Else:
+        left = mid + 1
+Return left - 1  // max k where k*k <= x
 ```
+
+**Why It Works:**
+- **Time Complexity:** O(log x) as search space halves each iteration.
+- **Space Complexity:** O(1).
+- Exploits monotonicity of k*k vs x; mid > x/mid avoids integer overflow in comparison.
 
 **C++ Solution:**
 
@@ -431,40 +470,46 @@ D = 5 days
 Find MINIMUM ship capacity to ship all packages in D days.
 ```
 
-**Key Insight - The Monotonicity:**
+**Approach:**
+
+**Key Insights:**
+- **Naive Approach:** Try all possible capacities from max weight to total sum, check each if feasible in D days, O(sum * n) time.
+- **Optimized Approach:** Binary search on capacity. The minimum capacity is monotonic: if a capacity works, all larger work; if not, all smaller fail. Find minimal capacity where we can ship all packages in <= D days.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left = max(weights), right = sum(weights).
+2. **Loop:** While left < right, mid = left + (right - left)/2.
+3. **Check Condition:** If feasible(mid) (can ship in <= D days), right = mid (try smaller capacity).
+4. **Else:** left = mid + 1 (need larger capacity).
+5. **Feasible Function:** Simulate shipping: track current load and days used, increment days when load exceeds capacity.
+6. **Edge Cases:** D = 1 (capacity = sum), D = n (capacity = max), single package.
+
+**Algorithm Flow (Pseudocode):**
 ```
-If capacity = 15 works → capacity = 16, 17, 18... all work
-If capacity = 10 fails → capacity = 9, 8, 7... all fail
+left = max(weights), right = sum(weights)
+While left < right:
+    mid = left + (right - left) / 2
+    If feasible(mid):  // can ship in <= D days
+        right = mid
+    Else:
+        left = mid + 1
+Return left
 
-[FFFFFFFFF][TTTTTTTTTTT]
-          ^
-          minimum capacity that works
+feasible(capacity):
+    days_used = 1, current = 0
+    For each weight:
+        If current + weight > capacity:
+            days_used++
+            current = weight
+        Else:
+            current += weight
+    Return days_used <= D
 ```
 
-**Thinking Process:**
-
-1. **Search Space:**
-   - Minimum: max(weights) = 10 (must carry heaviest item)
-   - Maximum: sum(weights) = 55 (carry everything in 1 day)
-
-2. **Condition Function:**
-   ```
-   feasible(capacity): Can we ship all packages in D days with this capacity?
-   ```
-
-3. **Greedy Simulation:**
-   ```
-   days = 1, current_load = 0
-   
-   For each package:
-       if (current_load + package <= capacity):
-           current_load += package
-       else:
-           days++
-           current_load = package
-   
-   return days <= D
-   ```
+**Why It Works:**
+- **Time Complexity:** O(n log sum) where sum is total weight.
+- **Space Complexity:** O(1) extra space.
+- Monotonicity ensures binary search finds the minimal feasible capacity.
 
 **C++ Solution:**
 
@@ -608,15 +653,42 @@ Koko eats at speed K bananas/hour.
 Find MINIMUM K to finish all piles in h hours.
 ```
 
-**Monotonicity:**
-```
-If K=4 works → K=5,6,7... all work
-If K=3 fails → K=2,1 all fail
+**Approach:**
 
-[FFF][TTTTTTT]
-    ^
-    minimum K
+**Key Insights:**
+- **Naive Approach:** Try speeds from 1 to max pile, compute total hours for each, O(max * n) time.
+- **Optimized Approach:** Binary search on eating speed K. Find minimal K where total hours needed <= h. Monotonic: if K works, all larger K work; if not, all smaller fail.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left = 1, right = max(piles).
+2. **Loop:** While left < right, mid = left + (right - left)/2.
+3. **Check Condition:** If feasible(mid) (total hours <= h), right = mid (try smaller speed).
+4. **Else:** left = mid + 1 (need faster speed).
+5. **Feasible Function:** For each pile, hours = ceil(pile / mid), sum hours, check <= h.
+6. **Edge Cases:** h = piles.size() (K = max), h = 1 (K = sum), large piles.
+
+**Algorithm Flow (Pseudocode):**
 ```
+left = 1, right = max(piles)
+While left < right:
+    mid = left + (right - left) / 2
+    If feasible(mid):  // total hours <= h
+        right = mid
+    Else:
+        left = mid + 1
+Return left
+
+feasible(speed):
+    total_hours = 0
+    For each pile:
+        total_hours += ceil(pile / speed)
+    Return total_hours <= h
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n log max_pile) as feasible takes O(n).
+- **Space Complexity:** O(1).
+- Monotonicity of speed vs feasibility ensures correct minimal speed.
 
 **C++ Solution:**
 

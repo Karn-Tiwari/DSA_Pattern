@@ -121,14 +121,37 @@ int oppositeDirection(vector<int>& arr, int target) {
 
 **Problem:** Find two numbers that add up to target in a sorted array.
 
-**Why This Works:**
-```
-Array: [2, 7, 11, 15], target = 9
+**Approach:**
 
-If sum < target: Need larger number → move left pointer right
-If sum > target: Need smaller number → move right pointer left
-If sum == target: Found answer!
+**Key Insights:**
+- **Naive Approach:** Check all pairs with nested loops, O(n²) time.
+- **Optimized Approach:** Use two pointers from opposite ends. Since array is sorted, if sum < target, move left pointer right for larger number; if sum > target, move right pointer left for smaller number. This finds the pair in O(n) time.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left = 0, right = n-1.
+2. **Loop:** While left < right, compute sum = numbers[left] + numbers[right].
+3. **Check Sum:** If sum == target, return indices (1-based). If sum < target, left++ (need larger sum). If sum > target, right-- (need smaller sum).
+4. **Termination:** If no pair found, return {-1, -1}.
+5. **Edge Cases:** No pair sums to target, target too small/large, array with duplicates.
+
+**Algorithm Flow (Pseudocode):**
 ```
+left = 0, right = n-1
+While left < right:
+    sum = numbers[left] + numbers[right]
+    If sum == target:
+        Return [left+1, right+1]
+    Else if sum < target:
+        left++
+    Else:
+        right--
+Return [-1, -1]
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each pointer moves at most n times.
+- **Space Complexity:** O(1) extra space.
+- Exploits sorted order to converge to the correct pair without checking all combinations.
 
 **C++ Solution:**
 
@@ -185,13 +208,35 @@ Step 3: left=0, right=1
 
 **Problem:** Check if string is palindrome (ignoring non-alphanumeric).
 
-**Key Insight:**
-```
-Palindrome property: s[i] == s[n-1-i] for all i
+**Approach:**
 
-Instead of creating new string:
-Compare from both ends moving inward
+**Key Insights:**
+- **Naive Approach:** Create reversed string and compare, O(n) time and space.
+- **Optimized Approach:** Use two pointers from ends, skip non-alphanumeric characters, compare valid characters case-insensitively. This checks palindrome property in O(n) time, O(1) space.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left = 0, right = n-1.
+2. **Loop:** While left < right, skip non-alphanumeric from both ends.
+3. **Compare:** If tolower(s[left]) != tolower(s[right]), return false.
+4. **Move:** left++, right--.
+5. **Termination:** If loop completes, return true.
+6. **Edge Cases:** Empty string (true), single character (true), all non-alphanumeric (true), case differences.
+
+**Algorithm Flow (Pseudocode):**
 ```
+left = 0, right = n-1
+While left < right:
+    While left < right and not isalnum(s[left]): left++
+    While left < right and not isalnum(s[right]): right--
+    If tolower(s[left]) != tolower(s[right]): return false
+    left++, right--
+Return true
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as each character is processed at most twice.
+- **Space Complexity:** O(1) extra space.
+- Directly checks palindrome condition without extra space, skipping irrelevant characters.
 
 **C++ Solution:**
 
@@ -248,13 +293,36 @@ All characters match → TRUE
 
 **Problem:** Find two lines that form container with maximum water.
 
-**Key Insight:**
-```
-Area = min(height[left], height[right]) * (right - left)
+**Approach:**
 
-Greedy: Always move pointer with smaller height
-Why? Smaller height limits area, moving it might find better
+**Key Insights:**
+- **Naive Approach:** Check all pairs of lines, compute areas, O(n²) time.
+- **Optimized Approach:** Use two pointers from ends. Calculate area, update max, move the pointer with smaller height inward. This greedy approach works because moving the taller line can't increase area (width decreases), but moving shorter might find taller lines.
+
+**Step-by-Step Approach:**
+1. **Initialization:** left = 0, right = n-1, maxWater = 0.
+2. **Loop:** While left < right, compute area = min(height[left], height[right]) * (right - left), update maxWater.
+3. **Move Pointer:** If height[left] < height[right], left++ (move shorter); else right--.
+4. **Termination:** When left >= right, return maxWater.
+5. **Edge Cases:** n < 2 (0), all heights equal, decreasing heights.
+
+**Algorithm Flow (Pseudocode):**
 ```
+left = 0, right = n-1, maxWater = 0
+While left < right:
+    area = min(height[left], height[right]) * (right - left)
+    maxWater = max(maxWater, area)
+    If height[left] < height[right]:
+        left++
+    Else:
+        right--
+Return maxWater
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) as pointers move inward.
+- **Space Complexity:** O(1).
+- Greedy choice: Always move the limiting height to potentially find better combinations.
 
 **C++ Solution:**
 
@@ -359,14 +427,33 @@ int sameDirection(vector<int>& arr) {
 
 **Problem:** Remove duplicates in-place, return new length.
 
-**Key Insight:**
-```
-sorted: [1,1,2,2,3,3]
-unique: [1,2,3,_,_,_]
+**Approach:**
 
-slow: position to place next unique element
-fast: explores array looking for new elements
+**Key Insights:**
+- **Naive Approach:** Use set or extra space to track uniques, then copy back, O(n) space.
+- **Optimized Approach:** Use two pointers: slow tracks position for next unique, fast explores. When fast finds new element, copy to slow position. This modifies in-place, O(1) space.
+
+**Step-by-Step Approach:**
+1. **Initialization:** If empty, return 0. slow = 0 (write position).
+2. **Loop:** For fast = 1 to n-1, if nums[fast] != nums[slow], slow++, nums[slow] = nums[fast].
+3. **Termination:** Return slow + 1 (length of unique array).
+4. **Edge Cases:** All unique (slow = n-1), all same (slow = 0), empty array.
+
+**Algorithm Flow (Pseudocode):**
 ```
+If nums.empty(): return 0
+slow = 0
+For fast = 1 to n-1:
+    If nums[fast] != nums[slow]:
+        slow++
+        nums[slow] = nums[fast]
+Return slow + 1
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) single pass.
+- **Space Complexity:** O(1) in-place modification.
+- Maintains relative order, slow pointer ensures unique elements are placed correctly.
 
 **C++ Solution:**
 
@@ -444,15 +531,34 @@ Result: [1, 2, 3, ...]
 
 **Problem:** Move all zeros to end, maintain relative order.
 
-**Key Insight:**
-```
-[0,1,0,3,12]
-   
-slow: position for next non-zero
-fast: finds non-zero elements
+**Approach:**
 
-Process: Copy non-zeros forward, fill rest with zeros
+**Key Insights:**
+- **Naive Approach:** Count zeros, create new array with non-zeros then zeros, O(n) space.
+- **Optimized Approach:** Use two pointers: slow tracks position for non-zero, fast finds non-zeros. Swap or copy non-zeros to slow position, then fill rest with zeros. Maintains order in O(1) space.
+
+**Step-by-Step Approach:**
+1. **Initialization:** slow = 0 (write position for non-zeros).
+2. **Move Non-Zeros:** For fast = 0 to n-1, if nums[fast] != 0, nums[slow] = nums[fast], slow++.
+3. **Fill Zeros:** While slow < n, nums[slow] = 0, slow++.
+4. **Edge Cases:** No zeros, all zeros, single element, alternating zeros.
+
+**Algorithm Flow (Pseudocode):**
 ```
+slow = 0
+For fast = 0 to n-1:
+    If nums[fast] != 0:
+        nums[slow] = nums[fast]
+        slow++
+While slow < n:
+    nums[slow] = 0
+    slow++
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) single pass.
+- **Space Complexity:** O(1) in-place.
+- Slow pointer ensures non-zeros are placed in order, then zeros fill the rest.
 
 **C++ Solution:**
 
@@ -532,16 +638,40 @@ Final: [1, 3, 12, 0, 0]
 
 **Problem:** Sort an array containing only 0s, 1s, and 2s in-place, with 0s first, then 1s, then 2s.
 
-**Key Insight:**
-```
-[0,1,2,1,0,2,1,0]
+**Approach:**
 
-low: boundary for 0s
-mid: current element
-high: boundary for 2s
+**Key Insights:**
+- **Naive Approach:** Count 0s, 1s, 2s, then overwrite array, O(n) time but two passes.
+- **Optimized Approach:** Use three pointers: low (0s boundary), mid (current), high (2s boundary). Partition into 0s, 1s, 2s regions in one pass. When mid finds 0, swap with low; when 2, swap with high; when 1, just move mid.
 
-Process: Partition into three regions
+**Step-by-Step Approach:**
+1. **Initialization:** low = 0, mid = 0, high = n-1.
+2. **Loop:** While mid <= high, check nums[mid]:
+   - If 0: swap with low, low++, mid++.
+   - If 1: mid++.
+   - If 2: swap with high, high--, mid stays (check swapped element).
+3. **Termination:** When mid > high, array is sorted.
+4. **Edge Cases:** All 0s, all 1s, all 2s, no elements of certain color.
+
+**Algorithm Flow (Pseudocode):**
 ```
+low = 0, mid = 0, high = n-1
+While mid <= high:
+    If nums[mid] == 0:
+        swap(nums[low], nums[mid])
+        low++, mid++
+    Else if nums[mid] == 1:
+        mid++
+    Else:  // 2
+        swap(nums[mid], nums[high])
+        high--
+        // mid stays
+```
+
+**Why It Works:**
+- **Time Complexity:** O(n) single pass.
+- **Space Complexity:** O(1) in-place.
+- Maintains three partitions: 0s [0..low-1], 1s [low..mid-1], 2s [high+1..n-1], unexplored [mid..high].
 
 **C++ Solution:**
 
