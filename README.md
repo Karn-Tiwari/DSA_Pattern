@@ -43,10 +43,16 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 | **Fast & Slow Pointers** | [📄 View](Fast_and_Slow_Pointers_Pattern.md) | 14+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **String Patterns** | [📄 View](String_Pattern.md) | 25+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Stack & Monotonic** | [📄 View](Stack_Pattern.md) | 17+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
-| **Greedy** | 🔄 Coming Soon | - | - | 🔄 Planned |
+| **Linked List** | [📄 View](LinkedList_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Queue & Deque** | [📄 View](Queue_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Heap & Priority Queue** | [📄 View](Heap_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Sorting** | [📄 View](Sorting_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Greedy** | [📄 View](Greedy_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Binary Tree** | [📄 View](Binary_Tree_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
+| **Binary Search Tree** | [📄 View](Binary_Search_Tree_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Dynamic Programming** | 🔄 Coming Soon | - | - | 🔄 Planned |
-| **Trees & Graphs** | 🔄 Coming Soon | - | - | 🔄 Planned |
-| **Backtracking** | 🔄 Coming Soon | - | - | 🔄 Planned |
+| **Graphs** | 🔄 Coming Soon | - | - | 🔄 Planned |
+| **Backtracking** | [📄 View](Recursion_and_BackTracking_Pattern.md) | - | - | ✅ Complete |
 
 </div>
 
