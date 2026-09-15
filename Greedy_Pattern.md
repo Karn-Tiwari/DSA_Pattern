@@ -1,4 +1,6 @@
-# Ultimate Greedy Algorithm Pattern Guide - From Basics to Mastery
+# Greedy Pattern: A Reasoning-First C++ Guide
+
+Greedy algorithms commit to the best-looking choice now and never undo it. That is powerful only when a proof shows that the choice cannot destroy every optimal solution.
 
 ## Table of Contents
 
@@ -46,6 +48,26 @@ At each step, ask:
 Key: Prove that local optimum → global optimum
 If you can't prove it, try DP instead
 ```
+
+### Greedy Decision Map
+
+```text
+Can I make a choice and permanently remove it from consideration?
+    |
+       no --------------------> Use DP, search, or backtracking
+    |
+       yes
+    v
+Does the choice preserve a best solution?
+    |
+       no --------------------> Greedy is unsafe
+    |
+       yes
+    v
+Write the exchange/staying-ahead proof, then implement the scan.
+```
+
+The word "best" is problem-dependent. For interval scheduling it means earliest finish time; for a minimum spanning tree it means the lightest safe edge; for Huffman coding it means merging the two smallest frequencies. Never replace the proof with "it seems locally smallest."
 
 ### Greedy Template
 

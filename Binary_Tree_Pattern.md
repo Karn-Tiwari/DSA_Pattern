@@ -1,4 +1,6 @@
-# Ultimate Binary Tree Pattern Guide - From Basics to Mastery
+# Binary Tree Pattern: A Reasoning-First C++ Guide
+
+Most binary-tree problems are recursive because every node separates the problem into a left subtree and a right subtree. The main design question is whether information flows top-down, bottom-up, or level-by-level.
 
 ## Table of Contents
 
@@ -61,6 +63,22 @@ INORDER   (Left → Root → Right):  BST sorted order, validate BST
 POSTORDER (Left → Right → Root):  Delete tree, bottom-up computation
 LEVEL-ORDER (BFS):                Level-by-level, shortest path in tree
 ```
+
+### Tree Problem Decision Map
+
+```text
+What information does the answer need?
+    |
+    +--> Parent/context from above?  -> DFS top-down with parameters
+    |
+    +--> Answers from children?      -> DFS postorder, return a value
+    |
+    +--> Distance by levels?         -> BFS with a queue
+    |
+    +--> Sorted order / rank in BST? -> Inorder traversal
+```
+
+For a recursive solution, define what `solve(node)` returns before writing code. A parent can then trust the left and right answers and combine them at the current node.
 
 ---
 

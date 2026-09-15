@@ -51,7 +51,7 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 | **Binary Tree** | [📄 View](Binary_Tree_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Binary Search Tree** | [📄 View](Binary_Search_Tree_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Dynamic Programming** | [📄 View](DynamicProgramming_Pattern.md) | 9 | 🟡 Medium → 🔴 Hard | ✅ Complete |
-| **Graphs** | 🔄 Coming Soon | - | - | 🔄 Planned |
+| **Graphs** | [📄 View](Graph_Pattern.md) | 12+ | 🟡 Medium → 🔴 Hard | ✅ Complete |
 | **Backtracking** | [📄 View](BackTracking_Pattern.md) | 10+ | 🟡 Medium → 🔴 Hard | ✅ Complete |
 
 </div>
@@ -92,7 +92,7 @@ String Patterns        ███████████████████
 Stack & Monotonic      ████████████████████  100%  ✅
 Greedy                 ░░░░░░░░░░░░░░░░░░░░   0%   🔄
 Dynamic Programming    ████████████████████  100%  ✅
-Trees & Graphs         ░░░░░░░░░░░░░░░░░░░░   0%   🔄
+Trees & Graphs         ████████████████████  100%  ✅
 Backtracking           ████████████████████  100%  ✅
 ```
 
