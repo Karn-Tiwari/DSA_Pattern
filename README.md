@@ -50,9 +50,9 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 | **Greedy** | [📄 View](Greedy_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Binary Tree** | [📄 View](Binary_Tree_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Binary Search Tree** | [📄 View](Binary_Search_Tree_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
-| **Dynamic Programming** | 🔄 Coming Soon | - | - | 🔄 Planned |
+| **Dynamic Programming** | [📄 View](DynamicProgramming_Pattern.md) | 9 | 🟡 Medium → 🔴 Hard | ✅ Complete |
 | **Graphs** | 🔄 Coming Soon | - | - | 🔄 Planned |
-| **Backtracking** | [📄 View](Recursion_and_BackTracking_Pattern.md) | - | - | ✅ Complete |
+| **Backtracking** | [📄 View](BackTracking_Pattern.md) | 10+ | 🟡 Medium → 🔴 Hard | ✅ Complete |
 
 </div>
 
@@ -91,9 +91,9 @@ Fast & Slow Pointers   ███████████████████
 String Patterns        ████████████████████  100%  ✅
 Stack & Monotonic      ████████████████████  100%  ✅
 Greedy                 ░░░░░░░░░░░░░░░░░░░░   0%   🔄
-Dynamic Programming    ░░░░░░░░░░░░░░░░░░░░   0%   🔄
+Dynamic Programming    ████████████████████  100%  ✅
 Trees & Graphs         ░░░░░░░░░░░░░░░░░░░░   0%   🔄
-Backtracking           ░░░░░░░░░░░░░░░░░░░░   0%   🔄
+Backtracking           ████████████████████  100%  ✅
 ```
 
 **Total Progress: 60% Complete** 🎯
