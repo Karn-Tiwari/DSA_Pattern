@@ -13,7 +13,7 @@
 
 *Transform complex coding interview problems into solvable patterns*
 
-[🚀 Quick Start](#-quick-start) • [📚 Patterns](#-patterns-overview) • [📈 Progress](#-progress-tracker) • [🤝 Contribute](#-contributing)
+[🚀 Quick Start](#-quick-start) • [📚 Patterns](#-patterns-overview) • [🎤 Interview Prep](Interview_Prep.md) • [📈 Progress](#-progress-tracker) • [🤝 Contribute](#-contributing)
 
 ---
 
@@ -50,7 +50,7 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 | **Greedy** | [📄 View](Greedy_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Binary Tree** | [📄 View](Binary_Tree_Pattern.md) | 20+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
 | **Binary Search Tree** | [📄 View](Binary_Search_Tree_Pattern.md) | 18+ | 🟢 Easy → 🔴 Hard | ✅ Complete |
-| **Dynamic Programming** | [📄 View](DynamicProgramming_Pattern.md) | 9 | 🟡 Medium → 🔴 Hard | ✅ Complete |
+| **Dynamic Programming** | [📄 View](DynamicProgramming_Pattern.md) | 50+ practice problems | 🟡 Medium → 🔴 Hard | ✅ Complete |
 | **Graphs** | [📄 View](Graph_Pattern.md) | 12+ | 🟡 Medium → 🔴 Hard | ✅ Complete |
 | **Backtracking** | [📄 View](BackTracking_Pattern.md) | 10+ | 🟡 Medium → 🔴 Hard | ✅ Complete |
 
@@ -79,6 +79,10 @@ This repository is your **ultimate guide** to mastering the most powerful Data S
 - ⚠️ **Common Pitfalls** - Mistakes to avoid
 - 🔍 **Problem Recognition** - When to apply the pattern
 
+For Dynamic Programming practice, open [DynamicProgramming_Pattern.md](DynamicProgramming_Pattern.md) and follow its staged TUF/A2Z checklist. Solve in order and revisit missed problems weekly.
+
+For interview practice, use the [Interview Prep Playbook](Interview_Prep.md) before solving a problem. It covers clarification questions, pattern selection, invariants, timeboxing, testing, and post-problem review.
+
 ---
 
 ## 📈 Progress Tracker
@@ -90,7 +94,7 @@ Sliding Window         ███████████████████
 Fast & Slow Pointers   ████████████████████  100%  ✅
 String Patterns        ████████████████████  100%  ✅
 Stack & Monotonic      ████████████████████  100%  ✅
-Greedy                 ░░░░░░░░░░░░░░░░░░░░   0%   🔄
+Greedy                 ████████████████████  100%  ✅
 Dynamic Programming    ████████████████████  100%  ✅
 Trees & Graphs         ████████████████████  100%  ✅
 Backtracking           ████████████████████  100%  ✅
@@ -149,6 +153,7 @@ DSA_Pattern/
 ├── 📖 Fast_and_Slow_Pointers_Pattern.md  # Fast & slow pointers
 ├── 📖 String_Pattern.md            # String manipulation patterns
 ├── 📖 Stack_Pattern.md             # Stack & monotonic stack patterns
+├── 📖 Interview_Prep.md            # Interview workflow and review system
 └── 📄 .gitignore                   # Git ignore rules
 ```
 

@@ -578,50 +578,113 @@ Misidentifying which one a problem wants is a very common misread.
 
 ## 16. Practice Roadmap
 
-**Reading / Practice:**
-- Striver's DP Playlist / Sheet: https://takeuforward.org/dynamic-programming/striver-dp-series-dynamic-programming-problems/
-- GeeksforGeeks — Dynamic Programming: https://www.geeksforgeeks.org/dynamic-programming/
-- LeetCode Dynamic Programming Explore Card: https://leetcode.com/explore/learn/card/dynamic-programming/
+Use the [TUF Dynamic Programming Series](https://takeuforward.org/dynamic-programming/striver-dp-series-dynamic-programming-problems/) as the source hub. Work through the stages in order. For every problem, write the state and recurrence before looking at an editorial.
 
-**Practice Problems by Pattern**
+### How to Use This Checklist
 
-*0/1 Knapsack:*
-- Partition Equal Subset Sum — https://leetcode.com/problems/partition-equal-subset-sum/
-- Target Sum — https://leetcode.com/problems/target-sum/
-- Last Stone Weight II — https://leetcode.com/problems/last-stone-weight-ii/
+1. Try the problem for 25-40 minutes.
+2. Write `state`, `choices`, `transition`, and `base case` in plain English.
+3. Code memoization first; convert to tabulation only after the recurrence is correct.
+4. Mark `S` when solved independently, `R` when solved after review, and `V` after revisiting it a week later.
 
-*Unbounded Knapsack:*
-- Coin Change — https://leetcode.com/problems/coin-change/
-- Coin Change II — https://leetcode.com/problems/coin-change-ii/
-- Rod Cutting (GFG) — https://www.geeksforgeeks.org/dsa/cutting-a-rod-dp-13/
+### Stage 1: 1D DP and Decision Making
 
-*Fibonacci-style:*
-- Climbing Stairs — https://leetcode.com/problems/climbing-stairs/
-- House Robber — https://leetcode.com/problems/house-robber/
-- Min Cost Climbing Stairs — https://leetcode.com/problems/min-cost-climbing-stairs/
+- [ ] Climbing Stairs — [LeetCode](https://leetcode.com/problems/climbing-stairs/)
+- [ ] Frog Jump
+- [ ] Frog Jump with K Distances
+- [ ] House Robber — [LeetCode](https://leetcode.com/problems/house-robber/)
+- [ ] House Robber II — [LeetCode](https://leetcode.com/problems/house-robber-ii/)
+- [ ] Maximum Sum of Non-Adjacent Elements
+- [ ] Ninja's Training
 
-*LCS-family:*
-- Longest Common Subsequence — https://leetcode.com/problems/longest-common-subsequence/
-- Edit Distance — https://leetcode.com/problems/edit-distance/
-- Longest Palindromic Subsequence — https://leetcode.com/problems/longest-palindromic-subsequence/
+**Reason to study first:** these problems teach state design, "take or skip," and how a small recurrence becomes a table.
 
-*LIS-family:*
-- Longest Increasing Subsequence — https://leetcode.com/problems/longest-increasing-subsequence/
-- Russian Doll Envelopes — https://leetcode.com/problems/russian-doll-envelopes/
+### Stage 2: Grid DP
 
-*Kadane's:*
-- Maximum Subarray — https://leetcode.com/problems/maximum-subarray/
-- Maximum Product Subarray — https://leetcode.com/problems/maximum-product-subarray/
+- [ ] Unique Paths — [LeetCode](https://leetcode.com/problems/unique-paths/)
+- [ ] Unique Paths II — [LeetCode](https://leetcode.com/problems/unique-paths-ii/)
+- [ ] Minimum Path Sum — [LeetCode](https://leetcode.com/problems/minimum-path-sum/)
+- [ ] Minimum Path Sum in a Triangle — [LeetCode](https://leetcode.com/problems/triangle/)
+- [ ] Minimum / Maximum Falling Path Sum — [LeetCode](https://leetcode.com/problems/minimum-falling-path-sum/)
+- [ ] Cherry Pickup II — [LeetCode](https://leetcode.com/problems/cherry-pickup-ii/)
 
-*MCM-family:*
-- Palindrome Partitioning II — https://leetcode.com/problems/palindrome-partitioning-ii/
-- Burst Balloons — https://leetcode.com/problems/burst-balloons/
+**Reason to study next:** the changing coordinates become DP dimensions, and movement directions determine the iteration order.
 
-*Grid & Tree DP:*
-- Unique Paths — https://leetcode.com/problems/unique-paths/
-- Minimum Path Sum — https://leetcode.com/problems/minimum-path-sum/
-- House Robber III — https://leetcode.com/problems/house-robber-iii/
-- Binary Tree Maximum Path Sum — https://leetcode.com/problems/binary-tree-maximum-path-sum/
+### Stage 3: Subsequences and Knapsack
+
+- [ ] Subset Sum Equal to K
+- [ ] Partition Equal Subset Sum — [LeetCode](https://leetcode.com/problems/partition-equal-subset-sum/)
+- [ ] Minimum Difference in Subset Sums
+- [ ] Count Subsets with Sum K
+- [ ] Count Partitions with a Given Difference
+- [ ] 0/1 Knapsack
+- [ ] Target Sum — [LeetCode](https://leetcode.com/problems/target-sum/)
+- [ ] Coin Change — [LeetCode](https://leetcode.com/problems/coin-change/)
+- [ ] Coin Change II — [LeetCode](https://leetcode.com/problems/coin-change-ii/)
+- [ ] Unbounded Knapsack
+- [ ] Rod Cutting
+
+**Reason to study here:** all of these ask whether to take an item, skip it, or reuse it. The difference between `idx + 1` and `idx` controls 0/1 versus unbounded choices.
+
+### Stage 4: String DP
+
+- [ ] Longest Common Subsequence — [LeetCode](https://leetcode.com/problems/longest-common-subsequence/)
+- [ ] Print the Longest Common Subsequence
+- [ ] Longest Common Substring
+- [ ] Longest Palindromic Subsequence — [LeetCode](https://leetcode.com/problems/longest-palindromic-subsequence/)
+- [ ] Minimum Insertions to Make a String Palindrome — [LeetCode](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+- [ ] Minimum Insertions / Deletions to Convert Strings
+- [ ] Shortest Common Supersequence — [LeetCode](https://leetcode.com/problems/shortest-common-supersequence/)
+- [ ] Distinct Subsequences — [LeetCode](https://leetcode.com/problems/distinct-subsequences/)
+- [ ] Edit Distance — [LeetCode](https://leetcode.com/problems/edit-distance/)
+- [ ] Wildcard Matching — [LeetCode](https://leetcode.com/problems/wildcard-matching/)
+
+**Reason to study here:** the state is usually a pair of prefixes. Matching characters gives a diagonal transition; a mismatch creates choices such as delete, insert, or replace.
+
+### Stage 5: Stock DP
+
+- [ ] Best Time to Buy and Sell Stock — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+- [ ] Best Time to Buy and Sell Stock II — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
+- [ ] Best Time to Buy and Sell Stock III — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/)
+- [ ] Best Time to Buy and Sell Stock IV — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+- [ ] Best Time to Buy and Sell with Cooldown — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+- [ ] Best Time to Buy and Sell with Transaction Fee — [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+**Reason to study here:** the essential state is usually `(day, canBuy, transactionsLeft)`. Once that state is explicit, every stock variation changes only the transition or an extra restriction.
+
+### Stage 6: LIS and Subsequence Optimization
+
+- [ ] Longest Increasing Subsequence — [LeetCode](https://leetcode.com/problems/longest-increasing-subsequence/)
+- [ ] Print the Longest Increasing Subsequence
+- [ ] Longest Divisible Subset — [LeetCode](https://leetcode.com/problems/largest-divisible-subset/)
+- [ ] Longest String Chain — [LeetCode](https://leetcode.com/problems/longest-string-chain/)
+- [ ] Longest Bitonic Subsequence
+- [ ] Number of Longest Increasing Subsequences — [LeetCode](https://leetcode.com/problems/number-of-longest-increasing-subsequence/)
+- [ ] Russian Doll Envelopes — [LeetCode](https://leetcode.com/problems/russian-doll-envelopes/)
+
+**Reason to study here:** unlike substring problems, a subsequence may skip elements. The previous compatible element, not merely the previous index, controls the transition.
+
+### Stage 7: Partition and Interval DP
+
+- [ ] Matrix Chain Multiplication
+- [ ] Minimum Cost to Cut a Stick — [LeetCode](https://leetcode.com/problems/minimum-cost-to-cut-a-stick/)
+- [ ] Burst Balloons — [LeetCode](https://leetcode.com/problems/burst-balloons/)
+- [ ] Boolean Parenthesization
+- [ ] Palindrome Partitioning II — [LeetCode](https://leetcode.com/problems/palindrome-partitioning-ii/)
+- [ ] Partition Array for Maximum Sum — [LeetCode](https://leetcode.com/problems/partition-array-for-maximum-sum/)
+
+**Reason to study last:** these problems ask which split or operation happens last. Choosing the last operation often makes the left and right intervals independent.
+
+### Weekly Revision Loop
+
+```text
+Day 1: Learn one state pattern and solve 2 problems.
+Day 2: Re-solve both without notes; compare recurrences.
+Day 4: Solve one variation with a different base case.
+Day 7: Re-solve the hardest problem from a blank page.
+```
+
+Keep a small error log beside this checklist. Record the exact mistake: wrong state, wrong base case, wrong loop order, wrong take/skip transition, or incorrect space optimization. Reviewing mistakes is more valuable than collecting more problem names.
 
 ---
 
