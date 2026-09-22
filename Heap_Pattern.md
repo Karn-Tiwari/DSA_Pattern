@@ -1,8 +1,8 @@
-# Heap Pattern: Aditya Verma Playlist Notes
+# Heap Pattern: Playlist Notes
 
 > **Goal:** understand why a heap is chosen, instead of memorising 15 unrelated solutions.
 
-This note follows the problem family commonly taught in Aditya Verma's **Heap / Priority Queue** playlist. Video titles and order can change between playlist versions, so the checklist below uses the problem names rather than video numbers.
+This note follows a **Heap / Priority Queue** playlist sequence. Video titles and order can change between playlist versions, so the checklist below uses the problem names rather than video numbers.
 
 ## Table of Contents
 
@@ -131,7 +131,7 @@ The root is always the weakest current winner.
 
 ## 4. Playlist Questions
 
-These are the core questions to solve in the Aditya Verma heap sequence. The exact playlist may split or combine a few videos, but these are the recurring questions and patterns.
+These are the core questions in the heap sequence. A playlist may split or combine a few videos, but these are the recurring questions and patterns.
 
 ### Foundation and Top K
 
@@ -479,3 +479,11 @@ That reasoning is the pattern. The syntax is only the implementation.
 ---
 
 *Study order: understand the min/max decision, solve the 15 core playlist questions, then practise the related extensions.*
+
+### Playlist reference
+
+The direct practice links above are the question checklist; use the playlist for dry runs and the intuition behind each heap choice.
+
+### Additional practice overlap
+
+Useful second-pass practice: [Kth Largest Element](https://leetcode.com/problems/kth-largest-element-in-an-array/), [Task Scheduler](https://leetcode.com/problems/task-scheduler/), [Hand of Straights](https://leetcode.com/problems/hand-of-straights/), [Design Twitter](https://leetcode.com/problems/design-twitter/), [Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream/), and [Merge K Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/).

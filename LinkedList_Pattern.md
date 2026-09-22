@@ -27,6 +27,19 @@
 
 ---
 
+### Pointer Movement Diagram
+
+```mermaid
+flowchart LR
+    A[prev] --> B[current] --> C[next]
+    B -. save next .-> C
+    C --> D[reverse current.next to prev]
+    D --> E[advance prev and current]
+    E --> B
+```
+
+For linked-list problems, draw the links before changing them. Save `next` first; otherwise the rest of the list becomes unreachable.
+
 ## 1. Core Concept & Philosophy
 
 ### What is a Linked List Really About?

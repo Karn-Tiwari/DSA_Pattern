@@ -24,6 +24,19 @@
 
 ### The Power of Two Pointers
 
+```mermaid
+flowchart LR
+    A[left] --> B[unprocessed region] --> C[right]
+    A -. move left .-> B
+    C -. move right .-> B
+    B --> D{What does the invariant require?}
+    D -->|Pair sum too small| E[Move left forward]
+    D -->|Pair sum too large| F[Move right backward]
+    D -->|Window invalid| G[Shrink from left]
+```
+
+The movement is safe only when the invariant explains which candidates have become impossible. Without that proof, two pointers are just two indices.
+
 ```
 Brute Force: Check every pair
 for i in 0..n:

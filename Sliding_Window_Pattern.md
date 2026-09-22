@@ -31,6 +31,21 @@ Track optimal window during process
 
 This is the KEY insight that makes sliding window a universal pattern for array/string problems.
 
+### Sliding Window Diagram
+
+```mermaid
+flowchart LR
+    A[Add right item] --> B[Update window state]
+    B --> C{Window valid?}
+    C -->|No| D[Remove left item and move left]
+    D --> C
+    C -->|Yes| E[Update answer]
+    E --> F[Move right]
+    F --> A
+```
+
+The invariant is restored before measuring the window. Since both pointers only move forward, each item is added and removed at most once.
+
 ### Detailed Explanation
 
 #### 1. **What is a "Window"?**
@@ -1510,3 +1525,28 @@ Master this framework, and you'll solve sliding window problems with confidence!
 - Time yourself to build speed
 
 **Master sliding window, and you'll solve array/string problems effortlessly! 🚀**
+
+---
+
+## Sliding Window Playlist: Ordered Practice
+
+Follow the playlist in this order. The progression is **fixed window -> frequency window -> variable window -> minimum/maximum answer**.
+
+1. [Maximum Sum Subarray of Size K](https://www.geeksforgeeks.org/find-maximum-minimum-sum-subarray-size-k/)
+2. [First Negative Integer in Every Window](https://www.geeksforgeeks.org/first-negative-integer-every-window-size-k/)
+3. [Count Occurrences of Anagrams](https://www.geeksforgeeks.org/count-occurrences-of-anagrams/)
+4. [Maximum of All Subarrays of Size K](https://leetcode.com/problems/sliding-window-maximum/)
+5. [Longest Substring with K Distinct Characters](https://www.geeksforgeeks.org/longest-k-unique-characters-substring/)
+6. [Longest Substring with Exactly K Distinct Characters](https://www.geeksforgeeks.org/find-the-longest-string-with-k-unique-characters-in-a-given-string/)
+7. [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+8. [Pick Toys / At Most Two Distinct Values](https://leetcode.com/problems/fruit-into-baskets/)
+9. [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+10. [Minimum Window Subsequence](https://www.geeksforgeeks.org/minimum-window-subsequence/)
+
+### Why the window works
+
+The right pointer adds one item and the left pointer removes items only while the invariant is broken. Because both pointers move forward, every item enters and leaves at most once: the total work is `O(n)`. For a fixed window, update the answer after adding the right edge; for a variable window, first restore validity, then measure the valid window.
+
+### Additional practice overlap
+
+Additional practice: [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/), [Binary Subarrays With Sum](https://leetcode.com/problems/binary-subarrays-with-sum/), [Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/), [Subarray Product Less Than K](https://leetcode.com/problems/subarray-product-less-than-k/), and [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/).

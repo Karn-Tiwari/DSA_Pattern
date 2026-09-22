@@ -50,6 +50,20 @@ Visual:
     └─────┘
 ```
 
+  ### Stack State Diagram
+
+  ```mermaid
+  flowchart LR
+    A[New item] --> B[Push onto top]
+    B --> C[Top item is visible]
+    C --> D{Need to remove?}
+    D -->|Yes| E[Pop top item]
+    D -->|No| C
+    E --> C
+  ```
+
+  Only the top is directly available. That restriction is why stacks model recursion, undo history, bracket matching, and nearest-element problems.
+
 ### Stack Operations
 
 ```
@@ -1825,6 +1839,53 @@ if(st.empty()) result[i] = -1;  // Correct
 - What does the stack represent (candidates, state, history)?
 
 Master this framework, and you'll solve stack problems with elegance and efficiency! 🚀
+
+---
+
+## Stack Playlist: Ordered Practice
+
+The playlist's main progression is **LIFO basics -> stack design -> nearest greater/smaller -> histogram -> expression and bracket problems**. The reason this order works is that every later problem changes only what the stack stores or when an item is popped.
+
+### Playlist questions
+
+1. [Introduction to Stack](https://www.geeksforgeeks.org/stack-data-structure/)
+2. [Implement two stacks in one array](https://www.geeksforgeeks.org/implement-two-stacks-in-an-array/)
+3. [Implement Stack using Queues](https://leetcode.com/problems/implement-stack-using-queues/)
+4. [Implement Queue using Stacks](https://leetcode.com/problems/implement-queue-using-stacks/)
+5. [Next Greater Element to the Right](https://www.geeksforgeeks.org/next-greater-element/)
+6. [Next Greater Element to the Left](https://www.geeksforgeeks.org/previous-greater-element/)
+7. [Next Smaller Element to the Right](https://www.geeksforgeeks.org/next-smaller-element/)
+8. [Next Smaller Element to the Left](https://www.geeksforgeeks.org/previous-smaller-element/)
+9. [Stock Span Problem](https://leetcode.com/problems/online-stock-span/)
+10. [Maximum Area in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)
+11. [Maximum Area Rectangle in a Binary Matrix](https://leetcode.com/problems/maximal-rectangle/)
+12. [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+13. [Celebrity Problem](https://www.geeksforgeeks.org/the-celebrity-problem/)
+14. [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
+15. [Minimum Bracket Reversal](https://www.geeksforgeeks.org/minimum-number-of-bracket-reversals-needed-to-make-an-expression-balanced/)
+16. [Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses/)
+17. [Infix to Postfix Conversion](https://www.geeksforgeeks.org/convert-infix-expression-to-postfix-expression/)
+18. [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
+
+### The reusable explanation
+
+For nearest greater/smaller questions, scan from the side that makes the answer available. While the top of the stack cannot be the answer for the current value, pop it. The remaining top is the nearest valid candidate; then push the current index. Each index is pushed and popped at most once, so the whole scan is `O(n)`.
+
+For histogram and matrix questions, a popped bar has just discovered its first smaller boundary on the right. The stack top after popping gives the boundary on the left, so `width = right - left - 1`. This is why the monotonic stack replaces an `O(n^2)` search.
+
+### Additional practice overlap
+
+Use this additional Stack and Queue practice list alongside the playlist:
+
+- [Implement Min Stack](https://leetcode.com/problems/min-stack/)
+- [Next Greater Element II](https://leetcode.com/problems/next-greater-element-ii/)
+- [Asteroid Collision](https://leetcode.com/problems/asteroid-collision/)
+- [Sum of Subarray Minimums](https://leetcode.com/problems/sum-of-subarray-minimums/)
+- [Remove K Digits](https://leetcode.com/problems/remove-k-digits/)
+- [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/)
+- [Maximal Rectangle](https://leetcode.com/problems/maximal-rectangle/)
+- [Basic Calculator](https://leetcode.com/problems/basic-calculator/)
+- [LFU Cache](https://leetcode.com/problems/lfu-cache/)
 
 ---
 

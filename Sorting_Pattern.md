@@ -28,6 +28,21 @@
 15. [Common Pitfalls](#15-common-pitfalls)
 16. [Template Summary](#16-template-summary)
 
+### Sorting Decision Diagram
+
+```mermaid
+flowchart TD
+    A[Need ordered data] --> B{Comparison keys?}
+    B -->|Yes| C{Need stable or predictable worst case?}
+    C -->|Stable| D[Merge sort]
+    C -->|In-place average speed| E[Quick sort]
+    C -->|In-place worst-case bound| F[Heap sort]
+    B -->|Small integer range| G[Counting sort]
+    B -->|Fixed digit length| H[Radix sort]
+```
+
+Choose the sort from the constraints, not from the algorithm name. Stability, memory, key range, and worst-case time decide the branch.
+
 ---
 
 ## 1. Core Concept & Philosophy

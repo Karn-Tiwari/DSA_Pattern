@@ -78,6 +78,21 @@ What information does the answer need?
     +--> Sorted order / rank in BST? -> Inorder traversal
 ```
 
+### Traversal Diagram
+
+```mermaid
+flowchart TD
+    A[Tree question] --> B{Need parent context?}
+    B -->|Yes| C[Preorder DFS]
+    B -->|No| D{Need child answers?}
+    D -->|Yes| E[Postorder DFS]
+    D -->|No| F{Need level distance?}
+    F -->|Yes| G[BFS level order]
+    F -->|No| H[Inorder for sorted BST order]
+```
+
+Choose traversal from the direction in which information flows, not from habit.
+
 For a recursive solution, define what `solve(node)` returns before writing code. A parent can then trust the left and right answers and combine them at the current node.
 
 ---

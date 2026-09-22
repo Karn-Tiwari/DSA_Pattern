@@ -56,6 +56,21 @@ DP applies when BOTH are true:
 
 The important question is not "which table do I memorize?" It is: **what information completely describes the remaining problem?** Those changing values are the DP state and become the dimensions of the memo or table.
 
+### DP State Diagram
+
+```mermaid
+flowchart LR
+    A[Define state] --> B[List legal choices]
+    B --> C[Write recurrence]
+    C --> D{Repeated state?}
+    D -->|Yes| E[Cache or table the answer]
+    D -->|No| F[Continue recursion]
+    E --> G[Build final answer]
+    F --> G
+```
+
+DP is not a table-first technique. The state and transition come first; memoization and tabulation only avoid solving the same state repeatedly.
+
 ---
 
 ## 2. The Five-Step Method
@@ -578,7 +593,7 @@ Misidentifying which one a problem wants is a very common misread.
 
 ## 16. Practice Roadmap
 
-Use the [TUF Dynamic Programming Series](https://takeuforward.org/dynamic-programming/striver-dp-series-dynamic-programming-problems/) as the source hub. Work through the stages in order. For every problem, write the state and recurrence before looking at an editorial.
+Use the Dynamic Programming practice sequence as the source roadmap. Work through the stages in order. For every problem, write the state and recurrence before looking at an editorial.
 
 ### How to Use This Checklist
 
@@ -697,3 +712,47 @@ Keep a small error log beside this checklist. Record the exact mistake: wrong st
 5. **Space optimization is a bonus, not a requirement** — get a correct O(n²)/O(n·m) tabulated solution first, then collapse rows if the recurrence only looks 1-2 states back.
 
 **The three guides fit together:** recursion trusts smaller calls; backtracking adds choices and undo; dynamic programming adds memory for repeated states. The function contract and the state-space tree connect all three topics.
+
+---
+
+## Dynamic Programming Playlist: Ordered Practice
+
+Follow the playlist in this order. The reliable order is **recursive choice -> state -> memoization -> tabulation -> space optimization**.
+
+### 0/1 Knapsack family
+
+1. [0/1 Knapsack](https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/)
+2. [Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+3. [Equal Sum Partition](https://leetcode.com/problems/partition-equal-subset-sum/)
+4. [Count of Subsets with a Given Sum](https://www.geeksforgeeks.org/count-of-subsets-with-sum-equal-to-x/)
+5. [Minimum Subset Sum Difference](https://www.geeksforgeeks.org/minimum-sum-partition/)
+6. [Target Sum](https://leetcode.com/problems/target-sum/)
+
+### Unbounded and sequence families
+
+7. [Unbounded Knapsack](https://www.geeksforgeeks.org/unbounded-knapsack-repetition-items-allowed/)
+8. [Rod Cutting](https://www.geeksforgeeks.org/cutting-a-rod-dp-13/)
+9. [Coin Change](https://leetcode.com/problems/coin-change/)
+10. [Coin Change II](https://leetcode.com/problems/coin-change-2/)
+11. [Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
+12. [Longest Common Substring](https://www.geeksforgeeks.org/longest-common-substring-dp-29/)
+13. [Shortest Common Supersequence](https://leetcode.com/problems/shortest-common-supersequence/)
+14. [Edit Distance](https://leetcode.com/problems/edit-distance/)
+15. [Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+### Advanced families
+
+16. [Matrix Chain Multiplication](https://www.geeksforgeeks.org/matrix-chain-multiplication-dp-8/)
+17. [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning-ii/)
+18. [Scramble String](https://leetcode.com/problems/scramble-string/)
+19. [Egg Dropping](https://www.geeksforgeeks.org/egg-dropping-puzzle-dp-11/)
+20. [Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
+21. [Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+### The explanation that prevents memorisation
+
+Define `dp[state]` in one sentence. Every transition must represent all legal choices from that state. For knapsack, the choice is take or skip; for LCS, match or skip; for partition DP, choose the final cut. If two recursive calls reach the same state, cache it. Only after the recurrence is correct should you change table order or remove dimensions.
+
+### Additional practice overlap
+
+Additional practice: [Climbing Stairs](https://leetcode.com/problems/climbing-stairs/), [House Robber](https://leetcode.com/problems/house-robber/), [Ninja's Training](https://www.geeksforgeeks.org/problems/ninjas-training/1), [Maximum Sum of Non-Adjacent Elements](https://www.geeksforgeeks.org/problems/maximum-sum-of-non-adjacent-elements/0), [Distinct Subsequences](https://leetcode.com/problems/distinct-subsequences/), [Burst Balloons](https://leetcode.com/problems/burst-balloons/), and [Minimum Cost to Cut a Stick](https://leetcode.com/problems/minimum-cost-to-cut-a-stick/).

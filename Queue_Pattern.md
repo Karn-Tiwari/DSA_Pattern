@@ -28,6 +28,23 @@
 
 ## 1. Core Concept & Philosophy
 
+### Queue Decision Diagram
+
+```mermaid
+flowchart LR
+    A[Need ordered processing] --> B{Access needed?}
+    B -->|Front only| C[Queue: FIFO]
+    B -->|Both ends| D[Deque]
+    C --> E{Graph or tree?}
+    E -->|Yes| F[BFS by levels]
+    E -->|No| G[Scheduling or simulation]
+    D --> H{Keep extrema in a window?}
+    H -->|Yes| I[Monotonic deque]
+    H -->|No| J[Deque operations]
+```
+
+The first decision is not "queue or stack"; it is whether the oldest active item must be processed first. A deque adds the ability to discard obsolete items from either end.
+
 ### What is a Queue Really About?
 
 **Wrong Understanding:**

@@ -33,6 +33,20 @@ This is the single biggest mindset shift for beginners: **stop trying to trace e
 solve(n) = combine( n's own contribution, solve(smaller problem) )
 ```
 
+### Recursion Flow Diagram
+
+```mermaid
+flowchart TD
+    A[Call solve state] --> B{Base case?}
+    B -->|Yes| C[Return direct answer]
+    B -->|No| D[Make the problem smaller]
+    D --> E[Trust solve on smaller state]
+    E --> F[Combine current contribution]
+    F --> G[Return answer upward]
+```
+
+The recursive call is a trusted contract. Reason about the current contribution and the route toward the base case.
+
 Just like Binary Search reduces every problem to `condition(mid)`, Recursion reduces every problem to:
 - What does `solve(n)` promise to return? (**Hypothesis**)
 - How do I get `solve(n)` from `solve(n-1)` (or `solve(n/2)`, or `solve(subset)`)? (**Induction**)
@@ -477,7 +491,7 @@ Always ask: "am I about to write fib-style branching recursion on a large n?"
 ## 11. Practice Roadmap
 
 **Reading / Practice:**
-- Striver's A2Z DSA Sheet — Recursion section: https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/
+- Recursion practice sheet
 - GeeksforGeeks — Recursion tutorial: https://www.geeksforgeeks.org/recursion/
 - LeetCode Recursion Explore Card: https://leetcode.com/explore/learn/card/recursion-i/
 
@@ -511,3 +525,31 @@ Always ask: "am I about to write fib-style branching recursion on a large n?"
 5. **Overlapping subproblems = your cue to memoize** → that's Dynamic Programming, not a different subject.
 
 **Next:** Continue to [BackTracking_Pattern.md](BackTracking_Pattern.md), which extends Pick/Not-Pick recursion with an "undo" step to explore full solution spaces.
+
+---
+
+## Recursion Playlist: Ordered Practice
+
+Follow the playlist in this order. First learn call-stack movement, then add choices, and only then add memoization or backtracking.
+
+1. [Print 1 to N and N to 1](https://www.geeksforgeeks.org/print-1-to-n-without-using-loops/)
+2. [Tower of Hanoi](https://leetcode.com/problems/hanota/)
+3. [Sort a Stack Using Recursion](https://www.geeksforgeeks.org/sort-a-stack-using-recursion/)
+4. [Delete the Middle Element of a Stack](https://www.geeksforgeeks.org/delete-middle-element-of-a-stack/)
+5. [Reverse a Stack Using Recursion](https://www.geeksforgeeks.org/reverse-a-stack-using-recursion/)
+6. [Kth Symbol in Grammar](https://leetcode.com/problems/k-th-symbol-in-grammar/)
+7. [Josephus Problem](https://www.geeksforgeeks.org/josephus-problem/)
+8. [Generate All Subsets](https://leetcode.com/problems/subsets/)
+9. [Generate Permutations](https://leetcode.com/problems/permutations/)
+10. [Letter Case Permutation](https://leetcode.com/problems/letter-case-permutation/)
+11. [Generate Parentheses](https://leetcode.com/problems/generate-parentheses/)
+12. [N-bit Binary Numbers with More 1s Than 0s](https://www.geeksforgeeks.org/print-n-bit-binary-numbers-1s-0s-prefixes/)
+13. [Unique Subsets](https://leetcode.com/problems/subsets-ii/)
+
+### Why the order matters
+
+For every recursive function, state its meaning, make progress toward the base case, and trust the recursive result for the smaller input. In choice problems, the call stack stores the current path: choose, recurse, undo. That invariant explains subsets, permutations, parentheses, and N-Queens.
+
+### Additional practice overlap
+
+Additional practice: [Subsets](https://leetcode.com/problems/subsets/), [Subsets II](https://leetcode.com/problems/subsets-ii/), [Combination Sum](https://leetcode.com/problems/combination-sum/), [Combination Sum II](https://leetcode.com/problems/combination-sum-ii/), [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/), [N-Queens](https://leetcode.com/problems/n-queens/), and [Sudoku Solver](https://leetcode.com/problems/sudoku-solver/).

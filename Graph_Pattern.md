@@ -39,6 +39,24 @@ A ----- B                   A ----> B
 
 An undirected edge means movement works in both directions. A directed edge gives permission in one direction only.
 
+### Graph Traversal Diagram
+
+```mermaid
+flowchart TD
+    A[Choose a start vertex] --> B[Mark it visited]
+    B --> C{BFS or DFS?}
+    C -->|BFS| D[Queue neighbors by distance]
+    C -->|DFS| E[Recurse or use a stack]
+    D --> F[Process next frontier]
+    E --> G[Explore one branch deeply]
+    F --> H{Unvisited vertices remain?}
+    G --> H
+    H -->|Yes| C
+    H -->|No| I[Traversal complete]
+```
+
+Marking a vertex when it is discovered prevents duplicate work and keeps the traversal invariant intact.
+
 ### The Algorithm Decision Map
 
 ```text

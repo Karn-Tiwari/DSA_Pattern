@@ -26,6 +26,20 @@
 4. Multiple representations (string vs character array)
 ```
 
+### String Decision Diagram
+
+```mermaid
+flowchart TD
+    A[String problem] --> B{What is being compared?}
+    B -->|Counts or anagrams| C[Frequency map]
+    B -->|Ends or palindrome| D[Two pointers]
+    B -->|Contiguous substring| E[Sliding window]
+    B -->|Pattern inside text| F[KMP or hashing]
+    B -->|All choices or edits| G[Recursion or DP]
+```
+
+The diagram is a reminder to classify the relationship first. The data structure follows from that relationship; the string itself does not automatically imply one technique.
+
 ### Essential String Operations (C++)
 
 ```cpp
@@ -1898,3 +1912,27 @@ Master this framework, and you'll approach any string problem with confidence! ð
 - Review solutions to understand optimal approaches
 
 Master string patterns, and you'll handle text processing problems effortlessly! ðŸŽ¯
+
+---
+
+## String Matching Playlist: Ordered Practice
+
+Follow the playlist in this order. The useful model is: after a mismatch, reuse information already learned instead of restarting from the next text character.
+
+1. [Naive Pattern Searching](https://www.geeksforgeeks.org/naive-algorithm-for-pattern-searching/)
+2. [Rabin-Karp Algorithm](https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/)
+3. [Longest Prefix Which Is Also Suffix](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+4. [KMP Pattern Searching](https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/)
+5. [Z Algorithm](https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/)
+6. [Find the Index of the First Occurrence](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+7. [Repeated String Match](https://leetcode.com/problems/repeated-string-match/)
+8. [Shortest Palindrome](https://leetcode.com/problems/shortest-palindrome/)
+9. [Longest Happy Prefix](https://leetcode.com/problems/longest-happy-prefix/)
+
+### Why KMP is linear
+
+The prefix table stores the longest proper prefix that is also a suffix. After a mismatch, jump to that prefix length; do not move the text pointer backward. Each pointer moves forward at most `n` times, so matching is `O(n + m)` after `O(m)` preprocessing.
+
+### Additional practice overlap
+
+Additional practice: [Valid Anagram](https://leetcode.com/problems/valid-anagram/), [Group Anagrams](https://leetcode.com/problems/group-anagrams/), [Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/), [Count and Say](https://leetcode.com/problems/count-and-say/), and [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/).

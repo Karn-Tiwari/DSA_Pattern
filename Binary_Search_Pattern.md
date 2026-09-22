@@ -27,6 +27,23 @@
 Minimize k, such that condition(k) is True
 ```
 
+### Binary Search Decision Diagram
+
+```mermaid
+flowchart TD
+    A[Define monotonic condition] --> B[Set low and high bounds]
+    B --> C[Check mid]
+    C --> D{Condition mid is true?}
+    D -->|Yes| E[Save mid and search left]
+    D -->|No| F[Discard left half and search right]
+    E --> G{Bounds remain?}
+    F --> G
+    G -->|Yes| C
+    G -->|No| H[Return best saved answer]
+```
+
+The same flow handles ordinary search and binary search on the answer; only the meaning of the condition changes.
+
 This is the KEY insight that transforms binary search from a simple algorithm into a powerful problem-solving pattern.
 
 ### Detailed Explanation of the True Understanding
@@ -1223,6 +1240,36 @@ Master this framework, and you'll see binary search opportunities everywhere! ðŸ
 - Minimize Max Distance to Gas Station - https://leetcode.com/problems/minimize-max-distance-to-gas-station/
 - Swim in Rising Water - https://leetcode.com/problems/swim-in-rising-water/
 - Path with Minimum Effort - https://leetcode.com/problems/path-with-minimum-effort/
+
+---
+
+## Binary Search Playlist: Ordered Practice
+
+Follow the playlist in this order. The common idea is to identify a range in which the answer must exist, then discard the half that cannot contain it.
+
+1. [Binary Search](https://leetcode.com/problems/binary-search/)
+2. [First and Last Occurrence](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+3. [Count Occurrences in a Sorted Array](https://www.geeksforgeeks.org/counting-number-of-occurrences-in-a-sorted-array/)
+4. [Number of Times a Sorted Array Is Rotated](https://www.geeksforgeeks.org/find-rotation-count-rotated-sorted-array/)
+5. [Search in a Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+6. [Search in a Nearly Sorted Array](https://www.geeksforgeeks.org/search-almost-sorted-array/)
+7. [Floor and Ceil in a Sorted Array](https://www.geeksforgeeks.org/ceil-the-floor/)
+8. [Next Alphabetical Element](https://www.geeksforgeeks.org/find-smallest-letter-greater-than-target/)
+9. [Search in an Infinite Sorted Array](https://www.geeksforgeeks.org/find-position-element-sorted-infinite-array/)
+10. [Index of the Peak in a Bitonic Array](https://www.geeksforgeeks.org/find-bitonic-point-given-bitonic-sequence/)
+11. [Search in a Bitonic Array](https://www.geeksforgeeks.org/search-bitonic-array-maxima/)
+12. [Allocate Minimum Number of Pages](https://www.geeksforgeeks.org/allocate-minimum-number-pages/)
+13. [Painter Partition Problem](https://www.geeksforgeeks.org/painters-partition-problem/)
+14. [Aggressive Cows](https://www.spoj.com/problems/AGGRCOW/)
+15. [Minimum Difference Element](https://www.geeksforgeeks.org/find-closest-number-array/)
+
+### Why the last questions are different
+
+In the first questions, binary search finds an existing index. In allocation and partition questions, binary search is over the **answer**: guess a maximum load or minimum distance, then write a greedy feasibility check. The search is valid only when feasibility is monotonic.
+
+### Additional practice overlap
+
+Additional practice: [Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/), [Find Peak Element](https://leetcode.com/problems/find-peak-element/), [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/), [Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/), [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/), and [Aggressive Cows](https://www.geeksforgeeks.org/assign-stalls-to-cows/).
 
 **Binary Search with Verification:**
 - Aggressive Cows - https://leetcode.com/problems/aggressive-cows/

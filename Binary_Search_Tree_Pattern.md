@@ -71,6 +71,22 @@ Local check passes at 10, but 6 < 10 violates BST (6 is in right subtree of 10)
 Inorder: 1, 3, 4, 6, 7, 8, 10, 13, 14  ← SORTED!
 ```
 
+### BST Search Diagram
+
+```mermaid
+flowchart TD
+    A[Compare target with node] --> B{Equal?}
+    B -->|Yes| C[Found]
+    B -->|Target smaller| D[Move to left subtree]
+    B -->|Target larger| E[Move to right subtree]
+    D --> F{Null?}
+    E --> F
+    F -->|Yes| G[Not found]
+    F -->|No| A
+```
+
+Every comparison discards one subtree because the BST ordering makes that entire subtree impossible.
+
 ### When to Use BST Patterns?
 
 **Key Indicators:**

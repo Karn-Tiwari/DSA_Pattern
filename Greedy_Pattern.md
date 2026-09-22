@@ -2,6 +2,21 @@
 
 Greedy algorithms commit to the best-looking choice now and never undo it. That is powerful only when a proof shows that the choice cannot destroy every optimal solution.
 
+### Greedy Decision Diagram
+
+```mermaid
+flowchart TD
+    A[Choose the best-looking local move] --> B{Can a counterexample break it?}
+    B -->|Yes| C[Use DP, graph search, or backtracking]
+    B -->|No known counterexample| D{Can I prove an exchange?}
+    D -->|Yes| E[Greedy choice is safe]
+    D -->|No| F[Try a staying-ahead proof]
+    E --> G[Repeat on the remaining input]
+    F --> G
+```
+
+A locally attractive choice is only a hypothesis. The exchange or staying-ahead proof is what turns it into an algorithm.
+
 ## Table of Contents
 
 ### Part A: Foundation

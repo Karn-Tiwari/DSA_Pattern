@@ -35,6 +35,22 @@ Explore every choice at this step
 Try the next choice
 ```
 
+### Backtracking State Diagram
+
+```mermaid
+flowchart TD
+    A[Current partial solution] --> B[Choose an option]
+    B --> C{Valid choice?}
+    C -->|No| D[Skip option]
+    C -->|Yes| E[Apply choice]
+    E --> F[Recurse to next level]
+    F --> G[Undo choice]
+    G --> H[Try next option]
+    D --> H
+```
+
+The undo edge is essential: every branch must start from the same state that existed before its choice was applied.
+
 This "undo" step is the central difference between ordinary recursion and backtracking. The base case, recursive call, and recursion tree are still the same ideas from [Recursion_Pattern.md](Recursion_Pattern.md).
 
 ---
@@ -469,7 +485,7 @@ Permutations II, Combination Sum II).
 ## 11. Practice Roadmap
 
 **Reading / Practice:**
-- Striver's A2Z DSA Sheet — Recursion & Backtracking section: https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/
+- Recursion and Backtracking practice sheet
 - GeeksforGeeks — Backtracking Algorithms: https://www.geeksforgeeks.org/backtracking-algorithms/
 - LeetCode Backtracking tag: https://leetcode.com/tag/backtracking/
 
