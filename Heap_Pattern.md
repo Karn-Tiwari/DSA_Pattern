@@ -1,8 +1,6 @@
-# Heap Pattern: Aditya Verma Playlist Notes
+# Heap Pattern:
 
 > **Goal:** understand why a heap is chosen, instead of memorising 15 unrelated solutions.
-
-This note follows the problem family commonly taught in Aditya Verma's **Heap / Priority Queue** playlist. Video titles and order can change between playlist versions, so the checklist below uses the problem names rather than video numbers.
 
 ## Table of Contents
 
@@ -128,10 +126,6 @@ The root is always the weakest current winner.
 ```
 
 ---
-
-## 4. Playlist Questions
-
-These are the core questions to solve in the Aditya Verma heap sequence. The exact playlist may split or combine a few videos, but these are the recurring questions and patterns.
 
 ### Foundation and Top K
 
