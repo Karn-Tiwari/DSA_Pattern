@@ -131,7 +131,7 @@ The root is always the weakest current winner.
 
 ## 4. Playlist Questions
 
-These are the core questions in the heap sequence. A playlist may split or combine a few videos, but these are the recurring questions and patterns.
+These are the core questions in the heap sequence.
 
 ### Foundation and Top K
 
@@ -479,10 +479,6 @@ That reasoning is the pattern. The syntax is only the implementation.
 ---
 
 *Study order: understand the min/max decision, solve the 15 core playlist questions, then practise the related extensions.*
-
-### Playlist reference
-
-The direct practice links above are the question checklist; use the playlist for dry runs and the intuition behind each heap choice.
 
 ### Additional practice overlap
 
