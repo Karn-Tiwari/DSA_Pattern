@@ -172,6 +172,21 @@ Greedy "stays ahead" of any other solution.
 
 ## 4. Pattern 1: Activity Selection / Interval Scheduling
 
+#### Question (English)
+
+Given activities with start and finish times, how can you select the maximum number of non-overlapping activities?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+activities = [[1, 2], [3, 4], [0, 6], [5, 7], [8, 9]]
+activities = [[1, 3], [2, 4], [3, 5], [5, 7]]
+```
+
+Jo activity sabse jaldi finish hoti hai, woh future ke liye sabse zyada time bachati hai. Isliye finish time ke basis par sort karke compatible activities choose karo.
+
 ### Concept
 
 ```
@@ -251,6 +266,21 @@ Answer: 2 arrows ✓
 
 ## 5. Pattern 2: Jump Game / Reachability
 
+#### Question (English)
+
+Given the maximum jump length at each index, can you reach the last index, or do so using the fewest jumps?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [2, 3, 1, 1, 4]
+nums = [3, 2, 1, 0, 4]
+```
+
+Har position se ab tak ki maximum reachable position track karo. Current range ke andar rehkar sabse door tak pahunchne wali choice agla range maximize karti hai.
+
 ### Jump Game I — Can Reach End?
 
 ```cpp
@@ -301,6 +331,21 @@ Reached end with 2 jumps ✓
 
 ## 6. Pattern 3: Partition Labels / Grouping
 
+#### Question (English)
+
+How can you partition a string so that each character appears in at most one part, or merge overlapping intervals?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "ababcbacadefegdehijhklij"
+intervals = [[1, 3], [2, 6], [8, 10], [9, 12]]
+```
+
+Har character ka last occurrence pehle se jaan lo. Partition tabhi close karo jab current boundary ke andar ke sabhi characters ka last occurrence cover ho gaya ho.
+
 ### Partition Labels
 
 ```cpp
@@ -349,6 +394,21 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 
 ## 7. Pattern 4: Coin Change (Greedy When Valid)
 
+#### Question (English)
+
+How can you make a target amount using the fewest coins, and when is a greedy choice valid?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+coins = [1, 5, 10, 25], amount = 63
+coins = [1, 3, 4], amount = 6
+```
+
+Har coin system greedy ke liye valid nahi hota. Bade coin ko pehle lena tabhi sahi hai jab us choice ko proof justify kare; warna DP use karo.
+
 ### When Greedy Works for Coin Change
 
 ```
@@ -393,6 +453,21 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 ## 8. Pattern 5: Huffman Coding / Merge Patterns
 
+#### Question (English)
+
+How can you repeatedly merge items so that the total merge cost is minimum?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+sticks = [2, 4, 3]
+frequencies = [5, 9, 12, 13, 16, 45]
+```
+
+Jo item jaldi merge hota hai uski cost baar-baar total mein add hoti hai. Isliye har step par do sabse chhote active items combine karo.
+
 ### Minimum Cost to Connect Sticks
 
 ```cpp
@@ -417,6 +492,21 @@ int connectSticks(vector<int>& sticks) {
 
 ## 9. Pattern 6: Gas Station / Circular Greedy
 
+#### Question (English)
+
+Given gas and travel costs around a circle, how can you find a starting station from which the complete circuit is possible?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+gas = [1, 2, 3, 4, 5], cost = [3, 4, 5, 1, 2]
+gas = [2, 3, 4], cost = [3, 4, 3]
+```
+
+Agar kisi start se tank negative ho gaya, toh us start ke beech ke kisi station se bhi solution nahi banega. Start ko next station par reset karo aur total surplus se feasibility check karo.
+
 ```cpp
 int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     int totalTank = 0, currentTank = 0, start = 0;
@@ -439,6 +529,21 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
 ---
 
 ## 10. Pattern 7: Minimum Arrows / Points Covering
+
+#### Question (English)
+
+Given intervals, what is the minimum number of points or arrows needed to hit every interval?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+points = [[10, 16], [2, 8], [1, 6], [7, 12]]
+clips = [[0, 2], [4, 6], [8, 10], [1, 9], [1, 5], [5, 9]], time = 10
+```
+
+Intervals ko end point ke order mein process karo. Current arrow ko jitna late possible ho place karo, taaki woh current overlaps ko cover karte hue future options bhi bachaye.
 
 Already covered in Pattern 1 — sort by end, greedy coverage.
 
@@ -465,6 +570,21 @@ int videoStitching(vector<vector<int>>& clips, int time) {
 ---
 
 ## 11. Pattern 8: Task Scheduling Greedy
+
+#### Question (English)
+
+How can you schedule tasks to maximize completed work or minimize waiting time under the given constraints?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+tasks = ["A", "A", "A", "B", "B", "B"], cooldown = 2
+bills = [5, 5, 5, 10, 20]
+```
+
+Har step par current rule ke according sabse valuable ya urgent task choose karo. Greedy choice tabhi use karo jab invariant ya exchange argument prove kare ki local choice safe hai.
 
 ### Lemonade Change
 

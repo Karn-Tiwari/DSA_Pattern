@@ -99,6 +99,21 @@ While right < size:
 
 ## 2. Fixed Size Window
 
+#### Question (English)
+
+How can you compute an aggregate, such as maximum sum, over every contiguous window of fixed size `K`?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [2, 1, 5, 1, 3, 2], k = 3
+nums = [2, 3, 4, 1, 5], k = 2
+```
+
+Window ko ek step slide karte waqt left value subtract aur new right value add karo. Isse har window ko dobara calculate karne ki zaroorat nahi padti.
+
 ### Thought Process
 
 **When to Use:** When the problem requires examining **every possible subarray of exactly size k**.
@@ -605,6 +620,21 @@ Final: count = 4
 
 ## 3. Variable Size Window
 
+#### Question (English)
+
+How can you find the longest or shortest contiguous window satisfying a condition?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "eceba", k = 2
+s = "aa", k = 1
+```
+
+Right se window expand karo; condition tootne par left se shrink karo. Valid window milte hi length update karo, lekin exact shrink rule problem ke invariant par depend karta hai.
+
 ### Thought Process
 
 **When to Use:** When the window size is **not fixed** and depends on a condition (longest/shortest valid window).
@@ -1057,6 +1087,21 @@ Final: "BANC"
 - Multiple possibilities: Smallest window
 
 ## 4. Advanced Templates (Shrinkable vs Non-Shrinkable)
+
+#### Question (English)
+
+How can you handle sliding-window conditions where a normal shrink step does not directly preserve the required invariant?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "ADOBECODEBANC", t = "ABC"
+nums = [1, 2, 1, 2, 3], k = 2
+```
+
+Window ko valid banane ke liye frequency, count, ya transformed constraint track karo. Kabhi exact window ke bajay at-most condition solve karke subtraction se answer nikalna easier hota hai.
 
 ### Why Advanced Templates?
 

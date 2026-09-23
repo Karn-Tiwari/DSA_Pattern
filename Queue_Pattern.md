@@ -205,6 +205,21 @@ prints first           Level 2: [LL, LR, RL, RR] Round-robin execution
 
 ## 4. Pattern 1: BFS Level-Order Traversal
 
+#### Question (English)
+
+How can you process a tree or graph level by level from a starting node?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [3, 9, 20, null, null, 15, 7]
+root = [1, 2, 3, 4, 5, 6]
+```
+
+Queue mein current frontier rakho. Jo node pehle discover hua woh pehle process hoga, isliye distance ya tree level order mein naturally milta hai.
+
 ### Concept
 
 ```
@@ -319,6 +334,21 @@ int shortestPath(vector<vector<int>>& graph, int src, int dest) {
 
 ## 5. Pattern 2: Sliding Window with Deque (Monotonic Queue)
 
+#### Question (English)
+
+How can you find the minimum or maximum in every sliding window efficiently?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
+nums = [1, 2, 3, 4], k = 2
+```
+
+Deque ko monotonic rakho aur useless smaller ya larger candidates ko back se hata do. Front par current window ka answer rahega; expired index ko front se remove karo.
+
 ### Concept
 
 ```
@@ -379,6 +409,21 @@ while (!dq.empty() && nums[dq.back()] >= nums[i]) {
 
 ## 6. Pattern 3: Circular Queue
 
+#### Question (English)
+
+How can you implement a fixed-capacity queue that reuses positions after removals?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+capacity = 3, operations = [enQueue(1), enQueue(2), deQueue(), enQueue(3)]
+capacity = 2, operations = [enQueue(5), enQueue(6), enQueue(7), deQueue()]
+```
+
+Array ke end par pahunchne ke baad index ko modulo se beginning par wrap karo. Isse freed front positions dobara use hoti hain bina elements shift kiye.
+
 ### Concept
 
 ```
@@ -432,6 +477,21 @@ public:
 ---
 
 ## 7. Pattern 4: Queue with Stack (Design Problems)
+
+#### Question (English)
+
+How can you implement queue behavior using stacks, or design an operation that needs FIFO ordering?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+operations = [push(1), push(2), pop(), peek()]
+operations = [enqueue(4), enqueue(5), dequeue(), dequeue()]
+```
+
+Input stack incoming order rakhta hai aur output stack reversed order deta hai. Output empty hone par hi input ko transfer karo, taaki amortized cost efficient rahe.
 
 ### Implement Queue using Stacks
 
@@ -501,6 +561,21 @@ public:
 
 ## 8. Pattern 5: Multi-Source BFS
 
+#### Question (English)
+
+How can you compute the minimum time or distance when multiple starting nodes expand simultaneously?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+grid = [[2, 1, 1], [1, 1, 0], [0, 1, 1]]
+grid = [[2, 1, 1], [0, 1, 1], [1, 0, 1]]
+```
+
+Saare sources ko queue mein initially daal do. BFS ki same layer mein aaye nodes same distance/time par hain, isliye expansion simultaneous simulate hoti hai.
+
 ### Concept
 
 ```
@@ -557,6 +632,21 @@ int orangesRotting(vector<vector<int>>& grid) {
 
 ## 9. Pattern 6: 0-1 BFS (Deque for Weighted Graph)
 
+#### Question (English)
+
+How can you find shortest paths in a graph whose edge weights are only `0` or `1`?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1, 0], [1, 2, 1], [0, 2, 1]], source = 0
+edges = [[0, 1, 1], [1, 2, 0], [2, 3, 1]], source = 0
+```
+
+Weight zero wali edge ko deque ke front par aur weight one wali edge ko back par daalo. Deque hamesha smallest tentative distance ko pehle process karne mein help karta hai.
+
 ### Concept
 
 ```
@@ -595,6 +685,21 @@ int zeroOneBFS(vector<vector<pair<int, int>>>& graph, int src, int dest) {
 ---
 
 ## 10. Pattern 7: Task Scheduling with Queue
+
+#### Question (English)
+
+How can you schedule tasks when tasks become available over time and waiting or cooldown rules apply?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+tasks = ["A", "A", "A", "B", "B", "B"], n = 2
+tasks = ["A", "A", "B", "B"], n = 0
+```
+
+Ready tasks queue mein aur unavailable tasks ko unke release time ke saath manage karo. Har time step par pehle newly available tasks add karo, phir legal task process karo.
 
 ### Problem: Task Scheduler
 

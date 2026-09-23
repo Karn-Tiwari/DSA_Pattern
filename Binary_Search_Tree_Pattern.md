@@ -137,6 +137,21 @@ BINARY TREE:                    BST:
 
 ## 4. Pattern 1: Inorder Traversal (Sorted Order)
 
+#### Question (English)
+
+How can you traverse a Binary Search Tree so that its values are visited in sorted order?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [4, 2, 6, 1, 3, 5, 7]
+root = [5, 3, 7, 2, 4, 6, 8]
+```
+
+BST mein left subtree ke saare values root se chhote aur right subtree ke saare values root se bade hote hain. Isliye pehle left, phir root, aur phir right visit karne par values sorted order mein milti hain.
+
 ### Concept
 
 ```
@@ -201,6 +216,21 @@ int kthSmallest(TreeNode* root, int k) {
 ---
 
 ## 5. Pattern 2: Search, Insert & Delete
+
+#### Question (English)
+
+How do you search, insert, and delete a value while preserving the Binary Search Tree property?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+operations = [insert(5), insert(3), search(3), delete(5)]
+operations = [insert(8), insert(4), insert(10), search(6)]
+```
+
+Har step par current value se compare karke sirf ek direction choose karni hoti hai. Chhota value left jayega aur bada value right; is property ki wajah se unnecessary subtree skip ho jaati hai.
 
 ### Search
 
@@ -289,6 +319,21 @@ Delete 3 →               Delete 5 →               Delete 5 →
 
 ## 6. Pattern 3: Validate BST
 
+#### Question (English)
+
+How can you determine whether a binary tree is a valid Binary Search Tree?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [2, 1, 3]
+root = [5, 1, 4, null, null, 3, 6]
+```
+
+Sirf parent ke saath compare karna enough nahi hai. Har node ke liye ek valid range maintain karo, kyunki node ko apne poore left aur right ancestors ke rules follow karne hote hain.
+
 ### Approach 1: Range Checking (Best)
 
 ```cpp
@@ -328,6 +373,21 @@ bool isValidBST(TreeNode* root) {
 
 ## 7. Pattern 4: Kth Smallest / Kth Largest
 
+#### Question (English)
+
+How can you find the kth smallest or kth largest value in a Binary Search Tree?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [3, 1, 4, null, 2], k = 1
+root = [5, 3, 6, 2, 4, null, 7], k = 3
+```
+
+BST ka inorder traversal sorted list deta hai. Isliye inorder ke dauraan count karte hue kth visited node milte hi answer mil jaata hai; poori list store karne ki zaroorat nahi.
+
 ### Kth Smallest — Inorder
 
 Already shown in Pattern 1 — stop at Kth element.
@@ -366,6 +426,21 @@ struct AugmentedNode {
 ---
 
 ## 8. Pattern 5: LCA in BST
+
+#### Question (English)
+
+Given two values in a BST, how can you find their lowest common ancestor?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [6, 2, 8, 0, 4, 7, 9], p = 2, q = 8
+root = [6, 2, 8, 0, 4, 7, 9], p = 2, q = 4
+```
+
+Agar dono values current node se chhoti hain toh left jao, dono badi hain toh right jao. Jis node par unki directions split hoti hain, wahi sabse neecha common ancestor hota hai.
 
 ### Concept
 
@@ -410,6 +485,21 @@ LCA(7, 9) = 8  (both in right subtree of 6, split at 8)
 
 ## 9. Pattern 6: Range Queries & Trim BST
 
+#### Question (English)
+
+How can you query values in a range or remove nodes outside a given range while keeping the BST valid?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [3, 0, 4, null, 2, null, null, 1], range = [1, 3]
+root = [5, 3, 8, 2, 4, 7, 9], range = [4, 8]
+```
+
+BST ordering ki wajah se out-of-range subtree ko poora skip kiya ja sakta hai. Agar root chhota hai toh left useless hai, aur agar root bada hai toh right useless hai.
+
 ### Range Sum of BST
 
 ```cpp
@@ -445,6 +535,21 @@ TreeNode* trimBST(TreeNode* root, int low, int high) {
 ---
 
 ## 10. Pattern 7: Convert Sorted Array to BST
+
+#### Question (English)
+
+How can you construct a height-balanced BST from a sorted array?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [-10, -3, 0, 5, 9]
+nums = [1, 2, 3, 4, 5, 6, 7]
+```
+
+Middle element ko root banao, kyunki uske left aur right mein elements balanced divide honge. Phir isi rule ko dono halves par recursively apply karo.
 
 ### Concept
 
@@ -494,6 +599,21 @@ TreeNode* sortedListToBST(ListNode* head) {
 ---
 
 ## 11. Pattern 8: BST Iterator & Inorder Successor
+
+#### Question (English)
+
+How can you return BST values in sorted order one at a time, or find the inorder successor of a node?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [7, 3, 15, null, null, 9, 20]
+root = [5, 2, 8, 1, 3, 7, 9]
+```
+
+Poora inorder store karne ke bajay stack mein sirf next path rakho. Stack ka top next smallest value deta hai, isliye iterator lazy aur space-efficient rehta hai.
 
 ### BST Iterator (O(1) amortized next)
 

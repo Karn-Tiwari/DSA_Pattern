@@ -131,6 +131,21 @@ In interview, just use:
 
 ## 4. Pattern 1: Merge Sort (Divide & Conquer)
 
+#### Question (English)
+
+How can you sort an array in `O(n log n)` time using divide and conquer, and count inversions while merging?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [5, 2, 3, 1]
+nums = [2, 4, 1, 3, 5]
+```
+
+Array ko halves mein todte raho jab tak single elements na bach jaayen. Merge ke time do sorted halves ko combine karo; isi waqt cross inversions bhi count ho sakti hain.
+
 ### Concept
 
 ```
@@ -200,6 +215,21 @@ long long mergeAndCount(vector<int>& arr, int lo, int mid, int hi, vector<int>& 
 
 ## 5. Pattern 2: Quick Sort (Partition)
 
+#### Question (English)
+
+How can you sort or select elements by partitioning an array around a pivot?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [10, 7, 8, 9, 1, 5]
+nums = [3, 2, 1, 5, 6, 4], k = 2
+```
+
+Pivot ke chhote elements left aur bade elements right side mein arrange karo. Partition ke baad pivot apni final position par hota hai, isliye dono sides independently solve ho sakti hain.
+
 ### Concept
 
 ```
@@ -254,6 +284,21 @@ int quickSelect(vector<int>& arr, int lo, int hi, int k) {
 
 ## 6. Pattern 3: Heap Sort
 
+#### Question (English)
+
+How can you sort an array in-place using a heap?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [4, 10, 3, 5, 1]
+nums = [12, 11, 13, 5, 6, 7]
+```
+
+Max-heap ka root largest element hota hai. Root ko end par swap karke heap size reduce karo aur heapify se invariant restore karo.
+
 ```cpp
 void heapifyDown(vector<int>& arr, int i, int n) {
     int largest = i;
@@ -281,6 +326,21 @@ void heapSort(vector<int>& arr) {
 ---
 
 ## 7. Pattern 4: Counting Sort
+
+#### Question (English)
+
+When can you sort integer values in linear time by counting occurrences instead of comparing elements?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [4, 2, 2, 8, 3, 3, 1]
+colors = [2, 0, 2, 1, 1, 0]
+```
+
+Value range chhoti ho toh har value ki frequency count karo. Counts ko expand karke sorted output milta hai bina pairwise comparisons ke.
 
 ### When to Use
 
@@ -324,6 +384,21 @@ void sortColors(vector<int>& nums) {
 
 ## 8. Pattern 5: Bucket Sort
 
+#### Question (English)
+
+How can you distribute values into buckets and sort the buckets to improve performance on suitable input distributions?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [0.42, 0.32, 0.33, 0.52, 0.37, 0.47, 0.51]
+nums = [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21]
+```
+
+Values ko range ke hisaab se buckets mein baanto. Har bucket locally sort karo aur buckets ko order mein concatenate karo.
+
 ```cpp
 void bucketSort(vector<float>& arr) {
     int n = arr.size();
@@ -348,6 +423,21 @@ void bucketSort(vector<float>& arr) {
 ---
 
 ## 9. Pattern 6: Radix Sort
+
+#### Question (English)
+
+How can you sort integers by processing their digits from least significant to most significant?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [170, 45, 75, 90, 802, 24, 2, 66]
+nums = [329, 457, 657, 839, 436, 720, 355]
+```
+
+Har digit position par stable sort karo. Stability purane digit order ko preserve karti hai, isliye next digit process hone par complete ordering build hoti hai.
 
 ```cpp
 void countingSortByDigit(vector<int>& arr, int exp) {
@@ -375,6 +465,21 @@ void radixSort(vector<int>& arr) {
 ---
 
 ## 10. Pattern 7: Custom Comparator Sorting
+
+#### Question (English)
+
+How can you sort objects or strings according to a problem-specific ordering rule?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+words = ["3", "30", "34", "5", "9"]
+items = [["alice", 3], ["bob", 1], ["carol", 2]]
+```
+
+Comparator ko clear pairwise rule dena hota hai. Largest-number type problems mein direct numeric comparison ke bajay `a+b` aur `b+a` compare karo.
 
 ### Largest Number
 
@@ -407,6 +512,21 @@ sort(people.begin(), people.end(), [](vector<int>& a, vector<int>& b) {
 ---
 
 ## 11. Pattern 8: Sorting Intervals & Events
+
+#### Question (English)
+
+How can you merge intervals, detect overlaps, or process interval events in the correct order?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+intervals = [[1, 3], [2, 6], [8, 10], [9, 12]]
+intervals = [[1, 4], [4, 5]]
+```
+
+Pehle intervals ko start ya end ke according sort karo, phir ek pass mein active boundary maintain karo. Sahi sort key problem ka greedy decision simple bana deti hai.
 
 ### Merge Intervals
 
@@ -449,6 +569,21 @@ int eraseOverlapIntervals(vector<vector<int>>& intervals) {
 ---
 
 ## 12. Pattern 9: Sorting by Frequency / Index
+
+#### Question (English)
+
+How can you reorder values according to frequency, a reference array, or their original index constraints?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 1, 2, 2, 2, 3]
+arr1 = [2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8], arr2 = [2, 1, 8, 3]
+```
+
+Required priority ko comparator ya frequency table mein encode karo. Pehle key decide karo, phir tie ke liye exact rule define karke sort karo.
 
 ### Sort Array by Increasing Frequency
 

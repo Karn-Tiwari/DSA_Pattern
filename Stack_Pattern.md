@@ -988,6 +988,21 @@ Result findBothGreater(vector<int>& arr) {
 
 ### Problem: Largest Rectangle in Histogram
 
+#### Question (English)
+
+Given bar heights, find the largest rectangle that can be formed in a histogram.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+heights = [2, 1, 5, 6, 2, 3]
+heights = [2, 4]
+```
+
+Monotonic increasing stack har bar ke liye previous smaller boundary rakhta hai. Smaller bar milte hi taller bars ka right boundary fix ho jaata hai, tab unka area calculate karo.
+
 **Problem Statement:**
 ```
 Given heights of histogram bars, find largest rectangle area.
@@ -1161,6 +1176,21 @@ Maximum area = 10
 
 ### Problem: Sum of Subarray Minimums
 
+#### Question (English)
+
+Find the sum of the minimum value of every subarray, usually modulo a given number.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [3, 1, 2, 4]
+nums = [11, 81, 94, 43, 3]
+```
+
+Har element ko minimum banne wale subarrays count karo. Previous aur next smaller boundaries monotonic stacks se milti hain; left choices times right choices uska contribution deti hain.
+
 **Problem Statement:**
 ```
 Find sum of minimum elements in all subarrays.
@@ -1299,6 +1329,21 @@ Total = 3 + 6 + 4 + 4 = 17 ✓
 
 ### Problem: Daily Temperatures
 
+#### Question (English)
+
+For each day, find how many days must pass before a warmer temperature occurs.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+temperatures = [73, 74, 75, 71, 69, 72, 76, 73]
+temperatures = [30, 40, 50, 60]
+```
+
+Stack mein unresolved cooler days rakho. Warmer temperature aate hi top days resolve karo, kyunki current day unke liye next warmer day hai.
+
 **Problem Statement:**
 ```
 Find how many days until a warmer temperature.
@@ -1401,6 +1446,21 @@ Final: [1, 1, 4, 2, 1, 1, 0, 0] ✓
 ## Part D3: Circular Array Problems
 
 ### Problem: Next Greater Element II
+
+#### Question (English)
+
+For every element in a circular array, find the next greater element to its right.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 2, 1]
+nums = [5, 4, 3, 2, 1]
+```
+
+Array ko do baar traverse karke circular effect simulate karo. Decreasing stack unresolved elements rakhegi aur greater value milte hi answers fill honge.
 
 **Problem Statement:**
 ```

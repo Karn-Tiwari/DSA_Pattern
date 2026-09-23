@@ -193,6 +193,21 @@ Most DP problems fit a small number of recognizable patterns. You usually do not
 
 ## 6. Pattern 1: 0/1 Knapsack
 
+#### Question (English)
+
+Given items with weights and values, how can you maximize value when each item can be chosen at most once within a capacity limit?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+weights = [1, 3, 4, 5], values = [1, 4, 5, 7], capacity = 7
+weights = [2, 3, 4], values = [4, 5, 7], capacity = 5
+```
+
+Har item par do choices hain: lo ya skip karo. Item ko dobara use nahi karna hai, isliye state previous items aur remaining capacity par depend karti hai.
+
 **Signature question:** "Given items with weight & value, and a capacity, choose a SUBSET (each item once) to maximize/satisfy something."
 
 ### Recursive Template (Step 1)
@@ -244,6 +259,21 @@ Final answer sits at dp[0][7] = 9  (items wt=3,val=4 + wt=4,val=5)
 
 ## 7. Pattern 2: Unbounded Knapsack
 
+#### Question (English)
+
+Given items with weights and values, how can you maximize value when an item may be chosen multiple times within a capacity limit?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+weights = [2, 3, 4], values = [4, 5, 7], capacity = 7
+coins = [1, 2, 5], amount = 11
+```
+
+Yahan item choose karne ke baad bhi wahi item dobara available rehta hai. Isliye transition mein same item ko reuse karne ke liye current item par rehna hota hai.
+
 **Signature question:** "Same as knapsack, but you may reuse an item unlimited times."
 
 **The ONE-line difference from 0/1 Knapsack:**
@@ -276,6 +306,21 @@ dp[cap] = min( dp[cap], 1 + dp[cap - coin] )   for every coin <= cap
 ---
 
 ## 8. Pattern 3: Fibonacci-style DP
+
+#### Question (English)
+
+How can you solve problems whose answer at position `n` depends on a small number of earlier positions?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+n = 5
+steps = 4
+```
+
+Agar current answer kuch previous answers se banta hai, toh un answers ko baar-baar calculate mat karo. Unhe store karke overlapping recursion ko DP mein badal do.
 
 **Signature question:** "`f(n)` depends on a small fixed window of previous states (f(n-1), f(n-2), …)."
 
@@ -310,6 +355,21 @@ This is the clearest illustration of **Step 5 (Space Optimization)**: since `dp[
 ---
 
 ## 9. Pattern 4: Longest Common Subsequence (LCS)
+
+#### Question (English)
+
+Given two strings, how can you find the longest sequence common to both in the same order, without requiring contiguous characters?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s1 = "ABCBDAB", s2 = "BDCABA"
+s1 = "abcde", s2 = "ace"
+```
+
+Agar dono current characters same hain toh unhe answer mein include karke dono pointers aage badhao. Alag hone par ek character skip karke dono possibilities mein se best answer lo.
 
 **Signature question:** "Two strings/arrays — compare characters, build a relationship between them."
 
@@ -363,6 +423,21 @@ int lcs(string s1, string s2) {
 
 ## 10. Pattern 5: Longest Increasing Subsequence (LIS)
 
+#### Question (English)
+
+Given an array, how can you find the longest subsequence whose values are strictly increasing?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [10, 9, 2, 5, 3, 7, 101, 18]
+nums = [0, 1, 0, 3, 2, 3]
+```
+
+Har value ko kisi previous smaller value ke baad attach karne ki koshish karo. Efficient method mein tails array har length ki subsequence ka smallest possible ending rakhta hai.
+
 **Signature question:** "One sequence — find the best subsequence that must obey an ORDER (increasing/decreasing)."
 
 ### Recursive Template (O(n²) DP version)
@@ -396,6 +471,21 @@ Answer = max(dp) = 4
 
 ## 11. Pattern 6: Kadane's Algorithm
 
+#### Question (English)
+
+How can you find the maximum sum of a contiguous subarray?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+nums = [5, 4, -1, 7, 8]
+```
+
+Current subarray tabhi useful hai jab previous sum positive contribution de raha ho. Agar previous sum negative hai toh usse chhodkar current element se naya subarray start karna better hai.
+
 **Signature question:** "Find a maximum/minimum sum **contiguous** subarray (not subsequence — must be unbroken)."
 
 ```cpp
@@ -418,6 +508,21 @@ int maxSubArray(vector<int>& nums) {
 ---
 
 ## 12. Pattern 7: Matrix Chain Multiplication (MCM)
+
+#### Question (English)
+
+Given a sequence of matrices, how can you choose the multiplication order that minimizes scalar multiplications?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+dims = [10, 30, 5, 60]
+dims = [40, 20, 30, 10, 30]
+```
+
+Chain ko har possible split point par do parts mein todkar dono parts ka best cost plus final multiplication cost calculate karo. Parentheses ka order cost badal sakta hai.
 
 **Signature question:** "Given a range `[i, j]`, where do I make an optimal CUT/PARTITION inside it?" This is the "hardest" of the 9 patterns because the recursion has an extra loop for the cut point `k`.
 
@@ -449,6 +554,21 @@ dp[i][j] = MIN or MAX over every k in [i, j-1] of:
 ---
 
 ## 13. Pattern 8 & 9: DP on Grids and DP on Trees
+
+#### Question (English)
+
+How can you compute an optimal path or subtree result when each state depends on neighbouring cells or child subtrees?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+grid = [[1, 3, 1], [1, 5, 1], [4, 2, 1]]
+tree = [3, 2, 1, 4, null, null, 5]
+```
+
+Grid mein state usually upar aur left se aati hai, jabki tree mein child answers parent par combine hote hain. Pehle state define karo, phir smaller subproblems se answer build karo.
 
 ### DP on Grids — Signature: "move through a 2D grid (right/down, or similar) optimizing a path"
 ```cpp

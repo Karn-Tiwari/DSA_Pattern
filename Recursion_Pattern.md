@@ -220,6 +220,21 @@ Tree shape:  binary tree, 2^n leaves = all subsequences
 
 ### Example 1: Sum of First N Natural Numbers
 
+#### Question (English)
+
+How can you compute the sum of the first `N` natural numbers using recursion?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+n = 5
+n = 10
+```
+
+Sum `n` ko chhote problem `sum(n-1)` mein tod do. Base case par rukna zaroori hai, warna recursive calls kabhi terminate nahi hongi.
+
 **Hypothesis:** `sum(n)` returns `1 + 2 + ... + n`.
 
 **Base Case:** `sum(0) = 0`.
@@ -247,6 +262,21 @@ sum(4) = 4 + sum(3)
 
 ### Example 2: Reverse a String
 
+#### Question (English)
+
+How can you reverse a string recursively?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "hello"
+s = "recursion"
+```
+
+Pehle baaki substring reverse karne do, phir current character ko correct position par place karo. Har call problem size ko chhota karti hai.
+
 **Hypothesis:** `reverse(s, i)` reverses `s[i..end]` in place.
 
 **Base Case:** pointer `i` crosses the midpoint → nothing left to swap.
@@ -264,6 +294,21 @@ void reverse(string &s, int i, int j) {
 ---
 
 ### Example 3: Print 1 to N Without a Loop (Head Recursion Trick)
+
+#### Question (English)
+
+How can you print the numbers from `1` to `N` without using a loop?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+n = 5
+n = 8
+```
+
+Pehle recursive call karke `n-1` tak print karao, phir return ke baad `n` print karo. Ye head-recursion order ascending output deta hai.
 
 ```cpp
 void printOneToN(int n) {
@@ -316,6 +361,21 @@ void solve(vector<int>& arr, int idx, /* running state */) {
 
 ### Example 4: Print All Subsequences of an Array
 
+#### Question (English)
+
+How can you generate every subsequence of an array while preserving element order?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 2, 3]
+nums = [4, 5]
+```
+
+Har element ko pick ya not-pick karo. Dono branches complete hone par saari possible subsequences cover ho jaati hain.
+
 **Problem:** `arr = [3, 1, 2]` → print all 2³ = 8 subsequences.
 
 ```cpp
@@ -350,6 +410,21 @@ Total leaves = 2^n = 4 subsequences: {3,1} {3} {1} {}
 This tree shape — **doubling at every level** — is exactly why brute-force subset/subsequence recursion is **O(2ⁿ)**, and it's the visual proof for why Binary-Search-on-Answer or DP is needed once `n` gets large (30+).
 
 ### Example 5: Fibonacci — Where Recursion Alone Breaks Down
+
+#### Question (English)
+
+How can you calculate Fibonacci numbers and avoid repeated recursive work?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+n = 6
+n = 10
+```
+
+Naive recursion same `fib` values baar-baar calculate karti hai. Pehle result ko memoize karo, phir zaroorat ho toh bottom-up DP se space bhi optimize karo.
 
 ```cpp
 int fib(int n) {

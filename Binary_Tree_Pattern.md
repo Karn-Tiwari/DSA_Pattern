@@ -229,6 +229,21 @@ BOTTOM-UP (Postorder style):
 
 ## 4. Pattern 1: DFS Traversals (Pre/In/Post Order)
 
+#### Question (English)
+
+How can you visit every node of a binary tree in preorder, inorder, or postorder?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [1, 2, 3, 4, 5, 6, 7]
+root = [1, null, 2, 3]
+```
+
+Traversal ka difference sirf itna hai ki current node ko left aur right subtree ke before, between, ya after process karna hai. Recursion naturally isi order ko follow karti hai.
+
 ### Maximum Depth of Binary Tree
 
 ```cpp
@@ -282,6 +297,21 @@ bool isMirror(TreeNode* l, TreeNode* r) {
 ---
 
 ## 5. Pattern 2: BFS Level-Order Traversal
+
+#### Question (English)
+
+How can you process a binary tree level by level from top to bottom?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [3, 9, 20, null, null, 15, 7]
+root = [1, 2, 3, 4, 5, null, 6]
+```
+
+Queue mein current level ke nodes rakho. Har node ko nikaalte waqt uske children queue ke end mein daalo, isliye purana level pehle complete hota hai.
 
 ### Template
 
@@ -369,6 +399,21 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 
 ## 6. Pattern 3: Height, Depth & Diameter
 
+#### Question (English)
+
+How can you calculate the height, depth, or diameter of a binary tree?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [1, 2, 3, 4, 5, null, 6]
+root = [1, 2, null, 3, null, 4]
+```
+
+Har node par left aur right subtree ki information combine hoti hai. Height ek subtree ki maximum depth hai, aur diameter ke liye left height + right height ko global answer se compare karo.
+
 ### Balanced Binary Tree
 
 ```cpp
@@ -408,6 +453,21 @@ int diameterOfBinaryTree(TreeNode* root) {
 ---
 
 ## 7. Pattern 4: Path Sum Problems
+
+#### Question (English)
+
+How can you determine whether a binary tree contains a root-to-leaf path with a required sum?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [5, 4, 8, 11, null, 13, 4, 7, 2], targetSum = 22
+root = [1, 2, 3], targetSum = 5
+```
+
+Har node par target se current value subtract karo. Leaf par agar remaining sum zero hai, toh valid path mil gaya; warna dono children mein search continue karo.
 
 ### Path Sum (Root to Leaf)
 
@@ -480,6 +540,21 @@ int maxPathSum(TreeNode* root) {
 
 ## 8. Pattern 5: Lowest Common Ancestor (LCA)
 
+#### Question (English)
+
+Given two nodes in a binary tree, how can you find their lowest common ancestor?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], p = 5, q = 1
+root = [1, 2, 3, 4, 5], p = 4, q = 5
+```
+
+Agar current node hi ek target hai toh wahi result ban sakta hai. Left aur right se targets milen toh current node split point hai; sirf ek side se mile toh answer usi side mein hai.
+
 ### LCA in Binary Tree
 
 ```cpp
@@ -514,6 +589,21 @@ LCA(7, 4) = 2  (same subtree)
 
 ## 9. Pattern 6: Tree Construction from Traversals
 
+#### Question (English)
+
+How can you reconstruct a binary tree from its preorder and inorder traversals?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+preorder = [3, 9, 20, 15, 7], inorder = [9, 3, 15, 20, 7]
+preorder = [1, 2, 4, 5, 3], inorder = [4, 2, 5, 1, 3]
+```
+
+Preorder ka first element root hota hai. Inorder mein root ke left wale elements left subtree aur right wale elements right subtree hote hain; isi boundary ko recursively use karo.
+
 ### Construct from Preorder + Inorder
 
 ```cpp
@@ -543,6 +633,21 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
 ---
 
 ## 10. Pattern 7: Serialize & Deserialize
+
+#### Question (English)
+
+How can you convert a binary tree into a string and rebuild the same tree from that string?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [1, 2, 3, null, null, 4, 5]
+root = [10, 5, 15, null, 7]
+```
+
+Null children ko bhi record karna zaroori hai, warna structure lose ho jayega. Fixed traversal order aur null markers se encoding unambiguous ban jaati hai.
 
 ```cpp
 class Codec {
@@ -579,6 +684,21 @@ private:
 ---
 
 ## 11. Pattern 8: Morris Traversal (O(1) Space)
+
+#### Question (English)
+
+How can you traverse a binary tree in inorder using constant extra space?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+root = [1, null, 2, 3]
+root = [4, 2, 6, 1, 3, 5, 7]
+```
+
+Stack ki jagah temporary predecessor links banao. Left subtree complete hone ke baad link tod do, taaki tree exactly original structure mein restore ho jaaye.
 
 ### Morris Inorder Traversal
 

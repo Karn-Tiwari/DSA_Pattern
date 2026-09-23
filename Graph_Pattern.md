@@ -123,6 +123,21 @@ A list of `{u, v, weight}` is ideal when sorting edges, as in Kruskal's minimum 
 
 ## 3. BFS and DFS
 
+#### Question (English)
+
+How can you visit all reachable vertices of a graph using breadth-first search or depth-first search?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1], [0, 2], [1, 3]], start = 0
+edges = [[0, 1], [1, 2], [2, 0]], start = 0
+```
+
+BFS queue se layer by layer chalta hai, jabki DFS ek path ko depth tak explore karta hai. Dono mein visited set zaroor rakho, warna cycle mein baar-baar wahi node visit hogi.
+
 ### Breadth-First Search: Explore by Distance
 
 BFS uses a queue. Every node is processed after all nodes at the previous distance, so in an unweighted graph the first time a node is reached is through a shortest path.
@@ -201,6 +216,21 @@ Complexity for both BFS and DFS is `O(V + E)` with an adjacency list.
 
 ## 4. Connected Components and Grid Graphs
 
+#### Question (English)
+
+How can you count connected components in a graph or connected regions in a grid?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1], [1, 2], [3, 4]], vertices = 5
+grid = [[1, 1, 0], [0, 1, 0], [1, 0, 1]]
+```
+
+Har unvisited node ya cell se traversal start karo. Ek traversal poora connected component mark kar dega, isliye starts ki count final answer hoti hai.
+
 If the graph may be disconnected, start a traversal from every unvisited vertex.
 
 ```cpp
@@ -250,6 +280,21 @@ The boundary check exists because the grid is the graph; outside the grid there 
 ---
 
 ## 5. Cycle Detection
+
+#### Question (English)
+
+How can you detect a cycle in a directed or undirected graph?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1], [1, 2], [2, 0]], vertices = 3
+edges = [[0, 1], [1, 2], [2, 3]], vertices = 4
+```
+
+Undirected graph mein parent ko ignore karke visited neighbour cycle batata hai. Directed graph mein current recursion path ka node dobara milna back edge aur cycle ka signal hai.
 
 ### Undirected Graph: DFS with Parent
 
@@ -305,6 +350,21 @@ The second state is necessary: "visited before" is not enough to distinguish an 
 
 ## 6. Topological Sorting
 
+#### Question (English)
+
+How can you order the vertices of a directed acyclic graph so every prerequisite appears before its dependent task?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+prerequisites = [[1, 0], [2, 0], [3, 1], [3, 2]], courses = 4
+prerequisites = [[1, 0], [0, 1]], courses = 2
+```
+
+Jiski indegree zero hai uske prerequisites complete hain, isliye use pehle process karo. Har removal ke baad neighbours ki indegree ghatao; cycle ho toh sab nodes process nahi honge.
+
 A topological order exists only for a directed acyclic graph. It places every prerequisite before the work that depends on it.
 
 ### Kahn's Algorithm: Indegree Reasoning
@@ -346,6 +406,21 @@ DFS can also produce a topological order by pushing a node after all its outgoin
 ---
 
 ## 7. Shortest Paths
+
+#### Question (English)
+
+How can you find shortest paths in an unweighted, non-negative weighted, or negative-weight graph?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1], [1, 2], [0, 2]], source = 0
+edges = [[0, 1, 4], [0, 2, 1], [2, 1, 2]], source = 0
+```
+
+Unweighted graph mein BFS equal edges ko handle karta hai; non-negative weights mein Dijkstra minimum tentative distance choose karta hai. Negative edge ke liye Bellman-Ford relaxation repeat karta hai.
 
 Choose the algorithm from the edge weights:
 
@@ -397,6 +472,21 @@ Never use Dijkstra when negative edge weights are possible. Its finalization pro
 
 ## 8. Disjoint Set Union
 
+#### Question (English)
+
+How can you efficiently determine whether two vertices belong to the same component while edges are added?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+operations = [union(1, 2), union(2, 3), connected(1, 3)]
+operations = [union(1, 2), union(3, 4), connected(1, 4)]
+```
+
+Har component ka representative parent rakho. Path compression aur union by rank se representative jaldi milta hai aur merges almost constant amortized time mein hote hain.
+
 DSU maintains groups under two operations:
 
 - `find(x)`: identify the representative of `x`'s group.
@@ -436,6 +526,21 @@ public:
 ---
 
 ## 9. Minimum Spanning Tree
+
+#### Question (English)
+
+How can you connect every vertex with minimum total edge weight and no cycles?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+edges = [[0, 1, 1], [1, 2, 2], [0, 2, 3]], vertices = 3
+edges = [[0, 1, 4], [0, 2, 1], [1, 2, 2], [1, 3, 1], [2, 3, 5]], vertices = 4
+```
+
+Kruskal mein lightest edge ko tabhi lo jab woh cycle na banaye; Prim mein current tree se nikalne wali lightest edge lo. Dono choices connectivity maintain karte hue total weight minimize karti hain.
 
 For a connected, undirected, weighted graph, an MST connects every vertex with minimum total edge weight and no cycle.
 

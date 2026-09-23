@@ -193,6 +193,21 @@ int getLength(ListNode* head) {
 
 ## 4. Pattern 1: Dummy Head Node
 
+#### Question (English)
+
+How can you remove or insert nodes near the head without writing a separate edge-case branch?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+head = [1, 2, 6, 3, 4, 5, 6], remove = 6
+head = [7, 7, 7, 7], remove = 7
+```
+
+Head se pehle ek dummy node laga do. Ab head bhi normal middle node jaisa behave karega aur previous pointer hamesha available rahega.
+
 ### Concept
 
 ```
@@ -275,6 +290,21 @@ Result: 1 → 2 → 3 → 4 → 5
 
 ## 5. Pattern 2: Fast & Slow Pointers
 
+#### Question (English)
+
+How can you find the middle node or locate a position relative to the end of a linked list in one pass?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+head = [1, 2, 3, 4, 5]
+head = [1, 2]
+```
+
+Fast pointer do steps aur slow pointer ek step chalega. Fast ke end tak pahunchne par slow middle par hoga; fixed gap se nth-from-end bhi milta hai.
+
 ### Concept
 
 ```
@@ -349,6 +379,21 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 
 ## 6. Pattern 3: Reverse Linked List
 
+#### Question (English)
+
+How can you reverse all or part of a singly linked list safely?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+head = [1, 2, 3, 4, 5]
+head = [1, 2, 3, 4], left = 2, right = 3
+```
+
+Link todne se pehle next node save karo. Phir current ka pointer previous ki taraf reverse karo aur dono pointers aage badhao.
+
 ### Concept
 
 ```
@@ -420,6 +465,21 @@ ListNode* reverseBetween(ListNode* head, int left, int right) {
 
 ## 7. Pattern 4: Merge Linked Lists
 
+#### Question (English)
+
+How can you merge two or more sorted linked lists into one sorted list?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+list1 = [1, 2, 4], list2 = [1, 3, 4]
+lists = [[1, 4, 5], [1, 3, 4], [2, 6]]
+```
+
+Har list ka current node compare karke smallest node ko answer mein jodo. Jo list ka node use hua, sirf usi list ka pointer aage badhega.
+
 ### Merge Two Sorted Lists
 
 ```cpp
@@ -466,6 +526,21 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
 
 ## 8. Pattern 5: Two List Pointers
 
+#### Question (English)
+
+How can you find the intersection node of two linked lists?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+listA = [4, 1, 8, 4, 5], listB = [5, 6, 1, 8, 4, 5]
+listA = [2, 6, 4], listB = [1, 5]
+```
+
+Dono pointers ko doosri list ke head par switch karwao. Isse dono same total distance travel karenge aur intersection par align ho jayenge.
+
 ### Intersection of Two Linked Lists
 
 **Key Insight:** If lists intersect, from intersection onward they share the same tail length.
@@ -499,6 +574,21 @@ Both meet at c1 after lenA + lenB steps
 ---
 
 ## 9. Pattern 6: Cycle Detection (Floyd's Algorithm)
+
+#### Question (English)
+
+How can you detect a cycle in a linked list and find the node where the cycle begins?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+head = [3, 2, 0, -4], pos = 1
+head = [1, 2], pos = 0
+```
+
+Cycle mein fast aur slow pointers eventually milenge. Meeting ke baad ek pointer head par reset karo; dono ek-ek step chalenge aur cycle entry par milenge.
 
 ### Detect Cycle
 
@@ -564,6 +654,21 @@ both reach cycle start!
 ---
 
 ## 10. Pattern 7: Reorder & Rotate
+
+#### Question (English)
+
+How can you reorder a linked list by alternating its ends, or rotate it by `k` positions?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+head = [1, 2, 3, 4, 5]
+head = [0, 1, 2], k = 4
+```
+
+List ko middle par split karke second half reverse karo, phir dono halves alternate merge karo. Rotation ke liye list ko circular bana kar correct break point par tod do.
 
 ### Reorder List (L0→Ln→L1→Ln-1→...)
 
@@ -636,6 +741,21 @@ ListNode* rotateRight(ListNode* head, int k) {
 ---
 
 ## 11. Pattern 8: Deep Copy & Random Pointers
+
+#### Question (English)
+
+How can you make a deep copy of a linked list with arbitrary random pointers, or check whether a list is a palindrome?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nodes = [[7, null], [13, 0], [11, 4], [10, 2], [1, 0]]
+head = [1, 2, 2, 1]
+```
+
+Random pointer ke liye original node se copied node ka mapping chahiye. Palindrome ke liye second half reverse karke dono halves compare karo, phir list restore kar sakte ho.
 
 ### Copy List with Random Pointer
 

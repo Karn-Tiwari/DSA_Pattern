@@ -208,6 +208,21 @@ Study recursion first, then subsets and combinations, permutations, N-Queens, Su
 
 ### Example 1: Print All Subsets (Combination pattern)
 
+#### Question (English)
+
+Given an array, how can you generate every possible subset?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 2, 3]
+nums = [a, b]
+```
+
+Har element par do choices hain: include karo ya skip karo. Ek choice ke baad recurse karo, phir state undo karke doosri branch explore karo.
+
 **Choices:** include or exclude `arr[idx]`.
 **Base Case:** `idx == arr.size()`.
 **No pruning needed** — every subset is "valid."
@@ -233,6 +248,21 @@ This is the same Pick/Not-Pick idea as the recursion guide. Subsets are useful a
 ---
 
 ### Example 2: Permutations (the first REAL backtracking pattern)
+
+#### Question (English)
+
+Given distinct values, how can you generate all possible orderings?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 2, 3]
+nums = [a, b, c]
+```
+
+Har position par koi unused value choose karo. Use mark karke aage badho, aur return par unmark karo taaki wahi value doosri position par try ho sake.
 
 **Choices:** any unused number can go in the current position.
 **Constraint:** number must not already be used in the current path.
@@ -274,6 +304,21 @@ path=[1,3]     try 2 → path=[1,3,2] → BASE, record [1,3,2]
 ## 7. Advanced Applications
 
 ### Example 3: N-Queens
+
+#### Question (English)
+
+How can you place `N` queens on an `N x N` board so that no two queens attack each other?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+n = 4
+n = 5
+```
+
+Ek row mein ek queen place karo aur column, main diagonal, anti-diagonal ko check karo. Invalid placement ko turant reject karna pruning hai; valid branch se return par queen hatao.
 
 **Problem:** Place N queens on an N×N board so no two attack each other.
 
@@ -330,6 +375,21 @@ row0: try col0 ──► row1: col0,1 pruned(diag/col) → try col2
 Notice how entire subtrees die immediately due to pruning — this is what makes N-Queens tractable despite looking like `n^n` choices.
 
 ### Example 4: Sudoku Solver (Grid Backtracking)
+
+#### Question (English)
+
+How can you fill a Sudoku grid so every row, column, and box contains each digit at most once?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+board = ["53..7....", "6..195...", "...6....8", "8...6...3", "4..8.3..1", "7...2...6", ".6....28.", "...419..5", "....8..79"]
+board = ["..9748...", "7........", ".2.1.9...", "..7...24.", ".64.1.59.", ".98...3..", "...8.3.2.", "........6", "...2759.."]
+```
+
+Empty cell par legal digits try karo. Agar aage contradiction aaye toh last digit undo karke next digit try karo; isi systematic trial-and-undo se solution milta hai.
 
 **Choices:** for the current empty cell, try digits `1`–`9`.
 **Constraint:** digit must not repeat in the row, column, or 3×3 box.

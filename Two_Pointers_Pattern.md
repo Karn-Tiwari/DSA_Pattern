@@ -132,6 +132,21 @@ int oppositeDirection(vector<int>& arr, int target) {
 
 ### Problem 1: Two Sum (Sorted Array)
 
+#### Question (English)
+
+Given a sorted array and a target, find two values whose sum equals the target.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [2, 7, 11, 15], target = 9
+nums = [1, 2, 3, 4, 6], target = 6
+```
+
+Sum chhota hai toh left pointer badhao, sum bada hai toh right pointer ghatao. Sorted order prove karta hai ki opposite pointer move karna safe hai.
+
 **Problem:** Find two numbers that add up to target in a sorted array.
 
 **Approach:**
@@ -219,6 +234,21 @@ Step 3: left=0, right=1
 
 ### Problem 2: Valid Palindrome
 
+#### Question (English)
+
+Determine whether a string is a palindrome after ignoring non-alphanumeric characters and letter case.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "A man, a plan, a canal: Panama"
+s = "race a car"
+```
+
+Dono ends se compare karo aur irrelevant characters skip karo. Mismatch milte hi palindrome impossible hai.
+
 **Problem:** Check if string is palindrome (ignoring non-alphanumeric).
 
 **Approach:**
@@ -303,6 +333,21 @@ All characters match → TRUE
 ---
 
 ### Problem 3: Container With Most Water
+
+#### Question (English)
+
+Find two vertical lines that form a container holding the maximum amount of water.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+height = [1, 8, 6, 2, 5, 4, 8, 3, 7]
+height = [1, 1]
+```
+
+Area shorter line se limited hota hai. Isliye shorter pointer ko move karo, kyunki taller pointer ko move karne se width ghategi par limiting height improve nahi hogi.
 
 **Problem:** Find two lines that form container with maximum water.
 
@@ -438,6 +483,21 @@ int sameDirection(vector<int>& arr) {
 
 ### Problem 1: Remove Duplicates from Sorted Array
 
+#### Question (English)
+
+Remove duplicates in-place from a sorted array so each value appears once and return the new length.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 1, 2], expected = [1, 2]
+nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4], expected = [0, 1, 2, 3, 4]
+```
+
+Slow pointer next unique position rakhta hai aur fast pointer scan karta hai. Naya value milne par slow ko advance karke overwrite karo.
+
 **Problem:** Remove duplicates in-place, return new length.
 
 **Approach:**
@@ -541,6 +601,21 @@ Result: [1, 2, 3, ...]
 ---
 
 ### Problem 2: Move Zeros
+
+#### Question (English)
+
+Move all zero values to the end of an array in-place while preserving the order of non-zero values.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [0, 1, 0, 3, 12]
+nums = [0, 0, 1]
+```
+
+Non-zero values ko front ke next available slot par likho. End mein bachi positions ko zero se fill kar do.
 
 **Problem:** Move all zeros to end, maintain relative order.
 
@@ -648,6 +723,21 @@ Step 5: slow=2, fast=4
 Final: [1, 3, 12, 0, 0]
 ```
 ### Problem 3: Dutch National Flag
+
+#### Question (English)
+
+Sort an array containing only three values, such as `0`, `1`, and `2`, in one pass and constant space.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [2, 0, 2, 1, 1, 0]
+nums = [2, 0, 1]
+```
+
+Three regions maintain karo: zeros left, ones middle, unknown, twos right. Unknown value ke basis par swap karke boundary move karo.
 
 **Problem:** Sort an array containing only 0s, 1s, and 2s in-place, with 0s first, then 1s, then 2s.
 

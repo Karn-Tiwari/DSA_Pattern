@@ -93,6 +93,21 @@ reverse(s.begin(), s.end()); // Reverse
 
 ## 2. Pattern 1: Hash Map / Frequency Count
 
+#### Question (English)
+
+How can you compare or group strings by their character frequencies?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "anagram", t = "nagaram"
+strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
+```
+
+Order important nahi hai toh characters ko count mein convert karo. Same frequency signature wale strings same anagram group mein aayenge.
+
 ### Concept
 
 ```
@@ -419,6 +434,21 @@ Final: [0, 6]
 
 ## 3. Pattern 2: Two Pointers on Strings
 
+#### Question (English)
+
+How can you inspect or modify a string by moving pointers from its ends or across it?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "A man, a plan, a canal: Panama"
+s = "hello"
+```
+
+Ends se compare karne par palindrome jaise problems direct solve hoti hain. Pointer ko tabhi move karo jab current character ka role process ho chuka ho.
+
 ### Concept
 
 ```
@@ -610,6 +640,21 @@ Final: "holle"
 ---
 
 ## 4. Pattern 3: Sliding Window on Strings
+
+#### Question (English)
+
+How can you find the longest or shortest substring satisfying a character-frequency condition?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "cbaebabacd", p = "abc"
+s = "abab", p = "ab"
+```
+
+Right pointer window expand karta hai aur invalid hone par left pointer shrink karta hai. Window ke counts invariant batate hain kab answer update karna hai.
 
 ### Concept
 
@@ -877,6 +922,21 @@ Final: maxLen = 4
 
 ## 5. Pattern 4: Palindrome Problems
 
+#### Question (English)
+
+How can you find palindromic substrings or the longest palindromic substring efficiently?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "babad"
+s = "cbbd"
+```
+
+Har index ko odd aur har adjacent pair ko even center maan kar outward expand karo. Jab tak dono characters equal hain, palindrome length grow hoti hai.
+
 ### Concept
 
 ```
@@ -1125,6 +1185,21 @@ Palindromes: "a"(3), "aa"(2), "aaa"(1)
 
 ## 6. Pattern 5: Substring Search (KMP Algorithm)
 
+#### Question (English)
+
+How can you find whether a pattern occurs in a text without restarting the comparison from scratch after every mismatch?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+text = "ababcabcabababd", pattern = "ababd"
+text = "aaaaa", pattern = "aaa"
+```
+
+Pattern ke prefix-suffix matches ko LPS table mein store karo. Mismatch par text pointer ko peeche le jaane ke bajay pattern ko known border par shift karo.
+
 ### Concept
 
 ```
@@ -1283,6 +1358,21 @@ Position 4: no prefix-suffix
 
 ## 7. Pattern 6: String Building & Manipulation
 
+#### Question (English)
+
+How can you transform, compress, or rebuild a string while preserving the required order and counts?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "aabcccccaaa"
+s = "the sky is blue"
+```
+
+Output ko required blocks mein build karo aur run boundaries carefully track karo. In-place problems mein read pointer aur write pointer alag rakho.
+
 ### Problem 1: String Compression
 
 **Problem:** Compress string using character counts.
@@ -1417,6 +1507,21 @@ Final: "blue is sky the"
 
 ## 8. Pattern 7: String DP
 
+#### Question (English)
+
+How can you compute the best relationship between prefixes of two strings?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s1 = "abcde", s2 = "ace"
+s1 = "AGGTAB", s2 = "GXTXAYB"
+```
+
+State ko prefix pair `(i, j)` par define karo. Characters match karein toh dono prefixes shrink karo; mismatch par allowed choices mein best result lo.
+
 ### Problem: Longest Common Subsequence
 
 **Problem:** Find length of longest common subsequence.
@@ -1465,6 +1570,21 @@ LCS = "ace", length = 3
 ---
 
 ## 9. Pattern 8: String Parsing & Validation
+
+#### Question (English)
+
+How can you validate a string whose correctness depends on nested or ordered symbols?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+s = "()[]{}"
+s = "([)]"
+```
+
+Opening symbols ko stack mein rakho. Closing symbol aate hi stack ke top se matching check karo; top-level order hi nesting rule enforce karta hai.
 
 ### Problem: Valid Parentheses
 

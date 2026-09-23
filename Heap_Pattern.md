@@ -170,6 +170,21 @@ Do not learn 20 separate tricks. Most reduce to: **choose the root that represen
 
 ## 5. Pattern A: Kth Smallest and Kth Largest
 
+#### Question (English)
+
+How can you find the kth smallest or kth largest element without fully sorting the array?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Sirf K best candidates rakhne hain. K smallest ke liye max-heap aur K largest ke liye min-heap rakho, taaki root weakest candidate ko remove kar sake.
+
+#### Example Inputs
+
+```text
+nums = [7, 2, 9, 4, 10, 1], k = 3
+nums = [3, 1, 5, 2, 4], k = 2
+```
+
 ### Kth smallest
 
 Keep a **max-heap of size K**. The root is the largest item inside the current K smallest candidates. When a smaller number arrives, it replaces the root.
@@ -208,6 +223,21 @@ Time: `O(n log K)`; extra space: `O(K)`.
 
 ## 6. Pattern B: K-Sorted Array
 
+#### Question (English)
+
+How can you sort an array in which every element is at most `K` positions away from its final position?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Agla smallest element next `K + 1` values ke andar hi hoga. Isliye min-heap mein chhota window rakho aur root ko safe hote hi output karo.
+
+#### Example Inputs
+
+```text
+nums = [6, 5, 3, 2, 8, 10, 9], k = 3
+nums = [3, 1, 2, 5, 4, 6], k = 2
+```
+
 In a K-sorted array, each value is at most `K` positions away from its final position. Therefore, the next correct smallest value must be among the next `K + 1` values.
 
 ```cpp
@@ -239,6 +269,21 @@ Time: `O(n log K)`; extra space: `O(K)`.
 
 ## 7. Pattern C: K Closest / Top K
 
+#### Question (English)
+
+How can you keep the `K` closest or best candidates according to a distance or score?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Current winners mein jo sabse farthest ya weakest hai, wahi pehle remove hona chahiye. Isliye max-heap of size K boundary candidate ko root par rakhta hai.
+
+#### Example Inputs
+
+```text
+points = [[1, 3], [-2, 2], [5, 8]], k = 2
+nums = [1, 5, 9, 12, 3], x = 7, k = 3
+```
+
 For K closest numbers or points, define a distance. Keep a **max-heap of size K** because the farthest current winner must be removed first.
 
 ```cpp
@@ -266,6 +311,21 @@ The same template works for K closest numbers: use `abs(value - x)` as the key. 
 ---
 
 ## 8. Pattern D: Frequency and Greedy Heap
+
+#### Question (English)
+
+How can you select the most frequent items or repeatedly combine the cheapest active items?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Heap ko actual values ke bajay frequency ya current cost ke basis par order karo. Root wahi candidate hota hai jise next process ya discard karna safe hai.
+
+#### Example Inputs
+
+```text
+nums = [1, 1, 1, 2, 2, 3], k = 2
+ropes = [4, 3, 2, 6]
+```
 
 ### Top K frequent and frequency sort
 
@@ -295,7 +355,27 @@ vector<int> topKFrequent(const vector<int>& nums, int k) {
 
 ### Connect ropes to minimise cost
 
-Always join the two shortest ropes. Any rope joined early is paid for again in later joins, so making an unnecessarily large early join increases every future cost.
+#### Question (English)
+
+You are given an array containing the lengths of `N` ropes. You have to connect all the ropes to make one single rope.
+
+- **Rule:** When two ropes of lengths `A` and `B` are connected, the cost of that connection is `A + B`, and the newly connected rope has length `A + B`.
+- **Goal:** Find the **minimum total cost** required to connect all the ropes.
+
+#### Intuition / Greedy Approach (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+ropes = [4, 3, 2, 6]
+ropes = [1, 8, 3, 5]
+```
+
+Jab hum kisi do rasiyon ko pehle jodte hain (jaise `A + B`), toh unki combined cost poore process mein **aage bhi add hoti rehti hai**.
+
+> **Golden Rule:** Jo rope jitni pehle judegi, uski length utni baar aage ki total cost mein repeat hogi.
+>
+> Isliye, **sabse chhoti rasiyon ko pehle jodo**, taaki bada number baad mein kam baar add ho!
 
 ```cpp
 int minCostToConnectRopes(const vector<int>& ropes) {
@@ -331,6 +411,21 @@ The heap chooses the best next item; the queue enforces the spacing rule. A heap
 ---
 
 ## 9. Pattern E: Two Heaps and Streaming Median
+
+#### Question (English)
+
+How can you maintain the median while numbers arrive one at a time?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Numbers ko lower half aur upper half mein baanto. Lower half ka maximum aur upper half ka minimum dono middle boundary values hain, isliye do heaps median turant dete hain.
+
+#### Example Inputs
+
+```text
+operations = [add(5), add(2), add(10), findMedian()]
+operations = [add(1), add(2), add(3), add(4), findMedian()]
+```
 
 Split the numbers into two halves:
 
@@ -378,6 +473,21 @@ public:
 ---
 
 ## 10. Pattern F: Merge K Sorted Sequences
+
+#### Question (English)
+
+How can you merge `K` sorted sequences into one sorted sequence efficiently?
+
+#### Intuition (Sochna Kaise Hai?)
+
+Har sequence ka sirf current smallest candidate heap mein rakho. Root output karne ke baad usi sequence ka next element add karo, kyunki baaki elements abhi candidates nahi hain.
+
+#### Example Inputs
+
+```text
+lists = [[1, 4, 7], [2, 5], [3, 6, 8]]
+lists = [[1, 10], [2, 3, 9], [4, 5]]
+```
 
 Put the first item from every sequence into a min-heap. When the smallest item is removed, insert the next item from that same sequence.
 

@@ -281,6 +281,21 @@ Valid?   [N  N  N  N  Y  Y  Y  Y]
 
 ### Example 1: Search Insert Position
 
+#### Question (English)
+
+Given a sorted array and a target, where should the target be inserted to keep the array sorted?
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+nums = [1, 3, 5, 6], target = 5
+nums = [1, 3, 5, 6], target = 2
+```
+
+Humein first position chahiye jahan value target se badi ya equal ho. Monotonic condition par binary search karke left boundary find karo.
+
 **Problem:** Given sorted array, find the index where target should be inserted.
 
 **Approach:**
@@ -380,6 +395,21 @@ If right = size() = 4, we can return 4 ✓
 
 ### Example 2: Sqrt(x)
 
+#### Question (English)
+
+Given a non-negative integer `x`, find the floor of its square root without using a built-in square-root function.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+x = 8
+x = 27
+```
+
+Answer range `0` se `x` tak hai aur condition `mid * mid <= x` monotonic hai. Maximum valid `mid` ke liye boundary search karo.
+
 **Problem:** Find integer square root (floor of sqrt).   
 
 **Approach:**
@@ -478,6 +508,21 @@ Answer: 2 (because 2² = 4 ≤ 8 < 3² = 9)
 ## 6. Advanced Applications
 
 ### Example 3: Capacity To Ship Packages Within D Days
+
+#### Question (English)
+
+Find the minimum ship capacity that can deliver all packages within `D` days while preserving package order.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+weights = [1, 2, 3, 1, 1], days = 4
+weights = [3, 2, 2, 4, 1, 4], days = 3
+```
+
+Capacity ko guess karo aur greedy simulation se days count karo. Chhoti capacity fail kar sakti hai aur badi capacity pass; isi monotonic boundary par binary search lagti hai.
 
 **Problem:** 
 ```
@@ -660,6 +705,21 @@ Return left = 15
 ---
 
 ### Example 4: Koko Eating Bananas
+
+#### Question (English)
+
+Find the minimum eating speed that allows Koko to finish all banana piles within `H` hours.
+
+#### Intuition (Sochna Kaise Hai?)
+
+#### Example Inputs
+
+```text
+piles = [3, 6, 7, 11], h = 8
+piles = [30, 11, 23, 4, 20], h = 5
+```
+
+Speed badhne par required hours kabhi increase nahi hote. Har speed ko ceil division se test karo aur first feasible speed binary search se nikalo.
 
 **Problem:**
 ```
